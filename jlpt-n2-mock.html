@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JLPT N2 Mock Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --desk:#CDD5DA; --paper:#FEFEFC; --ink:#1A1D26; --muted:#566070;
+  --line:#B3BCC4; --line-soft:#E1E5E8;
+  --rose:#B63A56; --rose-line:#D98BA0; --rose-soft:#F6D5DC; --sheet:#FCEDF0;
+  --mark:#2E303A; --mark-fg:#FFFFFF;
+  --good:#2C6B4C; --bad:#B63A56;
+  --serif:"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho","MS PMincho",serif;
+  --sans:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic","Meiryo",system-ui,sans-serif;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --desk:#12161A; --paper:#1D2228; --ink:#E7E9ED; --muted:#98A1AE;
+    --line:#3A444F; --line-soft:#2A323B;
+    --rose:#F08CA3; --rose-line:#8A4A5B; --rose-soft:#4A2C36; --sheet:#2A2025;
+    --mark:#E7E9ED; --mark-fg:#1D2228;
+    --good:#7CCBA1; --bad:#F08CA3;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:90px}
+body{margin:0;background:var(--desk);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--rose);outline-offset:2px}
+h1,h2,h3,p{margin:0}
+
+/* ---------- shared bits ---------- */
+.btn{font-family:var(--sans);font-weight:700;background:var(--ink);color:var(--paper);border:1px solid var(--ink);border-radius:4px;padding:8px 18px;cursor:pointer}
+.btn:hover{opacity:.88}
+.btn:disabled{opacity:.35;cursor:default}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{background:var(--line-soft);opacity:1}
+.btn.big{padding:12px 28px;font-size:1.05rem}
+.stack-pages{box-shadow:0 1px 0 var(--line),
+  5px 5px 0 -1px var(--paper), 5px 5px 0 0 var(--line),
+  10px 10px 0 -1px var(--paper), 10px 10px 0 0 var(--line)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- start screen ---------- */
+.start{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:56px;max-width:1140px;margin:0 auto;padding:48px 24px 90px;align-items:start}
+.cover{background:var(--paper);border:1px solid var(--line);padding:44px 44px 38px}
+.cover-level{display:inline-block;font-family:var(--serif);font-weight:700;font-size:5rem;line-height:1.1;border:3px solid var(--ink);padding:0 .28em}
+.cover h1{font-family:var(--serif);font-size:1.7rem;margin:26px 0 4px;line-height:1.4}
+.cover-sub{font-family:var(--serif);color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);margin:26px 0 24px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.facts div{padding:12px 0}
+.facts dt{font-size:.8rem;color:var(--muted)}
+.facts dd{margin:0;font-family:var(--serif);font-weight:700;font-size:1.35rem}
+.notes{margin:0 0 26px;padding-left:1.2em;font-size:.93rem;color:var(--muted)}
+.notes li{margin:0 0 5px}
+.field{display:flex;flex-direction:column;gap:5px;margin:0 0 14px}
+.field label,.check{font-size:.9rem;font-weight:500}
+.field select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);max-width:100%}
+.check{display:flex;gap:8px;align-items:center;margin:0 0 22px}
+.check input{width:18px;height:18px;accent-color:var(--rose)}
+.side h2{font-family:var(--serif);font-size:1.15rem;margin:0 0 10px}
+.side section{margin:0 0 34px}
+.side p{color:var(--muted);font-size:.93rem;max-width:46ch}
+.resume{background:var(--sheet);border:1px solid var(--rose-line);padding:16px 18px}
+.resume p{color:var(--ink);margin:0 0 12px}
+.resume .row{display:flex;gap:10px;flex-wrap:wrap}
+table.hist{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--paper);border:1px solid var(--line)}
+table.hist th{font-weight:500;color:var(--muted);text-align:right;padding:8px 10px;border-bottom:1px solid var(--line);font-size:.8rem}
+table.hist td{padding:8px 10px;border-bottom:1px solid var(--line-soft);text-align:right;font-variant-numeric:tabular-nums}
+table.hist th:first-child,table.hist td:first-child,table.hist th:nth-child(2),table.hist td:nth-child(2){text-align:left}
+table.hist tr:last-child td{border-bottom:0}
+.msg{margin-top:10px;font-size:.88rem}
+.msg.err{color:var(--bad)} .msg.ok{color:var(--good)}
+.warnbox{border-left:3px solid var(--rose);padding:6px 12px;font-size:.88rem;color:var(--muted);margin-top:12px}
+.file-btn{display:inline-block;cursor:pointer}
+
+/* ---------- exam shell ---------- */
+.bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:18px;padding:10px 22px;background:var(--paper);border-bottom:1px solid var(--line)}
+.bar-title{display:flex;flex-direction:column;line-height:1.25;margin-right:auto}
+.bar-title strong{font-family:var(--serif);font-size:1.05rem;white-space:nowrap}
+.bar-title span{font-size:.8rem;color:var(--muted)}
+.clock{display:flex;align-items:baseline;gap:10px;font-variant-numeric:tabular-nums;padding:2px 10px;border-radius:4px}
+.clock-label{font-size:.8rem;color:var(--muted);white-space:nowrap}
+#clock-time{font-size:1.55rem;font-weight:700;font-family:var(--sans)}
+.clock.warn #clock-time{color:var(--rose)}
+.clock.alert{background:var(--rose)}
+.clock.alert #clock-time,.clock.alert .clock-label{color:var(--paper)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:34px;max-width:1340px;margin:0 auto;padding:28px 24px 80px;align-items:start}
+
+/* booklet page */
+.page{background:var(--paper);border:1px solid var(--line);max-width:840px;width:100%;margin:0 auto;padding:30px 46px 28px}
+.page-head{display:flex;justify-content:space-between;gap:12px;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--line-soft);padding-bottom:10px;margin-bottom:24px}
+.mondai{display:flex;gap:14px;align-items:baseline;margin-bottom:24px}
+.mondai-tag{font-weight:700;border:1.5px solid var(--ink);padding:1px 10px;white-space:nowrap}
+.instr{font-family:var(--serif);line-height:1.9}
+.instr u{text-underline-offset:.3em}
+.passage{font-family:var(--serif);line-height:2.05;font-size:1.02rem;border:1px solid var(--line);padding:18px 24px;margin:0 0 26px}
+.passage p{margin:0 0 .55em}
+.passage p:last-child{margin-bottom:0}
+.passage table.info{border-collapse:collapse;width:100%;font-size:.92rem;line-height:1.6;margin:8px 0 14px}
+.passage table.info th,.passage table.info td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.passage table.info th{font-family:var(--sans);font-weight:700;background:var(--line-soft)}
+.gap,.gapref{display:inline-block;font-family:var(--sans);font-size:.82em;font-weight:700;border:1px solid var(--ink);padding:0 .45em;margin:0 .15em;line-height:1.5}
+.q{margin:0 0 30px}
+.q-head{display:grid;grid-template-columns:2.3em minmax(0,1fr) auto;align-items:start;gap:0 4px}
+.qno{font-family:var(--serif);font-weight:700}
+.stem{font-family:var(--serif);font-size:1.08rem;line-height:1.95}
+.stem u{text-underline-offset:.3em;text-decoration-thickness:1.5px}
+.blank{display:inline-block;min-width:3.2em;border-bottom:1.5px solid var(--ink);margin:0 .2em;text-align:center;line-height:1.2}
+.blank.star{font-family:var(--sans);font-weight:700}
+.flag{font-size:.75rem;border:1px solid var(--line);background:transparent;color:var(--muted);padding:1px 9px;border-radius:3px;cursor:pointer;margin-top:4px}
+.flag.on{background:var(--rose);border-color:var(--rose);color:var(--paper)}
+.choices{margin:6px 0 0 2.3em;display:grid;gap:2px 16px}
+.choices.inline{grid-template-columns:repeat(4,minmax(0,1fr))}
+.choices.stack{grid-template-columns:1fr}
+.choice{display:flex;gap:.6em;align-items:baseline;text-align:left;background:none;border:0;padding:5px 8px 5px 4px;border-radius:4px;cursor:pointer;font-family:var(--serif);font-size:1.05rem;line-height:1.75}
+.choice:hover{background:var(--line-soft)}
+.cno{flex:none;display:inline-grid;place-items:center;width:1.7em;height:1.7em;border-radius:50%;font-family:var(--sans);font-size:.82rem;border:1px solid transparent}
+.choice.on .cno{background:var(--mark);color:var(--mark-fg)}
+.page-foot{display:flex;justify-content:space-between;gap:10px;margin-top:34px;padding-top:16px;border-top:1px solid var(--line-soft)}
+
+/* answer sheet */
+.sheet{position:sticky;top:78px;max-height:calc(100vh - 96px);overflow:auto;background:var(--sheet);border:1px solid var(--rose-line)}
+.sheet-head{position:sticky;top:0;z-index:2;background:var(--sheet);padding:14px 16px 10px;border-bottom:1px solid var(--rose-line);display:flex;align-items:baseline;gap:10px}
+.sheet-head h2{font-family:var(--serif);font-size:1.1rem;color:var(--rose)}
+.sheet-head small{color:var(--muted);font-size:.78rem}
+.sheet-count{margin-left:auto;font-weight:700;color:var(--rose);font-variant-numeric:tabular-nums}
+.sheet-close{display:none}
+.sheet-hint{padding:8px 16px 0;font-size:.78rem;color:var(--muted)}
+.sheet-sec{padding:14px 16px 0;font-family:var(--serif);font-weight:700;font-size:.92rem;color:var(--ink)}
+.sheet-part{padding:8px 16px 6px 13px;border-left:3px solid transparent;margin-top:4px}
+.sheet-part.current{border-left-color:var(--rose);background:color-mix(in srgb,var(--rose-soft) 45%,transparent)}
+.sheet-part h3{font-size:.8rem;font-weight:700;color:var(--rose);display:flex;gap:8px;margin:0 0 4px}
+.sheet-part h3 span{font-weight:400;color:var(--muted)}
+.rows{column-count:2;column-gap:14px}
+.srow{display:flex;align-items:center;gap:4px;break-inside:avoid;padding:2px 0}
+.snum{width:26px;flex:none;text-align:center;background:none;border:0;border-radius:3px;font-size:.78rem;font-weight:700;color:var(--rose);cursor:pointer;padding:1px 0}
+.snum.flagged{background:var(--rose);color:var(--paper)}
+.bubble{width:24px;height:24px;flex:none;border-radius:50%;border:1.5px solid var(--rose-line);background:transparent;color:var(--rose);font-family:var(--sans);font-size:.7rem;display:grid;place-items:center;padding:0;cursor:pointer}
+.bubble:hover{background:var(--rose-soft)}
+.bubble.on{background:var(--mark);border-color:var(--mark);color:var(--mark-fg)}
+.sheet-foot{position:sticky;bottom:0;background:var(--sheet);border-top:1px solid var(--rose-line);padding:12px 16px;margin-top:10px}
+.sheet-foot .btn{width:100%}
+.sheet-toggle{display:none}
+dialog{border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:26px 28px;max-width:420px;border-radius:6px}
+dialog::backdrop{background:rgba(10,14,18,.55)}
+dialog h2{font-family:var(--serif);font-size:1.2rem;margin-bottom:10px}
+dialog p{color:var(--muted);margin-bottom:20px}
+.dlg-actions{display:flex;gap:10px;justify-content:flex-end}
+
+/* ---------- results ---------- */
+.results{max-width:980px;margin:0 auto;padding:36px 24px 90px}
+.res-top{background:var(--paper);border:1px solid var(--line);padding:36px 42px}
+.res-top h1{font-family:var(--serif);font-size:1.45rem;margin-bottom:4px}
+.res-top .sub{color:var(--muted);font-size:.9rem}
+.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:26px 0 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.score{padding:18px 0}
+.score+.score{padding-left:24px;border-left:1px solid var(--line-soft)}
+.score small{display:block;color:var(--muted);font-size:.82rem}
+.score b{font-family:var(--serif);font-size:2.6rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.score b i{font-style:normal;font-size:1rem;color:var(--muted);font-weight:400}
+.verdict{font-family:var(--serif);font-size:1.05rem;line-height:1.9;max-width:62ch}
+.fine{font-size:.82rem;color:var(--muted);margin-top:10px;max-width:70ch}
+.breakdown{margin:26px 0 0;display:grid;gap:8px}
+.bd{display:grid;grid-template-columns:minmax(0,20em) 1fr 3.4em;gap:14px;align-items:center;font-size:.9rem}
+.bd .nm b{font-family:var(--serif)}
+.bd .nm span{color:var(--muted);margin-left:8px}
+.bar-track{height:9px;background:var(--line-soft);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;background:var(--ink)}
+.bd.weak .bar-fill{background:var(--rose)}
+.bd .val{text-align:right;font-variant-numeric:tabular-nums}
+.res-actions{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap}
+.review{margin-top:40px}
+.review h2{font-family:var(--serif);font-size:1.25rem;margin-bottom:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.chip{border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:3px 14px;font-size:.85rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.rv{background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--line);padding:18px 24px;margin-bottom:14px}
+.rv.ok{border-left-color:var(--good)} .rv.no{border-left-color:var(--bad)} .rv.skip{border-left-color:var(--muted)}
+.rv-head{display:flex;gap:12px;align-items:baseline;font-size:.85rem;color:var(--muted);margin-bottom:8px;flex-wrap:wrap}
+.rv-head b{color:var(--ink);font-family:var(--serif);font-size:1rem}
+.tag{font-weight:700}
+.rv.ok .tag{color:var(--good)} .rv.no .tag{color:var(--bad)}
+.rv-flag{color:var(--rose)}
+.rv ol{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:2px}
+.rv li{display:flex;gap:.6em;align-items:baseline;font-family:var(--serif);padding:3px 6px;border-radius:4px}
+.rv li .cno{font-size:.78rem}
+.rv li.right{background:color-mix(in srgb,var(--good) 16%,transparent)}
+.rv li.mine:not(.right){background:color-mix(in srgb,var(--bad) 14%,transparent)}
+.rv li em{font-style:normal;font-family:var(--sans);font-size:.75rem;margin-left:auto;white-space:nowrap;color:var(--muted)}
+.explain{margin-top:12px;font-size:.92rem;line-height:1.75;border-top:1px dashed var(--line);padding-top:10px}
+.rv details{margin-top:10px}
+.rv summary{cursor:pointer;font-size:.85rem;color:var(--muted)}
+.rv details .passage{margin:10px 0 0;font-size:.95rem}
+.hide{display:none}
+
+/* ---------- small screens ---------- */
+@media (max-width:1000px){
+  .start{grid-template-columns:1fr;gap:34px;padding:24px 16px 80px}
+  .cover{padding:30px 24px}
+  .layout{grid-template-columns:1fr;padding:18px 12px 90px}
+  .page{padding:22px 18px}
+  .sheet{display:none;position:fixed;inset:58px 0 0 0;max-height:none;top:58px;z-index:30;border-width:1px 0 0 0}
+  .sheet.open{display:block}
+  .sheet-close{display:inline-block}
+  .sheet-toggle{display:block;position:fixed;right:14px;bottom:14px;z-index:25;background:var(--rose);color:var(--paper);border:0;border-radius:99px;padding:11px 20px;font-weight:700;font-family:var(--serif);box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:pointer}
+  .bar{padding:8px 14px;gap:10px}
+  .bar-title span{display:none}
+  .clock-label{display:none}
+  .bd{grid-template-columns:1fr 3.4em}
+  .bd .bar-track{grid-column:1/-1;grid-row:2}
+}
+@media (max-width:600px){
+  .choices.inline{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .scores{grid-template-columns:1fr}
+  .score+.score{padding-left:0;border-left:0;border-top:1px solid var(--line-soft)}
+  .res-top{padding:24px 20px}
+  .mondai{flex-direction:column;gap:8px}
+}
+@media print{.bar,.sheet,.sheet-toggle{display:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script type="application/json" id="builtin-tests">[{"id": "n2-week-01", "title": "N2 Mock Test", "subtitle": "Week 1", "minutes": 105, "parts": [{"id": "m1", "section": "lang", "label": "問題1", "name": "Kanji reading", "instruction": "<u>　　　<\/u>の言葉の読み方として最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼の発言が、会議の流れを大きく<u>左右<\/u>した。", "choices": ["ざう", "さう", "ざゆう", "さゆう"], "answer": 4, "explain": "左右 is read さゆう. 左右する = to sway or influence."}, {"q": "契約書に<u>署名<\/u>してください。", "choices": ["しゅめい", "しょめい", "しょうめい", "じょめい"], "answer": 2, "explain": "署 is しょ. しょうめい (証明) is a different word, 'proof'."}, {"q": "食生活が<u>偏って<\/u>いると、体調を崩しやすい。", "choices": ["かたむいて", "たよって", "かたまって", "かたよって"], "answer": 4, "explain": "偏る (かたよる) = to be lopsided or unbalanced. 傾く is かたむく."}, {"q": "彼女は言葉を選びながら、<u>慎重<\/u>に答えた。", "choices": ["しんちょう", "じんちょう", "しんじょう", "しんじゅう"], "answer": 1, "explain": "慎重 (しんちょう) = careful, cautious."}, {"q": "この町の人口は、最近<u>著しく<\/u>増加している。", "choices": ["ちょしく", "いちじるしく", "あらわしく", "いちじるく"], "answer": 2, "explain": "著しい (いちじるしい) = remarkable. The しい is part of the okurigana, so it stays in the adverb form: いちじるしく."}]}, {"id": "m2", "section": "lang", "label": "問題2", "name": "Kanji writing", "instruction": "<u>　　　<\/u>の言葉を漢字で書くとき、最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "計画を<u>へんこう<\/u>することにした。", "choices": ["変交", "変更", "返更", "返交"], "answer": 2, "explain": "変更 = change or modification. 更 (コウ) carries the sense of 'renew, change'."}, {"q": "地震への<u>たいおう<\/u>が遅れた。", "choices": ["体広", "対広", "対応", "体応"], "answer": 3, "explain": "対応 = response, dealing with something. 対 (against, facing) + 応 (respond)."}, {"q": "工場の<u>せつび<\/u>を新しくする。", "choices": ["説備", "設費", "説費", "設備"], "answer": 4, "explain": "設備 = facilities, equipment. 設 (set up) + 備 (prepare)."}, {"q": "大切な荷物を友人に<u>あずけた<\/u>。", "choices": ["頂けた", "領けた", "預けた", "順けた"], "answer": 3, "explain": "預ける (あずける) = to leave in someone's care. 頂ける is いただける."}, {"q": "失敗の原因を<u>さぐる<\/u>。", "choices": ["探る", "控る", "捜る", "深る"], "answer": 1, "explain": "探る = to probe or investigate. 捜す is for hunting down a lost item or a person."}]}, {"id": "m3", "section": "lang", "label": "問題3", "name": "Word formation", "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "少し風邪（　　）で、朝から体がだるい。", "choices": ["気分", "気持ち", "気味", "気配"], "answer": 3, "explain": "〜気味 = 'a touch of'. 風邪気味 = coming down with a cold."}, {"q": "会議で、（　　）常識な発言をして注意された。", "choices": ["非", "未", "不", "無"], "answer": 1, "explain": "非常識 = lacking common sense. 無常識, 不常識 and 未常識 are not words."}, {"q": "今年度の合格（　　）は、去年より上がった。", "choices": ["比", "率", "度", "割"], "answer": 2, "explain": "合格率 = pass rate. 〜率 attaches to nouns to mean 'rate of'."}]}, {"id": "m4", "section": "lang", "label": "問題4", "name": "Contextual vocabulary", "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "この料理は、材料を切って炒めるだけで、（　　）に作れる。", "choices": ["手近", "手際", "手短", "手軽"], "answer": 4, "explain": "手軽に = easily, without much effort. 手短 = briefly, 手近 = close at hand, 手際 = skill in handling a task."}, {"q": "長年の努力が（　　）、彼はついに大会で優勝した。", "choices": ["満ち", "育ち", "実り", "咲き"], "answer": 3, "explain": "努力が実る = effort bears fruit."}, {"q": "電車は事故のため、現在（　　）運転を見合わせています。", "choices": ["一時", "一面", "一定", "一律"], "answer": 1, "explain": "一時 = temporarily. 運転を一時見合わせる = service is suspended for now."}, {"q": "試験の結果が気になって、（　　）勉強に集中できない。", "choices": ["ひとまず", "せめて", "ろくに", "いっそ"], "answer": 3, "explain": "ろくに〜ない = not properly, hardly at all. It always pairs with a negative."}, {"q": "大雨で、川の水かさが（　　）増えてきた。", "choices": ["しみじみ", "ぐっすり", "みるみる", "のびのび"], "answer": 3, "explain": "みるみる = visibly, rapidly. The others mean feeling deeply, sleeping soundly and feeling free."}, {"q": "仕事が忙しくて、ゆっくり昼ご飯を食べる（　　）もない。", "choices": ["余計", "余分", "余地", "余裕"], "answer": 4, "explain": "余裕もない = no time or room to spare. 余地 means room for something (as in 疑う余地)."}, {"q": "電車の中で（　　）しているうちに、降りる駅を通り過ぎてしまった。", "choices": ["ぺらぺら", "ぶらぶら", "いらいら", "うとうと"], "answer": 4, "explain": "うとうと = dozing off."}]}, {"id": "m5", "section": "lang", "label": "問題5", "name": "Synonyms", "instruction": "<u>　　　<\/u>の言葉に意味が最も近いものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "山田さんは会議の前に、<u>あらかじめ<\/u>資料を配っておいた。", "choices": ["こっそりと", "前もって", "念のため", "急いで"], "answer": 2, "explain": "あらかじめ = in advance = 前もって."}, {"q": "新しいシステムに慣れず、作業に<u>手間取って<\/u>いる。", "choices": ["時間がかかって", "迷惑をかけて", "失敗して", "疲れて"], "answer": 1, "explain": "手間取る = to take more time than expected."}, {"q": "彼女は<u>ひたむきに<\/u>練習を続けている。", "choices": ["のんびりと", "いやいやながら", "一つのことに熱心に", "周りに合わせて"], "answer": 3, "explain": "ひたむき = single-mindedly devoted to one thing."}, {"q": "突然の知らせに、彼は<u>動揺<\/u>した。", "choices": ["気持ちが落ち着かなくなった", "とても悲しんだ", "がっかりした", "驚いて怒った"], "answer": 1, "explain": "動揺する = to be shaken, to lose one's composure."}, {"q": "彼女は書類を<u>てきぱきと<\/u>整理した。", "choices": ["いやそうに", "ていねいに", "すばやく手際よく", "黙って"], "answer": 3, "explain": "てきぱき = briskly and efficiently."}]}, {"id": "m6", "section": "lang", "label": "問題6", "name": "Usage", "instruction": "次の言葉の使い方として最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "<b>見合わせる<\/b>", "choices": ["二つの案を見合わせた結果、A案に決まった。", "天候が悪いため、船の運航を見合わせることになった。", "本の内容を見合わせて、友人にすすめた。", "古い写真と新しい写真を見合わせて、違いを探した。"], "answer": 2, "explain": "見合わせる here means to hold off or suspend. For comparing things, you would say 見比べる or 比較する."}, {"q": "<b>根気<\/b>", "choices": ["彼は根気が強いので、重い荷物も一人で運べる。", "根気に満ちた表情で、彼は発表を始めた。", "この仕事は根気がかかるので、すぐに終わる。", "子どもに根気よく付き合って、宿題を最後まで手伝った。"], "answer": 4, "explain": "根気 = patience and persistence. 根気よく = patiently, without giving up."}, {"q": "<b>たちまち<\/b>", "choices": ["その歌手の人気は、たちまち全国に広がった。", "彼女は、毎朝たちまちジョギングをしている。", "来月たちまち新しい店がオープンする予定だ。", "たちまち考えてから、返事をします。"], "answer": 1, "explain": "たちまち = in an instant, almost immediately. It describes a quick change, not habits or plans."}, {"q": "<b>ゆとり<\/b>", "choices": ["試験の前日になって、ゆとりに勉強を始めた。", "彼はゆとりが悪くて、いつも約束を忘れる。", "ゆとりのある日程を組んだので、遅れが出ても慌てずに済んだ。", "この部屋はゆとりが汚れているので、掃除が必要だ。"], "answer": 3, "explain": "ゆとり = leeway, breathing room (time, money, space)."}, {"q": "<b>分担<\/b>", "choices": ["料理の味を分担するため、少し塩を足した。", "このパンは大きいので、半分ずつ分担して食べよう。", "彼女の意見は、みんなの意見と分担している。", "掃除は、家族みんなで分担して行っている。"], "answer": 4, "explain": "分担する = to share out tasks or costs. For splitting food, use 分ける."}]}, {"id": "m7", "section": "lang", "label": "問題7", "name": "Grammar: sentence", "instruction": "次の文の（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼は忙しい（　　）、毎日ジムに通っている。", "choices": ["ばかりに", "だけあって", "ことから", "にもかかわらず"], "answer": 4, "explain": "〜にもかかわらず = in spite of. 〜だけあって means 'as you'd expect given', which is a positive reason."}, {"q": "この映画は子ども（　　）作られているが、大人が見ても楽しめる。", "choices": ["向けに", "をめぐって", "に対して", "において"], "answer": 1, "explain": "〜向けに = aimed at, designed for."}, {"q": "熱があって苦しかったが、大事な会議だったので、休む（　　）休めなかった。", "choices": ["より", "まで", "から", "に"], "answer": 4, "explain": "V(dictionary form) + に + V(potential, negative) = 'couldn't V even if I wanted to'. 休むに休めない = couldn't take the day off."}, {"q": "先生の話を聞いている（　　）、いつの間にか眠ってしまった。", "choices": ["かわりに", "うちに", "あまり", "くせに"], "answer": 2, "explain": "〜うちに = while (something is going on). Here: while listening, I dozed off."}, {"q": "一度引き受けた（　　）、途中で投げ出すわけにはいかない。", "choices": ["くせに", "うえで", "ものの", "以上は"], "answer": 4, "explain": "〜以上は = now that, since. ものの means 'although' and needs a contrast."}, {"q": "睡眠不足のまま運転すると、事故を起こし（　　）。", "choices": ["かねる", "かけない", "がたい", "かねない"], "answer": 4, "explain": "V-stem + かねない = could well happen (a bad outcome). かねる means 'unable to'."}, {"q": "試験には合格した（　　）、まだ就職先が決まらない。", "choices": ["おかげで", "ものの", "つもりで", "からには"], "answer": 2, "explain": "〜ものの = although, but. The second half contradicts what you'd expect."}, {"q": "この店は値段が安い（　　）、味もサービスもいい。", "choices": ["かわりに", "とたんに", "ばかりに", "わりに"], "answer": 4, "explain": "〜わりに = considering, for (the result is better or worse than expected)."}, {"q": "ドアを開けた（　　）、猫が部屋に飛び込んできた。", "choices": ["最中に", "とたんに", "うちに", "あげく"], "answer": 2, "explain": "V-ta + とたんに = the moment that. It describes an immediate, unexpected result."}, {"q": "この小説は、実際にあった事件（　　）書かれている。", "choices": ["に反して", "に先立って", "に基づいて", "にわたって"], "answer": 3, "explain": "〜に基づいて = based on."}, {"q": "収入（　　）、払う税金の額が決まる。", "choices": ["にかけて", "に応じて", "をこめて", "をはじめ"], "answer": 2, "explain": "〜に応じて = in accordance with, depending on."}, {"q": "お帰りの（　　）は、お忘れ物のないようご注意ください。", "choices": ["際", "末", "最中", "うち"], "answer": 1, "explain": "〜の際は = when, on the occasion of. A standard polite phrase in announcements."}]}, {"id": "m8", "section": "lang", "label": "問題8", "name": "Grammar: ordering (★)", "instruction": "次の文の　★　に入る最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "このマンガは＿＿＿ ＿＿＿ ★ ＿＿＿なる。", "choices": ["読めば", "味わい深く", "ほど", "読む"], "answer": 3, "explain": "Correct order: このマンガは<b>読めば 読む ほど 味わい深く<\/b>なる。 The pattern is V-ba V-ru hodo (the more you read, the more...)."}, {"q": "新しい＿＿＿ ★ ＿＿＿ ＿＿＿、毎日そわそわしている。", "choices": ["仕事が", "始まる", "待ちきれなくて", "のが"], "answer": 2, "explain": "Correct order: 新しい<b>仕事が 始まる のが 待ちきれなくて<\/b>、毎日そわそわしている。"}, {"q": "この資料は、会議の＿＿＿ ＿＿＿ ★ ＿＿＿ください。", "choices": ["通して", "目を", "前に", "おいて"], "answer": 1, "explain": "Correct order: 会議の<b>前に 目を 通して おいて<\/b>ください。 目を通す = to look over."}, {"q": "ストレスがたまると、＿＿＿ ＿＿＿ ★ ＿＿＿病気になることもある。", "choices": ["でなく", "影響が出て", "心だけ", "体にも"], "answer": 4, "explain": "Correct order: ストレスがたまると、<b>心だけ でなく 体にも 影響が出て<\/b>病気になることもある。 〜だけでなく〜も = not only... but also."}, {"q": "この地域は＿＿＿ ★ ＿＿＿ ＿＿＿、昔から人々は漁業で生活してきた。", "choices": ["面している", "海に", "もあって", "こと"], "answer": 1, "explain": "Correct order: この地域は<b>海に 面している こと もあって<\/b>、昔から... 〜こともあって = partly because of the fact that."}]}, {"id": "m9", "section": "lang", "label": "問題9", "name": "Grammar: passage", "instruction": "次の文章を読んで、文章全体の内容を考えて、<span class='gap'>48<\/span>から<span class='gap'>52<\/span>の中に入る最もよいものを、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p>最近、「タイパ」という言葉をよく耳にする。タイムパフォーマンスの略で、かけた時間に対して、どれだけの成果や満足が得られるかを表す言葉だ。映画を倍速で見たり、本の要約だけを読んだりする人が増えている[[1]]。時間を効率よく使いたいという気持ちは、私にもよくわかる。<\/p><p>[[2]]、効率ばかりを追い求めていると、大切なものを見落としてしまう[[3]]。たとえば、遠回りして偶然見つけた小さな店や、失敗から学んだ経験は、近道ばかり選んでいては得られない。効率を重視する[[4]]、時間をかけること自体の価値も忘れたくない。<\/p><p>[[5]]、どちらか一方に偏らず、うまくバランスを取ることが大切なのではないだろうか。<\/p>", "questions": [{"q": "", "choices": ["というものだ", "に限る", "ようだ", "かねない"], "answer": 3, "explain": "…増えているようだ = 'it seems that'. The writer is reporting an observed trend. かねない needs a verb stem and a negative outcome."}, {"q": "", "choices": ["そのうえ", "なぜなら", "したがって", "しかし"], "answer": 4, "explain": "The writer first agrees with efficiency, then raises a warning. That turn needs しかし (however)."}, {"q": "", "choices": ["ことはない", "べきではない", "に相違ない", "おそれがある"], "answer": 4, "explain": "…見落としてしまうおそれがある = there is a risk of overlooking things. The tone is cautious, not certain."}, {"q": "", "choices": ["くせに", "とたん", "のはもちろんだが", "あげく"], "answer": 3, "explain": "〜のはもちろんだが = 'X is a given, but also Y'."}, {"q": "", "choices": ["それどころか", "要するに", "ところが", "なお"], "answer": 2, "explain": "要するに = in short. It sums up the points made just before."}]}]}, {"id": "m10", "section": "read", "label": "問題10", "name": "Short passages", "instruction": "次の(1)から(5)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>(1)<\/b><\/p><p>社員各位<\/p><p>来月から、社内の会議室の予約方法が変わります。これまでは、会議室の入口にある紙の予約表に名前を書いていましたが、4月1日からは、社内ポータルサイトで予約することになります。紙の予約表は3月末で撤去します。<\/p><p>なお、予約が入っていない時間であれば、当日、予約なしで使うこともできます。ただし、予約をした人が来た場合は、すぐに会議室を空けてください。<\/p><p style='text-align:right'>総務部<\/p>", "questions": [{"q": "この文書で、総務部が最も伝えたいことは何か。", "choices": ["急に会議室を使うときは、総務部に連絡しなければならない。", "紙の予約表は、4月以降も使うことができる。", "会議室の予約は、4月から紙ではなくサイトで行う。", "会議室は、予約をしないと使えなくなる。"], "answer": 3, "explain": "The main change is the booking method: from April 1, bookings move from the paper sheet to the portal site. Walk-in use is still allowed when the room is free."}]}, {"passage": "<p><b>(2)<\/b><\/p><p>私は子どものころ、図鑑を読むのが好きだった。写真や絵を見ているだけでも楽しかったが、わからないことがあると、すぐ大人に聞いた。しかし、父はいつも「自分で調べてみなさい」と言って、答えを教えてくれなかった。そのときは意地悪だと思ったが、今では父の気持ちがわかる。自分で探して見つけた答えは、人から教えてもらった答えよりも、はるかに長く記憶に残るからだ。<\/p>", "questions": [{"q": "筆者は、父が答えを教えてくれなかったことを、今はどう考えているか。", "choices": ["大人に質問する習慣をつけさせたかったのだと考えている。", "自分で調べる力を育てるためだったと理解している。", "図鑑が難しすぎたからだと考えている。", "質問をさせないための意地悪だったと思っている。"], "answer": 2, "explain": "「今では父の気持ちがわかる」 followed by the reason: answers you find yourself stay in memory longer. So the father wanted him to learn by searching."}]}, {"passage": "<p><b>(3)<\/b><\/p><p>件名：打ち合わせ日程の変更について<\/p><p>田中様<\/p><p>お世話になっております。来週火曜日にお約束していた打ち合わせの件ですが、当日、別の取引先とのトラブル対応が入ってしまい、お時間を変更していただけないかと思い、ご連絡いたしました。水曜日の午後でしたら、何時でも伺えます。木曜日は終日出張のため、難しい状況です。ご都合をお知らせいただければ幸いです。急なお願いで申し訳ございません。<\/p><p style='text-align:right'>山本<\/p>", "questions": [{"q": "山本さんが田中さんに頼んでいることは何か。", "choices": ["取引先のトラブルに対応すること", "火曜日の打ち合わせを中止すること", "水曜日の午後で都合のよい時間を知らせること", "木曜日に出張先へ来ること"], "answer": 3, "explain": "Yamamoto asks to reschedule and says Wednesday afternoon works any time. 「ご都合をお知らせいただければ」 is the actual request."}]}, {"passage": "<p><b>(4)<\/b><\/p><p>「一人で食事をするのは寂しい」と考える人は多いが、最近は「ひとりごはん」を積極的に楽しむ人が増えている。飲食店でも、カウンター席だけの店や、仕切りのある席を用意した店が人気を集めている。ある調査によると、一人で食事をする理由として最も多かったのは「時間を気にせず、自分のペースで食べられるから」だった。人づきあいに疲れたというより、自分の時間を大切にしたい人が増えていることの表れだろう。<\/p>", "questions": [{"q": "筆者は、「ひとりごはん」が増えている理由をどう考えているか。", "choices": ["自分の時間を大切にしたい人が増えたためだ。", "飲食店が一人客向けの工夫をしたためだ。", "食事の時間を短くしたい人が増えたためだ。", "人づきあいが苦手な人が増えたためだ。"], "answer": 1, "explain": "The last sentence says it's not about being tired of people (〜というより) but about valuing one's own time."}]}, {"passage": "<p><b>(5)<\/b><\/p><p><b>【図書館からのお知らせ】<\/b><\/p><p>館内の工事のため、2階の閲覧室は10月5日から10月20日まで利用できません。この期間中、2階の資料を借りたい方は、1階の受付にお申し込みください。職員が資料を取り出します。1階の閲覧席は通常どおり使えますが、席の数が少なくなりますので、ご了承ください。なお、返却は期間中も通常どおり、1階の返却口で受け付けます。<\/p>", "questions": [{"q": "工事の期間中、2階の資料を借りたい人はどうすればよいか。", "choices": ["1階の受付に申し込む。", "2階の閲覧室に入って、自分で探す。", "工事が終わるまで待つ。", "1階の返却口に申し込む。"], "answer": 1, "explain": "Staff will fetch the materials for people who apply at the first-floor reception. The return counter is only for returns."}]}]}, {"id": "m11", "section": "read", "label": "問題11", "name": "Mid-length passages", "instruction": "次の(1)から(3)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>(1)<\/b><\/p><p>パソコンやスマートフォンの普及で、手で文字を書く機会が減った。漢字を忘れてしまったという人も多い。私も仕事のメモはほとんど入力で済ませているため、先日、友人への手紙を書こうとして、簡単な漢字が思い出せず、驚いた。<\/p><p>しかし、手書きにはそれ自体に価値があると思う。手で書く行為は、頭の中を整理するのに役立つからだ。ある研究では、授業のノートを手で取った学生のほうが、キーボードで入力した学生よりも、内容をよく理解していたという。手書きでは書く速度が遅いため、聞いた内容をそのまま写すことができず、重要な点を自分で選んでまとめる必要がある。この作業が理解を深めるのだろう。<\/p><p>もちろん、すべてを手書きに戻すべきだと言いたいわけではない。入力のほうが便利な場面も多い。ただ、考えを深めたいときや、大切な人に気持ちを伝えたいときには、あえて手で書くという選択肢を持っておきたいものである。<\/p>", "questions": [{"q": "筆者が驚いたのは、どんなことか。", "choices": ["簡単な漢字を思い出せなかったこと", "手紙を書く人が減っていること", "友人が手書きの手紙をくれたこと", "自分の入力が速くなっていたこと"], "answer": 1, "explain": "In paragraph 1: he tried to write a letter and couldn't recall easy kanji."}, {"q": "手書きのノートが理解を深める理由について、筆者はどう考えているか。", "choices": ["先生の話を一字一句正確に写すことができるから", "聞いた内容を選んでまとめながら書くことになるから", "手で書くと、きれいな字を書く練習になるから", "時間がかかるので、あとでじっくり復習できるから"], "answer": 2, "explain": "Writing by hand is slow, so you can't copy everything and must pick and summarize the key points. That process deepens understanding."}, {"q": "この文章の内容に合っているのはどれか。", "choices": ["学生は授業でパソコンを使うべきではない。", "入力は便利だが、手書きにも使う価値がある。", "すべての場面で手書きに戻すべきだ。", "手書きは時代遅れなので、やめたほうがよい。"], "answer": 2, "explain": "The last paragraph rejects 'go back to handwriting for everything' but keeps handwriting as a worthwhile option."}]}, {"passage": "<p><b>(2)<\/b><\/p><p>新入社員の山田さんは、入社して三か月、毎日のように「報告・連絡・相談」を意識して仕事をしてきた。ところが、先日、上司から「報告が多すぎて、かえって大事なことがわかりにくい」と言われてしまった。山田さんは驚いた。上司に言われたとおり、小さなことでもこまめに報告してきたからだ。<\/p><p>上司の話では、報告で大切なのは、量よりも「何を、どの順番で伝えるか」だという。まず結論を言い、次に理由や経過を簡潔に説明する。そうすれば、相手は短い時間で状況をつかむことができる。山田さんの報告は、経過の説明から始まることが多く、結論は最後まで聞かないとわからなかった。<\/p><p>それ以来、山田さんは報告の前に、一分だけ時間をとって伝える内容を整理するようにした。すると、報告にかかる時間が短くなっただけでなく、自分でも何が問題なのかがはっきりしてきたという。<\/p>", "questions": [{"q": "上司が山田さんに言いたかったことは何か。", "choices": ["相談は上司ではなく同僚にするべきだ。", "報告では、量よりも伝え方が大切だ。", "小さなことは報告しなくてよい。", "報告の回数をもっと増やすべきだ。"], "answer": 2, "explain": "The boss says what matters is 'what to say and in what order' rather than the amount."}, {"q": "山田さんの報告の問題点は何だったか。", "choices": ["報告の回数が少なかったこと", "内容に間違いが多かったこと", "結論が最初に述べられていなかったこと", "声が小さくて聞き取りにくかったこと"], "answer": 3, "explain": "His reports began with the background and the conclusion only became clear at the end."}, {"q": "報告の前に時間をとるようになって、山田さんはどうなったか。", "choices": ["報告が短くなり、自分の考えも整理できた。", "経過を詳しく説明できるようになった。", "上司に相談する必要がなくなった。", "報告の回数が減り、叱られなくなった。"], "answer": 1, "explain": "Final paragraph: reports got shorter, and he also understood the problem more clearly himself."}]}, {"passage": "<p><b>(3)<\/b><\/p><p>全国の商店街で、シャッターを下ろしたままの店が増えている。大型ショッピングセンターやインターネット通販に客を奪われたこと、店主の高齢化で後継者がいないことなどが主な理由だ。<\/p><p>そうした中で、ある商店街は、空き店舗を地域の人に安く貸し出す取り組みを始めた。若い人が小さなパン屋や雑貨店を開くようになり、週末には県外からも客が訪れるようになった。注目すべきは、店を出した人たちが自分の店だけでなく、商店街全体のイベントも一緒に企画していることだ。「通りがにぎわえば、どの店にも客が来る」という考えからだという。<\/p><p>もちろん、すべての商店街がこのやり方で成功するとは限らない。しかし、大型店と同じ土俵で競うのではなく、小さな店だからこそできる魅力を作ることが、生き残りのヒントになるのではないか。<\/p>", "questions": [{"q": "商店街の店が減っている理由として、文章に挙げられていないものはどれか。", "choices": ["大型ショッピングセンターに客が流れたこと", "後継者がいない店が多いこと", "家賃が高くなりすぎたこと", "インターネットでの買い物が増えたこと"], "answer": 3, "explain": "Paragraph 1 lists shopping centers, online shopping and lack of successors. Rent is never mentioned."}, {"q": "ある商店街の取り組みについて、文章の内容と合っているのはどれか。", "choices": ["空き店舗を安く貸して、新しい店を呼び込んだ。", "県外の店に商店街への出店を頼んだ。", "大型ショッピングセンターと協力して客を集めた。", "イベントを開くために、店主から会費を集めた。"], "answer": 1, "explain": "The street rented empty shops cheaply to local people, who opened new small businesses."}, {"q": "筆者は、商店街が生き残るために何が必要だと考えているか。", "choices": ["小さな店ならではの魅力を作ること", "インターネット通販を始めること", "大型店と同じ規模の店を作ること", "すべての商店街が同じ方法を取ること"], "answer": 1, "explain": "The conclusion: don't compete on the big stores' terms; build the appeal only small shops can offer."}]}]}, {"id": "m12", "section": "read", "label": "問題12", "name": "Integrated comprehension", "instruction": "次のAとBの文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>A<\/b><\/p><p>在宅勤務には大きな利点がある。通勤時間がなくなり、その分を家族との時間や睡眠に使える。集中して作業したい仕事では、オフィスよりも家のほうが効率が上がるという人も多い。また、育児や介護と仕事を両立しやすくなる点も見逃せない。会社にとっても、優秀な人材が働き続けてくれるというメリットがある。今後はもっと多くの会社が在宅勤務を取り入れるべきだ。<\/p><p><b>B<\/b><\/p><p>在宅勤務は便利だが、問題もある。新しい社員は、周りの先輩の仕事ぶりを見て学ぶ機会が少なくなる。また、同僚との雑談が減ると、仕事の悩みを気軽に相談しにくくなり、一人で抱え込んでしまう人も出てくる。そのため、私は、週に数日は出社して顔を合わせる日を作るのがよいと考える。在宅と出社を組み合わせることで、両方の良さを生かせるはずだ。<\/p>", "questions": [{"q": "在宅勤務について、AとBに共通している考えはどれか。", "choices": ["すべての社員が出社するべきだ。", "新入社員には向いていない。", "育児や介護をしている人には向いている。", "便利な点がある。"], "answer": 4, "explain": "A lists many advantages; B opens with 「便利だが」. Only B mentions new employees, and only A mentions childcare and caregiving."}, {"q": "今後の在宅勤務の取り入れ方について、AとBはどのように述べているか。", "choices": ["Aは在宅勤務をもっと広げるべきだと述べ、Bは出社する日も設けるべきだと述べている。", "AもBも、在宅勤務は週に数日だけにするべきだと述べている。", "Aは出社日を設けるべきだと述べ、Bは在宅勤務をやめるべきだと述べている。", "AもBも、会社は在宅勤務を取り入れる必要はないと述べている。"], "answer": 1, "explain": "A: more companies should adopt it. B: combine it with some office days."}]}]}, {"id": "m13", "section": "read", "label": "問題13", "name": "Long passage (argument)", "instruction": "次の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p>インターネットで検索すれば、たいていの疑問には数秒で答えが見つかる。便利な時代になったと思う反面、この便利さが人間の思考力を弱めているのではないかと、私は感じている。<\/p><p>先日、大学生の甥と話していて、そのことを強く意識した。ある歴史上の出来事について私が尋ねると、甥はすぐにスマートフォンを取り出し、検索結果を読み上げた。答えは正しかった。だが、私が「それはなぜ起きたと思う？」と聞き直すと、彼は黙ってしまった。調べた「答え」は知っていても、自分で「考える」ことには慣れていなかったのである。<\/p><p>昔は、疑問を持つと、本を何冊も探したり、詳しい人に尋ねたりしなければならなかった。それは確かに面倒で、時間もかかった。しかし、その過程で人は、いくつもの情報を比べ、自分なりの理由を考える。遠回りの中に、思考を鍛える機会があったのだ。<\/p><p>もちろん、昔に戻るべきだと言うつもりはない。大切なのは、検索で得た答えを、そこで終わりにしないことだ。「本当にそうか」「なぜそうなるのか」と一歩踏み込んで考える習慣さえあれば、インターネットは、思考力を弱める道具ではなく、深める道具になり得る。要は、道具そのものよりも、それをどう使うかなのである。<\/p>", "questions": [{"q": "筆者が甥との会話で気づいたことは何か。", "choices": ["甥は検索に時間がかかり、答えられなかったこと", "甥は歴史に興味がなく、答えを間違えたこと", "甥は答えを知っていても、理由を考えることには慣れていなかったこと", "甥は筆者の質問の意味を理解できなかったこと"], "answer": 3, "explain": "The answer he read out was correct, but he went silent when asked 'why'. He knew the answer without being used to thinking."}, {"q": "昔の調べ方について、筆者はどう考えているか。", "choices": ["面倒なので、今の方法のほうがはるかによい。", "不正確な情報が多く、役に立たなかった。", "詳しい人に尋ねることが最も大切だった。", "時間がかかるが、考える力を育てる機会になっていた。"], "answer": 4, "explain": "Paragraph 3: it was a hassle, but comparing sources and forming reasons trained thinking (遠回りの中に、思考を鍛える機会があった)."}, {"q": "この文章で、筆者が最も言いたいことは何か。", "choices": ["インターネットの情報は、正しくないことが多い。", "インターネットが役に立つかどうかは、使い方で決まる。", "インターネットは、できるだけ使わないほうがよい。", "昔のやり方に戻るべきだ。"], "answer": 2, "explain": "The closing line: what matters is not the tool but how you use it."}]}]}, {"id": "m14", "section": "read", "label": "問題14", "name": "Information retrieval", "instruction": "下のページは、ある区民センターの講座の案内である。これを読んで、下の質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>区民センター　秋の講座　受講者募集<\/b><\/p><table class='info'><thead><tr><th>講座<\/th><th>曜日・時間<\/th><th>回数<\/th><th>受講料<\/th><th>教材費など<\/th><th>定員<\/th><\/tr><\/thead><tbody><tr><td>A　初めての書道<\/td><td>毎週火曜<br>10:00〜11:30<\/td><td>全8回<\/td><td>6,400円<\/td><td>教材費1,500円<\/td><td>15名<\/td><\/tr><tr><td>B　英会話入門<\/td><td>毎週水曜<br>19:00〜20:30<\/td><td>全10回<\/td><td>8,000円<\/td><td>教材費2,000円<\/td><td>20名<\/td><\/tr><tr><td>C　ヨガで健康づくり<\/td><td>毎週土曜<br>9:30〜10:30<\/td><td>全8回<\/td><td>5,600円<\/td><td>教材費なし<br>（ヨガマットは各自持参）<\/td><td>25名<\/td><\/tr><tr><td>D　スマホ写真教室<\/td><td>毎週木曜<br>14:00〜15:30<\/td><td>全6回<\/td><td>4,800円<\/td><td>教材費なし<br>（スマートフォン持参）<\/td><td>12名<\/td><\/tr><\/tbody><\/table><p><b>申し込み方法<\/b>　9月20日までに、受付または電話で申し込んでください。定員を超えた場合は抽選になります。受講料は、初回に現金でお支払いください。<\/p>", "questions": [{"q": "会社員のリンさんは、平日は夜しか時間がなく、土曜日と日曜日は予定が入っている。リンさんが受講できる講座はどれか。", "choices": ["スマホ写真教室", "英会話入門", "ヨガで健康づくり", "初めての書道"], "answer": 2, "explain": "Only B (Wednesday 19:00) is on a weekday evening. A and D are daytime, and C is on Saturday."}, {"q": "山田さんは、受講料と教材費を合わせて6,000円以内で、全8回の講座に申し込みたい。山田さんが申し込める講座はどれか。", "choices": ["ヨガで健康づくり", "初めての書道", "英会話入門", "スマホ写真教室"], "answer": 1, "explain": "8-session courses are A and C. A costs 6,400 + 1,500 = 7,900 yen. C costs 5,600 yen with no materials fee. D is cheap but only 6 sessions."}]}]}]}, {"id": "n2-week-02", "title": "N2 Mock Test", "subtitle": "Week 2", "minutes": 105, "parts": [{"id": "m1", "section": "lang", "label": "問題1", "name": "Kanji reading", "instruction": "<u>　　　<\/u>の言葉の読み方として最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼の意見は<u>的確<\/u>だった。", "choices": ["てっかく", "まとかく", "てきかく", "てきがく"], "answer": 3, "explain": "的確 (てきかく) = precise, accurate."}, {"q": "工事の<u>騒音<\/u>に悩まされている。", "choices": ["そうおん", "さわおん", "そうごん", "そおん"], "answer": 1, "explain": "騒音 (そうおん) = noise."}, {"q": "毎日の練習を<u>怠けて<\/u>はいけない。", "choices": ["なまけて", "さぼけて", "おこけて", "だらけて"], "answer": 1, "explain": "怠ける (なまける) = to be lazy, slack off."}, {"q": "彼女は優れた<u>才能<\/u>の持ち主だ。", "choices": ["ざいにょう", "ざいのう", "さいにょう", "さいのう"], "answer": 4, "explain": "才能 (さいのう) = talent."}, {"q": "雪が山全体を<u>覆って<\/u>いる。", "choices": ["おおいって", "おおって", "おおわって", "くつがえって"], "answer": 2, "explain": "覆う (おおう) = to cover. 覆る (くつがえる) is a different verb."}]}, {"id": "m2", "section": "lang", "label": "問題2", "name": "Kanji writing", "instruction": "<u>　　　<\/u>の言葉を漢字で書くとき、最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "<u>かんきょう<\/u>を守るための活動をしている。", "choices": ["環竟", "環境", "還竟", "還境"], "answer": 2, "explain": "環境 = environment."}, {"q": "会社から<u>けいこく<\/u>を受けた。", "choices": ["驚告", "警告", "警古", "驚古"], "answer": 2, "explain": "警告 = warning. 警 (warn) is the key character."}, {"q": "客の<u>ようきゅう<\/u>に応じる。", "choices": ["要球", "用求", "要求", "用球"], "answer": 3, "explain": "要求 = demand, request."}, {"q": "年をとって、体力が<u>おとろえた<\/u>。", "choices": ["袁えた", "衷えた", "哀えた", "衰えた"], "answer": 4, "explain": "衰える (おとろえる) = to grow weak, decline."}, {"q": "彼は責任を<u>はたした<\/u>。", "choices": ["巣たした", "課たした", "果たした", "菓たした"], "answer": 3, "explain": "果たす = to fulfill, carry out."}]}, {"id": "m3", "section": "lang", "label": "問題3", "name": "Word formation", "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "この作品は、まだ（　　）完成だ。", "choices": ["不", "非", "無", "未"], "answer": 4, "explain": "未完成 = unfinished. 未 means 'not yet'."}, {"q": "彼は遅刻（　　）で、よく注意されている。", "choices": ["っぽい", "がち", "げ", "め"], "answer": 2, "explain": "〜がち = tends to. 遅刻がち = tends to be late."}, {"q": "食事（　　）に薬を飲んでください。", "choices": ["際", "末", "後", "頃"], "answer": 3, "explain": "食事後 = after meals."}]}, {"id": "m4", "section": "lang", "label": "問題4", "name": "Contextual vocabulary", "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼の説明は（　　）で、何を言いたいのかわからなかった。", "choices": ["丁寧", "正直", "曖昧", "派手"], "answer": 3, "explain": "曖昧 (あいまい) = vague."}, {"q": "ストレスのせいか、胃が（　　）痛む。", "choices": ["きりきり", "ぐんぐん", "ぺこぺこ", "うきうき"], "answer": 1, "explain": "きりきり痛む = a sharp, stabbing pain."}, {"q": "彼女は誰にでも（　　）に話しかける人だ。", "choices": ["身近", "身軽", "手軽", "気軽"], "answer": 4, "explain": "気軽に = casually, without hesitation. 手軽 is for tasks."}, {"q": "長い会議で、みんなの集中力が（　　）てきた。", "choices": ["離れ", "切れ", "割れ", "外れ"], "answer": 2, "explain": "集中力が切れる = concentration runs out."}, {"q": "台風の影響で、飛行機の便が（　　）した。", "choices": ["欠点", "欠航", "欠乏", "欠席"], "answer": 2, "explain": "欠航 = a flight or sailing is cancelled."}, {"q": "彼は新しい環境に（　　）するのに時間がかかった。", "choices": ["適当", "適応", "適切", "適度"], "answer": 2, "explain": "適応する = to adapt."}, {"q": "試験の前は、毎日（　　）勉強している。", "choices": ["こつこつ", "ふらふら", "ぺらぺら", "ざあざあ"], "answer": 1, "explain": "こつこつ = steadily, diligently, bit by bit."}]}, {"id": "m5", "section": "lang", "label": "問題5", "name": "Synonyms", "instruction": "<u>　　　<\/u>の言葉に意味が最も近いものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "この仕事は<u>じきに<\/u>終わる。", "choices": ["必ず", "もうすぐ", "絶対に", "ゆっくり"], "answer": 2, "explain": "じきに = soon."}, {"q": "彼は<u>しきりに<\/u>時計を見ている。", "choices": ["じっと", "ゆっくり", "何度も", "ときどき"], "answer": 3, "explain": "しきりに = repeatedly, over and over."}, {"q": "先生の説明は<u>簡潔<\/u>だった。", "choices": ["短くわかりやすかった", "長かった", "難しかった", "おもしろかった"], "answer": 1, "explain": "簡潔 = concise and clear."}, {"q": "彼の話は<u>退屈<\/u>だった。", "choices": ["悲しかった", "難しかった", "おもしろくなかった", "意外だった"], "answer": 3, "explain": "退屈 = boring."}, {"q": "計画に<u>支障<\/u>が出た。", "choices": ["進展があった", "協力があった", "変更があった", "都合の悪いことが起きた"], "answer": 4, "explain": "支障が出る = to cause trouble or obstacles."}]}, {"id": "m6", "section": "lang", "label": "問題6", "name": "Usage", "instruction": "次の言葉の使い方として最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "<b>相変わらず<\/b>", "choices": ["この店は先月オープンしたので、相変わらず客が少ない。", "彼女は急に相変わらず態度を変えた。", "彼は相変わらず元気に働いている。", "私は相変わらず来週、京都へ行く予定だ。"], "answer": 3, "explain": "相変わらず = as always. It describes a state that continues unchanged."}, {"q": "<b>ぎりぎり<\/b>", "choices": ["電車の発車時間にぎりぎりで間に合った。", "ぎりぎり楽しく旅行を続けた。", "彼はぎりぎり背が高い人だ。", "ぎりぎりおいしい料理を食べた。"], "answer": 1, "explain": "ぎりぎり = right at the limit, barely."}, {"q": "<b>くつろぐ<\/b>", "choices": ["試験に落ちて、くつろいでしまった。", "休日は家でのんびりくつろいで過ごした。", "駅でくつろいで友人を待たせた。", "重い荷物をくつろいで運んだ。"], "answer": 2, "explain": "くつろぐ = to relax, make oneself at home."}, {"q": "<b>一斉に<\/b>", "choices": ["合図と同時に、選手たちは一斉にスタートした。", "一斉に考えてから決めた。", "私は一斉にひとりで旅行した。", "彼は毎朝一斉に走っている。"], "answer": 1, "explain": "一斉に = all at once, at the same time (by many people)."}, {"q": "<b>見通し<\/b>", "choices": ["駅までの見通しを切符で買った。", "窓の見通しを拭いた。", "工事は来月に終わる見通しだ。", "彼の見通しは大きくて重い。"], "answer": 3, "explain": "見通し = outlook, forecast."}]}, {"id": "m7", "section": "lang", "label": "問題7", "name": "Grammar: sentence", "instruction": "次の文の（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼は初めて作った（　　）、とても上手だ。", "choices": ["ばかりに", "かわりに", "おかげで", "にしては"], "answer": 4, "explain": "〜にしては = considering that. Better than expected."}, {"q": "台風で、遠足は延期（　　）。", "choices": ["しかねなかった", "しようがなかった", "せざるを得なかった", "しがちだった"], "answer": 3, "explain": "〜ざるを得ない = have no choice but to. する becomes せざるを得ない."}, {"q": "彼女は忙しい（　　）、いつも笑顔で挨拶してくれる。", "choices": ["ところに", "たびに", "ながらも", "ばかりか"], "answer": 3, "explain": "〜ながらも = although, even while."}, {"q": "彼は医者（　　）、病気の予防に無関心だ。", "choices": ["だけあって", "をはじめ", "のもとで", "でありながら"], "answer": 4, "explain": "〜でありながら = despite being (a surprising contrast)."}, {"q": "年齢（　　）、誰でも参加できる。", "choices": ["にとって", "に応じて", "によって", "を問わず"], "answer": 4, "explain": "〜を問わず = regardless of."}, {"q": "悔しさの（　　）、泣いてしまった。", "choices": ["かわりに", "あまり", "せいぜい", "おかげで"], "answer": 2, "explain": "〜のあまり = so much that (an extreme feeling causes a result)."}, {"q": "値段が高い（　　）、品質がいいとは限らない。", "choices": ["からといって", "ものだから", "ばかりに", "ことだから"], "answer": 1, "explain": "〜からといって〜とは限らない = just because X doesn't mean Y."}, {"q": "時間にうるさい彼（　　）、きっと早く来るだろう。", "choices": ["につれて", "にしたら", "をはじめ", "のことだから"], "answer": 4, "explain": "〜のことだから = knowing what X is like."}, {"q": "資料を読んだ（　　）、意見を言ってください。", "choices": ["うえで", "あまり", "くせに", "ついでに"], "answer": 1, "explain": "V-ta + うえで = after doing, then."}, {"q": "彼は英語（　　）、中国語も話せる。", "choices": ["ばかりでなく", "というより", "によらず", "ほどではなく"], "answer": 1, "explain": "〜ばかりでなく〜も = not only... but also."}, {"q": "結果がわかり（　　）、ご連絡します。", "choices": ["つつ", "次第", "ながら", "だけ"], "answer": 2, "explain": "V-stem + 次第 = as soon as."}, {"q": "彼は何を聞かれても、「知らない」と言う（　　）だ。", "choices": ["きり", "ほど", "まま", "ばかり"], "answer": 4, "explain": "V + ばかりだ = does nothing but."}]}, {"id": "m8", "section": "lang", "label": "問題8", "name": "Grammar: ordering (★)", "instruction": "次の文の　★　に入る最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "この店は値段が＿＿＿ ＿＿＿ ★ ＿＿＿評判だ。", "choices": ["安い", "わりに", "量も", "多いと"], "answer": 3, "explain": "Order: 値段が<b>安い わりに 量も 多いと<\/b>評判だ。"}, {"q": "田中さんが＿＿＿ ＿＿＿ ★ ＿＿＿なる。", "choices": ["日本に", "三年に", "から", "来て"], "answer": 3, "explain": "Order: 田中さんが<b>日本に 来て から 三年に<\/b>なる。"}, {"q": "彼女は＿＿＿ ★ ＿＿＿ ＿＿＿悲しそうな顔をしていた。", "choices": ["試験に", "落ちた", "一日中", "せいか"], "answer": 2, "explain": "Order: 彼女は<b>試験に 落ちた せいか 一日中<\/b>悲しそうな顔をしていた。"}, {"q": "毎日＿＿＿ ＿＿＿ ★ ＿＿＿見ると、うれしくなる。", "choices": ["大きく", "のを", "少しずつ", "なっていく"], "answer": 4, "explain": "Order: 毎日<b>少しずつ 大きく なっていく のを<\/b>見ると、うれしくなる。"}, {"q": "この薬は＿＿＿ ＿＿＿ ★ ＿＿＿、必ず医師に相談してください。", "choices": ["いる", "飲んで", "場合は", "他の薬を"], "answer": 1, "explain": "Order: この薬は<b>他の薬を 飲んで いる 場合は<\/b>、必ず医師に相談してください。"}]}, {"id": "m9", "section": "lang", "label": "問題9", "name": "Grammar: passage", "instruction": "次の文章を読んで、文章全体の内容を考えて、<span class='gap'>48<\/span>から<span class='gap'>52<\/span>の中に入る最もよいものを、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p>日本には、自動販売機が非常に多い。道を歩けば、数十メートルごとに見つかると[[1]]。これほど多くの自動販売機が置かれている国は、世界でもめずらしい。<\/p><p>日本で自動販売機が広まった背景には、治安のよさがある。[[2]]、外に機械を置いても、壊されたり、お金を盗まれたりすることが少ないからだ。[[3]]、人手不足の中で、二十四時間商品を売ることができる点も、店にとっては大きな利点である。<\/p><p>最近では、飲み物[[4]]、食べ物や雑貨、さらには本まで売る機械も登場している。便利さを求める人々の気持ちが続く[[5]]、自動販売機はこれからも増え続けるだろう。<\/p>", "questions": [{"q": "", "choices": ["かもしれない", "とは限らない", "言っても過言ではない", "ことになっている"], "answer": 3, "explain": "〜と言っても過言ではない = it's no exaggeration to say."}, {"q": "", "choices": ["しかし", "むしろ", "ところが", "なぜなら"], "answer": 4, "explain": "The sentence gives a reason, so なぜなら ... からだ."}, {"q": "", "choices": ["また", "ところが", "したがって", "つまり"], "answer": 1, "explain": "また adds a second advantage."}, {"q": "", "choices": ["に対して", "につれて", "だけでなく", "としても"], "answer": 3, "explain": "〜だけでなく = not only. Followed by 食べ物や雑貨, an addition."}, {"q": "", "choices": ["うちに", "ことなく", "あげく", "かぎり"], "answer": 4, "explain": "〜かぎり = as long as."}]}]}, {"id": "m10", "section": "read", "label": "問題10", "name": "Short passages", "instruction": "次の(1)から(5)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>(1)<\/b><\/p><p>【プールの利用時間のお知らせ】<\/p><p>11月から、平日の夜の利用時間が、21時までから22時までに延びます。ただし、土曜日と日曜日は、これまでどおり20時までです。<\/p>", "questions": [{"q": "11月から何が変わるか。", "choices": ["土曜日と日曜日も22時まで使える。", "平日の夜は、プールを22時まで使える。", "平日の利用が20時までになる。", "休日はプールが使えなくなる。"], "answer": 2, "explain": "Only weekday evenings change, from 21:00 to 22:00. Weekends stay at 20:00."}]}, {"passage": "<p><b>(2)<\/b><\/p><p>私は長い間、夜型の生活を続けていた。夜のほうが静かで、仕事がはかどると思っていたからだ。しかし、あるとき朝早く起きて仕事をしてみると、頭がすっきりして、驚くほど短い時間で終わった。それ以来、私は朝型に変えた。夜型が悪いわけではないが、私には朝のほうが合っていたようだ。<\/p>", "questions": [{"q": "筆者の考えに合うものはどれか。", "choices": ["試してみて、朝のほうが自分に合うと気づいた。", "静かな夜のほうが今も効率がよい。", "夜型は仕事に向かないと考えている。", "夜型の人は朝型に変えるべきだと考えている。"], "answer": 1, "explain": "He says night-owl living isn't bad, but mornings suited him better after he tried."}]}, {"passage": "<p><b>(3)<\/b><\/p><p>課長<\/p><p>明日の会議資料について、ご報告いたします。現在、資料は8割ほど完成しており、今日中に完成する予定です。ただ、売上データの一部がまだ届いていないため、確認が終わり次第、最終版をお送りいたします。<\/p>", "questions": [{"q": "資料の最終版が送られるのは、いつか。", "choices": ["今日の午前中", "明日の会議のあと", "データが届く前", "売上データの確認が終わったあと"], "answer": 4, "explain": "「確認が終わり次第」 = as soon as the check is done."}]}, {"passage": "<p><b>(4)<\/b><\/p><p>「ありがとう」という言葉は、感謝を伝えるだけでなく、相手との関係をよくする働きがある。職場で「ありがとう」を言い合うチームは、そうでないチームより、仕事への満足度が高いという調査もある。小さな一言だが、その効果は大きい。<\/p>", "questions": [{"q": "筆者が最も言いたいことは何か。", "choices": ["感謝の言葉には、人間関係をよくする力がある。", "小さな一言なので、あまり意味がない。", "満足度の高いチームは、仕事が速い。", "職場では、感謝より仕事の成果が大切だ。"], "answer": 1, "explain": "The point: a small thank-you has a big effect on relationships."}]}, {"passage": "<p><b>(5)<\/b><\/p><p>【ごみの出し方】<\/p><p>燃えるごみは月曜日と木曜日、燃えないごみは第2・第4水曜日に出してください。収集は午前8時までに行います。前の日の夜に出すことは禁止されています。<\/p>", "questions": [{"q": "この文章の内容と合っているものはどれか。", "choices": ["燃えないごみは、毎週水曜日に出す。", "ごみは、前の日の夜に出してもよい。", "収集は午前8時から始まる。", "燃えるごみは、月曜日の朝に出すことができる。"], "answer": 4, "explain": "Burnable waste goes out Monday and Thursday mornings. Collection ends at 8:00, and putting trash out the night before is banned."}]}]}, {"id": "m11", "section": "read", "label": "問題11", "name": "Mid-length passages", "instruction": "次の(1)から(3)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>(1)<\/b><\/p><p>電子書籍の利用者が年々増えている。スマートフォン一つで何百冊もの本を持ち歩けるうえ、文字の大きさを自由に変えられるので、高齢者にも人気がある。一方で、紙の本を好む人も少なくない。紙の本には、ページをめくる感覚や、本棚に並べたときの楽しさがあるからだ。また、画面を長時間見ると目が疲れるという意見もある。<\/p><p>では、どちらが優れているのだろうか。私は、場面によって使い分けるのがよいと思う。通勤中に手軽に読みたいときは電子書籍、じっくり味わいたい本は紙の本というように選べば、それぞれの良さを生かせる。大切なのは、本を読む習慣そのものを続けることではないだろうか。<\/p>", "questions": [{"q": "電子書籍が高齢者にも人気がある理由として、文章に書かれているものはどれか。", "choices": ["値段が紙の本より安いから", "ページをめくる感覚があるから", "本棚に並べて楽しめるから", "文字の大きさを変えられるから"], "answer": 4, "explain": "Paragraph 1: character size can be changed freely."}, {"q": "電子書籍の問題点として、文章に挙げられているものはどれか。", "choices": ["画面を長く見ると目が疲れること", "読める本の種類が少ないこと", "高齢者には使えないこと", "値段が高いこと"], "answer": 1, "explain": "Paragraph 1 mentions eye strain from long screen use."}, {"q": "筆者の考えに合うものはどれか。", "choices": ["場面に合わせて、電子書籍と紙の本を使い分けるのがよい。", "紙の本は、やがてなくなるだろう。", "電子書籍は紙の本より優れている。", "本は電子書籍だけで読むべきだ。"], "answer": 1, "explain": "Paragraph 2: use each for the situation it suits."}]}, {"passage": "<p><b>(2)<\/b><\/p><p>先月、私は初めて地域の清掃ボランティアに参加した。正直なところ、最初は気が進まなかった。休日にわざわざ早起きして、ごみを拾うことに意味があるのか疑問だったからだ。ところが、実際に参加してみると、思っていたより楽しかった。近所の人たちと話しながら作業をするうちに、普段あいさつしかしない人とも親しくなれた。<\/p><p>活動のあと、町がきれいになったのを見て、小さな達成感も味わった。ボランティアは「人のため」にするものだと思っていたが、実は自分にとっても得るものが多い。次回は、友人も誘って参加するつもりだ。<\/p>", "questions": [{"q": "筆者が最初、気が進まなかった理由は何か。", "choices": ["近所の人と話すのが苦手だったから", "ごみ拾いに意味があるのか疑問だったから", "ボランティアは危険だと思っていたから", "休日に別の予定があったから"], "answer": 2, "explain": "He doubted whether picking up trash meant anything."}, {"q": "参加して、筆者にどんな変化があったか。", "choices": ["早起きが得意になった。", "町の人に感謝された。", "ごみの問題に詳しくなった。", "普段あいさつしかしない近所の人と親しくなれた。"], "answer": 4, "explain": "He grew close to neighbors he used to only greet."}, {"q": "筆者はボランティアについて、今どう考えているか。", "choices": ["休日にするのは負担が大きい。", "参加するには特別な準備が必要だ。", "人のためだけでなく、自分にとっても得るものが多い。", "一人で参加したほうが楽しめる。"], "answer": 3, "explain": "Paragraph 2: it benefits the volunteer too."}]}, {"passage": "<p><b>(3)<\/b><\/p><p>若い世代を中心に、方言を話す人が減っているといわれる。テレビやインターネットの影響で、全国どこでも同じ言葉が通じるようになったためだ。しかし最近、方言を見直す動きが出てきた。地元の言葉を使った商品名や広告が、「親しみやすい」と人気を集めているのだ。<\/p><p>方言には、その土地の歴史や人々の気持ちが表れている。方言が消えることは、そうした文化が失われることでもある。とはいえ、方言を無理に守る必要はないだろう。大切なのは、使う人が自然に楽しめることだ。共通語と方言を、場面に応じて使い分けられれば、言葉の世界はもっと豊かになるはずだ。<\/p>", "questions": [{"q": "方言を話す人が減った理由として、文章に書かれているものはどれか。", "choices": ["学校で方言が禁止されたから", "テレビやインターネットで、共通の言葉が広まったから", "外国人が増えたから", "地元を離れる若者が増えたから"], "answer": 2, "explain": "Paragraph 1 gives TV and the internet."}, {"q": "最近の動きとして、文章に書かれているものはどれか。", "choices": ["方言を使った商品名や広告が人気を集めている。", "方言を教える学校が増えている。", "方言で話すテレビ番組が増えている。", "方言の辞書がよく売れている。"], "answer": 1, "explain": "Local-dialect product names and ads are popular."}, {"q": "筆者の考えに合うものはどれか。", "choices": ["共通語より方言を使うべきだ。", "方言を守るために、法律が必要だ。", "方言は無理に守るのではなく、自然に楽しめばよい。", "方言は消えても問題ない。"], "answer": 3, "explain": "Paragraph 2: no need to force it; natural enjoyment matters."}]}]}, {"id": "m12", "section": "read", "label": "問題12", "name": "Integrated comprehension", "instruction": "次のAとBの文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>A<\/b><\/p><p>学校の制服は、続けるべきだと思う。毎朝、何を着るか悩まなくて済み、時間の節約になる。また、家庭の経済状況による服装の差が目立たず、生徒が平等に過ごせる。制服を着ることで、学校の一員だという意識も生まれる。<\/p><p><b>B<\/b><\/p><p>私は、制服を自由に選べるようにするのがよいと思う。生徒が自分の好みや体型に合わせて服を選ぶことは、自分で考える力を育てることにもつながる。ただし、極端に派手な服や、学校にふさわしくない服は避けるなど、最低限のルールは必要だ。<\/p>", "questions": [{"q": "服装について、AとBに共通している考えはどれか。", "choices": ["学校は服装のルールを持つべきではない。", "生徒は何を着てもよい。", "制服は経済的な負担が大きい。", "服装のあり方は、生徒の学校生活によい影響を与える。"], "answer": 4, "explain": "A: equality and belonging. B: develops the ability to think. Both see positive effects."}, {"q": "制服について、AとBはどのように述べているか。", "choices": ["Aは制服をやめるべきだと述べ、Bは続けるべきだと述べている。", "AもBも、制服を続けるべきだと述べている。", "Aは制服を続けるべきだと述べ、Bは服を自由に選べるようにすべきだと述べている。", "AもBも、制服をやめるべきだと述べている。"], "answer": 3, "explain": "A keeps uniforms; B wants free choice with minimum rules."}]}]}, {"id": "m13", "section": "read", "label": "問題13", "name": "Long passage (argument)", "instruction": "次の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p>「失敗は成功のもと」ということわざがある。しかし、現代の職場では、失敗を恐れて新しいことに挑戦できない人が増えているように思う。<\/p><p>ある企業では、新入社員に対して「失敗しないこと」を最も重視して指導していたという。その結果、社員は上司に言われたことだけを確実にこなすようになり、自分で工夫する人がいなくなってしまった。会社の業績も、次第に伸び悩んだ。<\/p><p>そこで、その企業は方針を変えた。失敗したときに責めるのではなく、「何を学んだか」を話し合う場を設けたのである。すると、社員たちは少しずつ新しい提案をするようになり、中には大きな成果を上げる商品を生み出した人もいた。<\/p><p>失敗そのものが価値をもつわけではない。失敗から学ぶ姿勢があって初めて、失敗は成功につながるのだ。そのためには、個人の努力だけでなく、失敗を受け入れる環境を作ることが欠かせないと、私は考える。<\/p>", "questions": [{"q": "その企業が、最初に新入社員に最も求めたことは何か。", "choices": ["上司に意見を言うこと", "失敗しないこと", "新しい提案をすること", "結果を早く出すこと"], "answer": 2, "explain": "Paragraph 2: 「失敗しないこと」を最も重視."}, {"q": "企業が方針を変えたあと、社員にどんな変化があったか。", "choices": ["失敗を報告しなくなった。", "少しずつ新しい提案をするようになった。", "上司の指示だけに従うようになった。", "会社の業績が下がった。"], "answer": 2, "explain": "Paragraph 3: employees began making new proposals."}, {"q": "この文章で、筆者が最も言いたいことは何か。", "choices": ["失敗を成功につなげるには、失敗から学ぶ姿勢と、それを受け入れる環境が必要だ。", "失敗はそれだけで価値がある。", "失敗を避けるために、慎重に行動すべきだ。", "個人の努力さえあれば、失敗は成功につながる。"], "answer": 1, "explain": "The last paragraph: a learning attitude plus an accepting environment."}]}]}, {"id": "m14", "section": "read", "label": "問題14", "name": "Information retrieval", "instruction": "下のページは、ある区民センターの講座の案内である。これを読んで、下の質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>レンタサイクル　料金案内<\/b><\/p><table class='info'><thead><tr><th>種類<\/th><th>1時間<\/th><th>1日料金<\/th><\/tr><\/thead><tbody><tr><td>A　普通自転車<\/td><td>300円<\/td><td>1,000円<\/td><\/tr><tr><td>B　電動アシスト自転車<\/td><td>500円<\/td><td>1,800円<\/td><\/tr><tr><td>C　子ども乗せ電動自転車<\/td><td>700円<\/td><td>2,400円<\/td><\/tr><tr><td>D　マウンテンバイク（予約制）<\/td><td>600円<\/td><td>2,000円<\/td><\/tr><\/tbody><\/table><p>・1日料金は、借りた日の19時まで利用できます。<\/p><p>・学生証を見せると、1日料金が1台につき200円安くなります（1時間料金は対象外です）。<\/p>", "questions": [{"q": "田中さんは、電動アシスト自転車を10時から15時までの5時間借りたい。いちばん安い料金はいくらか。", "choices": ["1,800円", "2,500円", "2,400円", "1,000円"], "answer": 1, "explain": "1 hour × 5 = 2,500 yen, but the 1-day rate of 1,800 yen is cheaper."}, {"q": "学生二人が、学生証を見せて、普通自転車を1台ずつ1日借りる。合計はいくらか。", "choices": ["1,800円", "1,600円", "1,400円", "2,000円"], "answer": 2, "explain": "(1,000 − 200) × 2 = 1,600 yen."}]}]}]}, {"id": "n2-week-03", "title": "N2 Mock Test", "subtitle": "Week 3", "minutes": 105, "parts": [{"id": "m1", "section": "lang", "label": "問題1", "name": "Kanji reading", "instruction": "<u>　　　<\/u>の言葉の読み方として最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼は組織の<u>中枢<\/u>で働いている。", "choices": ["ちゅうすう", "ちゅうしゅう", "じゅうすう", "ちゅうそう"], "answer": 1, "explain": "中枢 (ちゅうすう) = center, core."}, {"q": "彼は世界記録に<u>挑んだ<\/u>。", "choices": ["のぞんだ", "はげんだ", "いどんだ", "むかんだ"], "answer": 3, "explain": "挑む (いどむ) = to challenge. 臨む is のぞむ."}, {"q": "彼女は<u>温厚<\/u>な人だ。", "choices": ["うんこう", "あつこう", "おんこう", "おんごう"], "answer": 3, "explain": "温厚 (おんこう) = gentle, good-natured."}, {"q": "会社の<u>経費<\/u>を削減する。", "choices": ["けいひ", "けいび", "けひ", "きょうひ"], "answer": 1, "explain": "経費 (けいひ) = expenses."}, {"q": "記者が不正を<u>暴いた<\/u>。", "choices": ["あばいた", "ばくいた", "さばいた", "あばれた"], "answer": 1, "explain": "暴く (あばく) = to expose. 暴れる is あばれる."}]}, {"id": "m2", "section": "lang", "label": "問題2", "name": "Kanji writing", "instruction": "<u>　　　<\/u>の言葉を漢字で書くとき、最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "<u>しんごう<\/u>が赤になったので止まった。", "choices": ["信語", "進語", "進号", "信号"], "answer": 4, "explain": "信号 = traffic signal."}, {"q": "図書館に本を<u>へんきゃく<\/u>する。", "choices": ["返却", "返脚", "変却", "変脚"], "answer": 1, "explain": "返却 = return (something borrowed)."}, {"q": "時計を<u>しゅうり<\/u>に出す。", "choices": ["終里", "修理", "修里", "終理"], "answer": 2, "explain": "修理 = repair."}, {"q": "技術を<u>みがく<\/u>ために留学する。", "choices": ["魔く", "摩く", "麿く", "磨く"], "answer": 4, "explain": "磨く (みがく) = to polish, hone."}, {"q": "時間を<u>むだ<\/u>にしてしまった。", "choices": ["無駄", "不駄", "無舵", "無堕"], "answer": 1, "explain": "無駄 = waste."}]}, {"id": "m3", "section": "lang", "label": "問題3", "name": "Word formation", "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "計画を（　　）検討する必要がある。", "choices": ["反", "逆", "副", "再"], "answer": 4, "explain": "再検討 = reconsider. 再 means 'again'."}, {"q": "彼女の仕事（　　）は、とても丁寧だ。", "choices": ["気", "ぶり", "味", "風"], "answer": 2, "explain": "〜ぶり = manner. 仕事ぶり = way of working."}, {"q": "若者の車（　　）が進んでいる。", "choices": ["別れ", "離れ", "外れ", "逃れ"], "answer": 2, "explain": "〜離れ = drifting away from. 車離れ = losing interest in cars."}]}, {"id": "m4", "section": "lang", "label": "問題4", "name": "Contextual vocabulary", "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "雨が降り続いたため、試合は（　　）された。", "choices": ["延滞", "延長", "延命", "延期"], "answer": 4, "explain": "延期 = postponement."}, {"q": "彼女は毎日（　　）努力を続け、ついに合格した。", "choices": ["手軽に", "派手に", "大げさに", "地道に"], "answer": 4, "explain": "地道に = steadily, without shortcuts."}, {"q": "駅前の商店街は、週末になると買い物客で（　　）。", "choices": ["膨らむ", "重なる", "とどく", "にぎわう"], "answer": 4, "explain": "にぎわう = to be lively, bustling."}, {"q": "この問題については、もう少し（　　）話し合う必要がある。", "choices": ["ぐったり", "ざっと", "うっかり", "じっくり"], "answer": 4, "explain": "じっくり = thoroughly, taking time."}, {"q": "小さな子どもがいる家庭では、安全対策を（　　）する必要がある。", "choices": ["徹底", "完治", "完了", "完成"], "answer": 1, "explain": "徹底する = to carry out thoroughly."}, {"q": "経営が（　　）して、店を閉めることになった。", "choices": ["悪用", "悪化", "悪意", "悪評"], "answer": 2, "explain": "悪化 = worsening."}, {"q": "急いで書いたので、字が（　　）になってしまった。", "choices": ["雑", "粗", "荒", "乱"], "answer": 1, "explain": "雑になる = to become sloppy."}]}, {"id": "m5", "section": "lang", "label": "問題5", "name": "Synonyms", "instruction": "<u>　　　<\/u>の言葉に意味が最も近いものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼女は<u>ひそかに<\/u>計画を進めていた。", "choices": ["堂々と", "人に知られないように", "急いで", "楽しそうに"], "answer": 2, "explain": "ひそかに = secretly."}, {"q": "この店は値段が<u>手頃<\/u>だ。", "choices": ["とても高い", "少し複雑だ", "場所によって違う", "高すぎず、安すぎない"], "answer": 4, "explain": "手頃 = reasonable, affordable."}, {"q": "彼は<u>あっさり<\/u>断った。", "choices": ["長い時間かけて", "簡単に", "悲しそうに", "丁寧に"], "answer": 2, "explain": "あっさり = easily, without fuss."}, {"q": "試合で<u>惜しくも<\/u>負けた。", "choices": ["大きな差で", "楽しく", "当然のように", "もう少しで勝てたのに"], "answer": 4, "explain": "惜しくも = narrowly, regrettably."}, {"q": "部長は<u>しばしば<\/u>出張に行く。", "choices": ["めったに", "今回だけ", "突然", "何度も"], "answer": 4, "explain": "しばしば = often."}]}, {"id": "m6", "section": "lang", "label": "問題6", "name": "Usage", "instruction": "次の言葉の使い方として最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "<b>あいにく<\/b>", "choices": ["あいにく、その商品は売り切れです。", "あいにく晴れたので、運動会が楽しかった。", "あいにく宿題が終わったので、遊びに行った。", "彼にあいにく会えて、うれしかった。"], "answer": 1, "explain": "あいにく = unfortunately, as ill luck would have it. It always marks bad timing."}, {"q": "<b>めったに<\/b>", "choices": ["彼はめったに親切な人だ。", "この辺りでは、雪はめったに降らない。", "私は毎日めったに運動している。", "めったに高い料理を食べて満足した。"], "answer": 2, "explain": "めったに〜ない = rarely. It needs a negative."}, {"q": "<b>うっかり<\/b>", "choices": ["彼はうっかり計画を立てて成功した。", "うっかり先生に挨拶をした。", "うっかり財布を家に忘れてきてしまった。", "うっかり練習したので、上手になった。"], "answer": 3, "explain": "うっかり = carelessly, absent-mindedly (leading to a mistake)."}, {"q": "<b>思いがけない<\/b>", "choices": ["計画どおりで、思いがけない結果になった。", "思いがけない人から手紙が届いた。", "毎日思いがけない時間に起きている。", "思いがけない約束を守った。"], "answer": 2, "explain": "思いがけない = unexpected."}, {"q": "<b>負担<\/b>", "choices": ["友達の負担と一緒に出かけた。", "駅の負担でバスを待った。", "医療費の負担が大きくて、生活が苦しい。", "新しい靴の負担を店で買った。"], "answer": 3, "explain": "負担 = burden, cost to bear."}]}, {"id": "m7", "section": "lang", "label": "問題7", "name": "Grammar: sentence", "instruction": "次の文の（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼は一人暮らしが長い（　　）、料理が上手だ。", "choices": ["くせに", "あげく", "だけあって", "ばかりに"], "answer": 3, "explain": "〜だけあって = as you'd expect given (a positive reason)."}, {"q": "この問題は、専門家（　　）解決できないほど複雑だ。", "choices": ["ばかり", "など", "こそ", "さえ"], "answer": 4, "explain": "〜さえ = even."}, {"q": "彼は何も知らない（　　）、平然としていた。", "choices": ["にもかかわらず", "ばかりに", "かのように", "ことに"], "answer": 3, "explain": "〜かのように = as if."}, {"q": "駅に着く（　　）、雨が降り出した。", "choices": ["うちに", "くせに", "なり", "ついでに"], "answer": 3, "explain": "V-dict + なり = the moment that."}, {"q": "悪いとは知り（　　）、うそをついてしまった。", "choices": ["ほど", "ばかり", "だけ", "つつ"], "answer": 4, "explain": "V-stem + つつ = although/while (knowing)."}, {"q": "引っ越し（　　）、新しい趣味を始めた。", "choices": ["にわたって", "をめぐって", "をきっかけに", "にかけて"], "answer": 3, "explain": "〜をきっかけに = triggered by, using as an opportunity."}, {"q": "その案には、賛成（　　）。", "choices": ["しっぱなしだ", "しかねる", "しがちだ", "しかねない"], "answer": 2, "explain": "V-stem + かねる = unable to bring oneself to."}, {"q": "残念な（　　）、試合は中止になった。", "choices": ["わけに", "ことに", "ものに", "ところに"], "answer": 2, "explain": "Adj + ことに = what is (adj) is that. 残念なことに = regrettably."}, {"q": "連絡先がわからないので、連絡し（　　）。", "choices": ["がちだ", "ようがない", "かねない", "すぎる"], "answer": 2, "explain": "V-stem + ようがない = no way to."}, {"q": "彼は料理が上手な（　　）、掃除は苦手だ。", "choices": ["以上", "うえに", "反面", "末に"], "answer": 3, "explain": "〜反面 = on the other hand."}, {"q": "電気がついているから、彼は家にいる（　　）。", "choices": ["わけがない", "に違いない", "ことはない", "ものではない"], "answer": 2, "explain": "〜に違いない = must be."}, {"q": "試験が近づく（　　）、緊張が高まってきた。", "choices": ["にとって", "につれて", "において", "にかけて"], "answer": 2, "explain": "〜につれて = as (change happens)."}]}, {"id": "m8", "section": "lang", "label": "問題8", "name": "Grammar: ordering (★)", "instruction": "次の文の　★　に入る最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "友人の家に＿＿＿ ＿＿＿ ★ ＿＿＿、留守だった。", "choices": ["せずに", "ところ", "行った", "約束も"], "answer": 3, "explain": "Order: 友人の家に<b>約束も せずに 行った ところ<\/b>、留守だった。"}, {"q": "彼女は＿＿＿ ＿＿＿ ★ ＿＿＿話し方をする。", "choices": ["先生で", "まるで", "あるかの", "ような"], "answer": 3, "explain": "Order: 彼女は<b>まるで 先生で あるかの ような<\/b>話し方をする。"}, {"q": "試験に＿＿＿ ★ ＿＿＿ ＿＿＿、毎日がんばっている。", "choices": ["合格する", "惜しんで", "寝る間も", "ために"], "answer": 4, "explain": "Order: 試験に<b>合格する ために 寝る間も 惜しんで<\/b>、毎日がんばっている。"}, {"q": "この料理は＿＿＿ ＿＿＿ ★ ＿＿＿作れる。", "choices": ["使わず", "道具を", "特別な", "に"], "answer": 1, "explain": "Order: この料理は<b>特別な 道具を 使わず に<\/b>作れる。"}, {"q": "この本は＿＿＿ ＿＿＿ ★ ＿＿＿、大人にも人気がある。", "choices": ["子ども向けに", "にもかかわらず", "いる", "書かれて"], "answer": 3, "explain": "Order: この本は<b>子ども向けに 書かれて いる にもかかわらず<\/b>、大人にも人気がある。"}]}, {"id": "m9", "section": "lang", "label": "問題9", "name": "Grammar: passage", "instruction": "次の文章を読んで、文章全体の内容を考えて、<span class='gap'>48<\/span>から<span class='gap'>52<\/span>の中に入る最もよいものを、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p>睡眠不足は、体の調子を悪くする[[1]]、集中力や記憶力も低下させる。ある研究によると、毎日六時間未満しか眠らない人は、七時間以上眠る人に比べて、病気にかかる確率が高いという。<\/p><p>[[2]]、忙しい現代人にとって、十分な睡眠時間を確保するのは簡単ではない。仕事が終わらない[[3]]、つい夜遅くまで起きてしまう人が多いのだ。<\/p><p>[[4]]、短い時間でも質の高い睡眠をとる工夫が必要になる。たとえば、寝る前にスマートフォンを見る[[5]]、部屋を暗くして静かに過ごすだけでも、眠りの質は大きく変わるという。<\/p>", "questions": [{"q": "", "choices": ["ばかりに", "くせに", "だけあって", "だけでなく"], "answer": 4, "explain": "〜だけでなく = not only (A) but also (B)."}, {"q": "", "choices": ["しかし", "なぜなら", "したがって", "たとえば"], "answer": 1, "explain": "Sleep is important; however, getting enough is hard. しかし marks the contrast."}, {"q": "", "choices": ["ものの", "ために", "うちに", "くせに"], "answer": 2, "explain": "ために = because. A cause-and-effect link."}, {"q": "", "choices": ["そこで", "ところが", "しかも", "なぜなら"], "answer": 1, "explain": "そこで = so, therefore (action taken in response)."}, {"q": "", "choices": ["あまり", "せいで", "ついでに", "かわりに"], "answer": 4, "explain": "〜かわりに = instead of."}]}]}, {"id": "m10", "section": "read", "label": "問題10", "name": "Short passages", "instruction": "次の(1)から(5)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>(1)<\/b><\/p><p>【社内メール】<\/p><p>来週の金曜日は、ビルの点検のため、午後2時から4時まで停電します。パソコンは、午後1時50分までに必ず電源を切ってください。点検が終わり次第、メールでお知らせします。<\/p>", "questions": [{"q": "社員は何をしなければならないか。", "choices": ["午後4時までに、仕事を終える。", "停電したあとで、パソコンを切る。", "午後1時50分までに、パソコンの電源を切る。", "点検のあとで、メールを送る。"], "answer": 3, "explain": "The instruction is to shut down PCs by 13:50."}]}, {"passage": "<p><b>(2)<\/b><\/p><p>友人にすすめられて、家庭菜園を始めた。最初はトマトがうまく育たず、がっかりした。しかし、土を変えたり水の量を調節したりして工夫を重ねるうちに、少しずつ収穫できるようになった。自分で育てた野菜の味は格別だ。今では、うまくいかないときこそ、考えるのが楽しいと感じている。<\/p>", "questions": [{"q": "筆者は今、どう感じているか。", "choices": ["トマトが育たず、やめたいと思っている。", "友人のおかげで何も苦労しなかったと思っている。", "工夫することを楽しんでいる。", "買った野菜のほうがおいしいと思っている。"], "answer": 3, "explain": "The last sentence says thinking things through when it doesn't go well is enjoyable."}]}, {"passage": "<p><b>(3)<\/b><\/p><p>【アルバイト募集】<\/p><p>カフェのホール係。週2日以上、1日4時間から勤務可能。学生歓迎。経験は問いません。制服は貸与します。まずは電話でご連絡ください。<\/p>", "questions": [{"q": "この募集について、正しいものはどれか。", "choices": ["週1日しか働けなくても応募できる。", "制服は自分で用意する。", "メールで申し込む。", "経験がなくても応募できる。"], "answer": 4, "explain": "「経験は問いません」 = no experience needed."}]}, {"passage": "<p><b>(4)<\/b><\/p><p>「ながらスマホ」は、歩きながらスマートフォンを使う行為で、事故の原因になっている。駅のホームでは転落の危険があり、自転車に乗っているときは、前を見ていないために他人にけがをさせることもある。便利な道具だからこそ、使う場所とタイミングを考える必要がある。<\/p>", "questions": [{"q": "筆者の考えに合うものはどれか。", "choices": ["駅のホームでは自転車に乗ってはいけない。", "便利な道具だが、使う場所や時を考えるべきだ。", "スマートフォンは使わないほうがよい。", "事故はスマートフォンの故障が原因だ。"], "answer": 2, "explain": "The last sentence: because it's handy, we must think about where and when."}]}, {"passage": "<p><b>(5)<\/b><\/p><p>【営業時間変更のお知らせ】<\/p><p>当店は、10月から営業時間を変更します。これまで午前10時から午後9時まででしたが、10月からは午前11時から午後8時までになります。ただし、土曜日と日曜日は、これまでどおりです。<\/p>", "questions": [{"q": "10月からの平日の営業時間は、どれか。", "choices": ["午前10時から午後8時まで", "午前11時から午後9時まで", "午前11時から午後8時まで", "午前10時から午後9時まで"], "answer": 3, "explain": "Weekdays change to 11:00-20:00. Weekends stay at 10:00-21:00."}]}]}, {"id": "m11", "section": "read", "label": "問題11", "name": "Mid-length passages", "instruction": "次の(1)から(3)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>(1)<\/b><\/p><p>近年、都市部で屋上緑化が注目されている。ビルの屋上に植物を植えることで、夏の室温を下げ、エアコンの使用を減らすことができるからだ。また、雨水を吸収するため、大雨のときの水害を防ぐ効果もある。さらに、緑のある空間は人々の気持ちを落ち着かせるともいわれる。<\/p><p>しかし、課題もある。屋上に土や植物を置くと建物に重さがかかるため、工事の前に強度を調べなければならない。維持費もかかり、管理する人手が必要だ。そのため、新しい建物では取り入れやすいが、古い建物では難しい場合が多い。<\/p><p>それでも、環境への関心が高まる中で、屋上緑化を支援する制度を設ける自治体も増えている。今後は、費用の負担を減らす工夫が、普及の鍵になるだろう。<\/p>", "questions": [{"q": "屋上緑化の効果として、文章に挙げられていないものはどれか。", "choices": ["建物が長持ちすること", "人々の気持ちが落ち着くこと", "夏の室温が下がること", "大雨のときの水害を防げること"], "answer": 1, "explain": "Not mentioned: making the building last longer."}, {"q": "古い建物で屋上緑化が難しいことが多いのは、なぜか。", "choices": ["屋上の重さへの強度を調べる必要があり、費用もかかるから", "植える植物が手に入らないから", "屋上が狭いから", "法律で禁止されているから"], "answer": 1, "explain": "Paragraph 2: strength must be checked beforehand, and upkeep costs money."}, {"q": "筆者は、屋上緑化が広がる鍵は何だと考えているか。", "choices": ["植物の種類を増やすこと", "費用の負担を減らす工夫", "自治体の制度をなくすこと", "新しい建物を増やすこと"], "answer": 2, "explain": "The last sentence names cost-reducing measures."}]}, {"passage": "<p><b>(2)<\/b><\/p><p>私は大学時代、アルバイトで接客を経験した。最初は、お客様に失礼がないかと緊張して、言葉がうまく出てこなかった。そんな私に、先輩はこう言った。「完璧な敬語より、相手を思う気持ちのほうが大切だよ」。それから、私は言葉を飾ることより、お客様の様子をよく見ることを心がけた。すると、困っている人にすぐ気づけるようになり、「ありがとう」と言われることが増えた。<\/p><p>就職した今も、先輩の言葉は私の支えになっている。仕事では、正しい言葉づかいが求められる場面も多いが、その根本にあるのは、相手への気遣いだと思う。<\/p>", "questions": [{"q": "先輩は筆者に、どんなことを言ったか。", "choices": ["完璧な敬語より、相手を思う気持ちのほうが大切だ。", "お客様の顔は見ないほうがいい。", "もっと大きな声で話しなさい。", "敬語は練習すれば必ず上達する。"], "answer": 1, "explain": "The senior said feelings for the other person matter more than perfect keigo."}, {"q": "筆者が心がけるようになったことは何か。", "choices": ["敬語を完璧に覚えること", "お客様の様子をよく見ること", "話す量を増やすこと", "先輩の言葉を毎日書くこと"], "answer": 2, "explain": "She focused on watching customers rather than decorating words."}, {"q": "筆者の考えに合うものはどれか。", "choices": ["敬語より親しい言葉を使うべきだ。", "仕事では気持ちより言葉が大切だ。", "接客は経験しなくても上手にできる。", "正しい言葉づかいの根本には、相手への気遣いがある。"], "answer": 4, "explain": "The final line: care for the other person is the foundation."}]}, {"passage": "<p><b>(3)<\/b><\/p><p>地震や台風などの災害に備えて、非常用の持ち出し袋を用意している家庭は多い。しかし、中身を定期的に確認している人は少ないという調査結果がある。食料や飲み物には期限があり、期限が切れたものは、いざというときに使えない。<\/p><p>防災の専門家は、「ローリングストック」という方法をすすめている。これは、普段の食料を少し多めに買っておき、古いものから食べて、食べた分を買い足していく方法だ。この方法なら、期限切れを防げるうえ、特別な管理もいらない。<\/p><p>災害はいつ起こるかわからない。だからこそ、無理なく続けられる備えが重要だ。<\/p>", "questions": [{"q": "調査でわかったことは何か。", "choices": ["持ち出し袋の中身を確認している人は少ない。", "食料の期限は長いものが多い。", "持ち出し袋を用意している家庭は少ない。", "防災に関心がない人が多い。"], "answer": 1, "explain": "Paragraph 1: few people check contents regularly."}, {"q": "「ローリングストック」とは、どんな方法か。", "choices": ["普段の食料を多めに買い、古いものから食べて買い足す方法", "食料を専用の倉庫に保管する方法", "非常用の食料だけを買っておく方法", "期限が切れたものを捨てて買い直す方法"], "answer": 1, "explain": "Buy extra everyday food, eat the oldest first, and replenish."}, {"q": "筆者の考えに合うものはどれか。", "choices": ["無理なく続けられる備えが大切だ。", "非常用の食料は多いほどよい。", "専門家の指示だけを信じるべきだ。", "災害は予想できるので、心配はいらない。"], "answer": 1, "explain": "The last line: preparation you can sustain."}]}]}, {"id": "m12", "section": "read", "label": "問題12", "name": "Integrated comprehension", "instruction": "次のAとBの文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>A<\/b><\/p><p>子どもにスマートフォンを持たせることには、安全面で大きな利点がある。登下校中に何かあったとき、すぐに親と連絡が取れるからだ。位置情報で居場所を確認できるのも安心である。使い方のルールを家庭で決めれば、問題は減らせると思う。<\/p><p><b>B<\/b><\/p><p>小学生にスマートフォンを持たせるのは、まだ早いと思う。ゲームや動画に夢中になって、勉強や睡眠の時間が減るおそれがあるからだ。連絡手段が必要なら、通話だけできる簡単な携帯電話で十分である。<\/p>", "questions": [{"q": "AとBに共通している考えはどれか。", "choices": ["位置情報は役に立たない。", "子どもは、スマートフォンを自由に使うべきだ。", "子どもには、親と連絡を取る手段が必要になることがある。", "子どもに携帯電話は必要ない。"], "answer": 3, "explain": "A needs contact for safety; B says 'if a contact method is needed'."}, {"q": "子どもに持たせる機器について、AとBはどのように述べているか。", "choices": ["AもBも、子どもにスマートフォンを持たせるべきでないと述べている。", "AもBも、どんな機器も必要ないと述べている。", "Aは家庭でルールを決めればスマートフォンを持たせてよいと述べ、Bは通話だけできる携帯電話で十分だと述べている。", "Aは通話だけの携帯電話で十分だと述べ、Bはルールを決めればよいと述べている。"], "answer": 3, "explain": "A: smartphone with household rules. B: a simple phone is enough."}]}]}, {"id": "m13", "section": "read", "label": "問題13", "name": "Long passage (argument)", "instruction": "次の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p>最近の若い人は、返事が遅いことにいらだつ傾向があるという。メッセージを送ってすぐに返事が来ないと不安になり、何度も画面を確認してしまうのだ。技術の発達により、私たちは「待つ」時間をほとんど経験しなくなった。<\/p><p>しかし、待つことには意味がある。手紙を書いて返事を待つ間、人は相手のことを想像し、自分の言葉を振り返った。そのゆっくりした時間が、人間関係を深めていたのではないか。また、答えが出ない問題について何日も考え続ける「待つ力」は、新しい発想を生む土台にもなる。<\/p><p>もちろん、速さが役に立つ場面は多い。緊急の連絡はすぐに届くべきだ。ただ、すべてを速くすればよいわけではない。あえて待つ時間を持つことで、見えてくるものがあると、私は思う。<\/p>", "questions": [{"q": "最近の若い人の傾向として、文章に書かれているものはどれか。", "choices": ["緊急の連絡をしない。", "返事がすぐに来ないと、不安になる。", "手紙を書くのが好きだ。", "メッセージを送るのを避ける。"], "answer": 2, "explain": "Paragraph 1: they get anxious when no reply comes quickly."}, {"q": "昔の手紙のやり取りについて、筆者はどう考えているか。", "choices": ["言葉を選ぶ必要がなく気楽だったと考えている。", "返事が遅くて不便だったと考えている。", "緊急のときに役に立たなかったと考えている。", "待つ間に相手を想像し、人間関係が深まっていたと考えている。"], "answer": 4, "explain": "Paragraph 2: waiting let people imagine the other person and deepen relationships."}, {"q": "この文章で、筆者が最も言いたいことは何か。", "choices": ["速さだけでなく、あえて待つことにも価値がある。", "技術の発達は人間関係を悪くする。", "緊急の連絡も遅くてよい。", "若い人には待つ力がない。"], "answer": 1, "explain": "The last paragraph: deliberately waiting has value too."}]}]}, {"id": "m14", "section": "read", "label": "問題14", "name": "Information retrieval", "instruction": "下のページは、ある区民センターの講座の案内である。これを読んで、下の質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>市立体育館　利用案内<\/b><\/p><table class='info'><thead><tr><th>施設<\/th><th>利用時間<\/th><th>最初の2時間<\/th><th>その後1時間ごと<\/th><\/tr><\/thead><tbody><tr><td>A　体育館（全面）<\/td><td>9:00〜21:00<\/td><td>4,000円<\/td><td>2,000円<\/td><\/tr><tr><td>B　体育館（半面）<\/td><td>9:00〜21:00<\/td><td>2,000円<\/td><td>1,000円<\/td><\/tr><tr><td>C　卓球室<\/td><td>9:00〜17:00<\/td><td>600円<\/td><td>300円<\/td><\/tr><tr><td>D　会議室<\/td><td>9:00〜21:00<\/td><td>1,000円<\/td><td>500円<\/td><\/tr><\/tbody><\/table><p>・市内に住んでいる人や、市内の会社に勤めている人は、料金が2割引になります。<\/p><p>・予約は利用日の1か月前から受け付けます。<\/p>", "questions": [{"q": "市民のグループが、卓球室を13時から17時まで利用する。料金はいくらか。", "choices": ["780円", "1,500円", "960円", "1,200円"], "answer": 3, "explain": "600 + 300 × 2 = 1,200 yen, then 20% off = 960 yen."}, {"q": "市外に住み、市外で働いている人たちが、体育館の半面を19時から21時まで利用する。料金はいくらか。", "choices": ["2,000円", "4,000円", "1,600円", "1,000円"], "answer": 1, "explain": "Two hours is the base 2,000 yen. Non-residents get no discount."}]}]}]}, {"id": "n2-week-04", "title": "N2 Mock Test", "subtitle": "Week 4", "minutes": 105, "parts": [{"id": "m1", "section": "lang", "label": "問題1", "name": "Kanji reading", "instruction": "<u>　　　<\/u>の言葉の読み方として最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼は<u>謙虚<\/u>な態度で話した。", "choices": ["けんぎょ", "げんきょ", "けんきょ", "けんこ"], "answer": 3, "explain": "謙虚 (けんきょ) = modest, humble."}, {"q": "窓から海を<u>眺める<\/u>のが好きだ。", "choices": ["さがめる", "あおめる", "はかめる", "ながめる"], "answer": 4, "explain": "眺める (ながめる) = to gaze at, look out over."}, {"q": "会議は<u>円滑<\/u>に進んだ。", "choices": ["えんかち", "えんがつ", "えんかつ", "えんこつ"], "answer": 3, "explain": "円滑 (えんかつ) = smooth."}, {"q": "これを<u>契機<\/u>に、生活を見直した。", "choices": ["かいき", "けっき", "けいぎ", "けいき"], "answer": 4, "explain": "契機 (けいき) = opportunity, turning point."}, {"q": "けがが<u>癒えて<\/u>、ようやく仕事に戻れた。", "choices": ["いやえて", "いえて", "なおえて", "ゆえて"], "answer": 2, "explain": "癒える (いえる) = to heal."}]}, {"id": "m2", "section": "lang", "label": "問題2", "name": "Kanji writing", "instruction": "<u>　　　<\/u>の言葉を漢字で書くとき、最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "<u>かんしゃ<\/u>の気持ちを手紙に書いた。", "choices": ["観謝", "感射", "観射", "感謝"], "answer": 4, "explain": "感謝 = gratitude."}, {"q": "説明を聞いても<u>ぎもん<\/u>が残った。", "choices": ["疑問", "疑門", "擬問", "擬門"], "answer": 1, "explain": "疑問 = doubt, question."}, {"q": "新しい<u>ほうりつ<\/u>ができた。", "choices": ["方律", "法律", "法津", "方津"], "answer": 2, "explain": "法律 = law."}, {"q": "コップに水を<u>そそぐ<\/u>。", "choices": ["往ぐ", "柱ぐ", "住ぐ", "注ぐ"], "answer": 4, "explain": "注ぐ (そそぐ) = to pour."}, {"q": "目標を<u>たっせい<\/u>した。", "choices": ["違盛", "達盛", "違成", "達成"], "answer": 4, "explain": "達成 = achievement."}]}, {"id": "m3", "section": "lang", "label": "問題3", "name": "Word formation", "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼は（　　）想的な生活を送っている。", "choices": ["理", "考", "予", "思"], "answer": 1, "explain": "理想的 = ideal. 的 follows 理想."}, {"q": "あの二つの事件は、（　　）関係だ。", "choices": ["不", "非", "無", "未"], "answer": 3, "explain": "無関係 = unrelated."}, {"q": "来月、入学（　　）が行われる。", "choices": ["化", "式", "的", "性"], "answer": 2, "explain": "入学式 = entrance ceremony."}]}, {"id": "m4", "section": "lang", "label": "問題4", "name": "Contextual vocabulary", "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "台風が（　　）しているため、船は出ない。", "choices": ["接近", "接続", "接触", "接待"], "answer": 1, "explain": "接近する = to approach."}, {"q": "彼の言動は、周りの人に大きな（　　）を与えた。", "choices": ["衝撃", "衝突", "衝立", "衝動"], "answer": 1, "explain": "衝撃を与える = to give a shock."}, {"q": "停電で、部屋が（　　）になった。", "choices": ["真っ暗", "真っ赤", "真っ青", "真っ白"], "answer": 1, "explain": "真っ暗 = pitch dark."}, {"q": "彼の話は（　　）がなくて、聞いていて疲れる。", "choices": ["要因", "要望", "要点", "要求"], "answer": 3, "explain": "要点 = main point."}, {"q": "今年から、新しい制度が（　　）された。", "choices": ["導火", "導線", "導体", "導入"], "answer": 4, "explain": "導入 = introduction (of a system)."}, {"q": "母は（　　）なことでも心配する性格だ。", "choices": ["丁寧", "適切", "些細", "簡潔"], "answer": 3, "explain": "些細 (ささい) = trivial."}, {"q": "参加者が予想より多く、会場は（　　）になった。", "choices": ["満開", "満足", "満員", "満点"], "answer": 3, "explain": "満員 = full house."}]}, {"id": "m5", "section": "lang", "label": "問題5", "name": "Synonyms", "instruction": "<u>　　　<\/u>の言葉に意味が最も近いものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼女は<u>たびたび<\/u>遅刻する。", "choices": ["一度だけ", "急に", "わざと", "何度も"], "answer": 4, "explain": "たびたび = often, repeatedly."}, {"q": "新しい制度を<u>見直す<\/u>。", "choices": ["もう一度検討する", "廃止する", "初めて導入する", "説明する"], "answer": 1, "explain": "見直す = to reexamine."}, {"q": "彼は<u>ためらわず<\/u>手をあげた。", "choices": ["ゆっくりと", "迷わずに", "恥ずかしそうに", "静かに"], "answer": 2, "explain": "ためらう = to hesitate."}, {"q": "会議が<u>長引いた<\/u>。", "choices": ["予定より長くなった", "中止になった", "早く始まった", "予定より短くなった"], "answer": 1, "explain": "長引く = to drag on."}, {"q": "私は彼の意見に<u>異論<\/u>はない。", "choices": ["期待", "違う意見", "質問", "同じ意見"], "answer": 2, "explain": "異論 = a differing opinion, objection."}]}, {"id": "m6", "section": "lang", "label": "問題6", "name": "Usage", "instruction": "次の言葉の使い方として最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "<b>おおまか<\/b>", "choices": ["料理をおおまかに丁寧に作った。", "予算は、おおまかに決めてあるだけだ。", "夜、おおまかに起きて勉強した。", "彼はおおまかな計算で、一円も間違えなかった。"], "answer": 2, "explain": "おおまか = rough, approximate."}, {"q": "<b>くれぐれも<\/b>", "choices": ["くれぐれもこの本は面白かった。", "くれぐれも天気がよかった。", "くれぐれも昨日の夜、雨が降った。", "くれぐれもお体に気をつけてください。"], "answer": 4, "explain": "くれぐれも = please be sure to. It goes with requests and advice."}, {"q": "<b>やむを得ず<\/b>", "choices": ["やむを得ずおいしい料理を食べた。", "病気のため、やむを得ず欠席した。", "やむを得ず楽しい旅行に行った。", "やむを得ず計画どおりに進んだ。"], "answer": 2, "explain": "やむを得ず = unavoidably, having no choice."}, {"q": "<b>じっと<\/b>", "choices": ["彼は窓の外をじっと見ていた。", "雨がじっと降っていた。", "彼女はじっと大声で笑った。", "時間がじっと過ぎた。"], "answer": 1, "explain": "じっと = fixedly, without moving."}, {"q": "<b>差し支える<\/b>", "choices": ["荷物が重くて、手に差し支えた。", "先生に差し支えて質問した。", "夜更かしをすると、仕事に差し支える。", "彼の計画に差し支えて賛成した。"], "answer": 3, "explain": "差し支える = to interfere with, cause trouble for."}]}, {"id": "m7", "section": "lang", "label": "問題7", "name": "Grammar: sentence", "instruction": "次の文の（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼は約束を忘れる（　　）、謝りもしない。", "choices": ["ばかりか", "ものの", "だけあって", "ことから"], "answer": 1, "explain": "〜ばかりか = not only... but also (negative)."}, {"q": "彼の態度は、冷静（　　）冷たいと言ったほうがいい。", "choices": ["ことから", "ばかりに", "というより", "にもかかわらず"], "answer": 3, "explain": "A というより B = B rather than A."}, {"q": "忙しい（　　）、たまには運動したい。", "choices": ["おかげで", "ついでに", "とはいえ", "あまり"], "answer": 3, "explain": "〜とはいえ = that said, even so."}, {"q": "この仕事を引き受ける（　　）、責任を持たなければならない。", "choices": ["ところで", "くせに", "ばかりに", "からには"], "answer": 4, "explain": "〜からには = now that, since."}, {"q": "彼女は何を言われても、動じる（　　）。", "choices": ["ことはない", "ことになる", "ものがある", "ようになる"], "answer": 1, "explain": "〜ことはない = never (does), no need to."}, {"q": "この写真を見る（　　）、あの日のことを思い出す。", "choices": ["ついでに", "たびに", "うちに", "あまり"], "answer": 2, "explain": "〜たびに = every time."}, {"q": "国民（　　）、年金制度は大切な問題だ。", "choices": ["をめぐって", "に対して", "について", "にとって"], "answer": 4, "explain": "〜にとって = for (from the standpoint of)."}, {"q": "彼は頭がいい（　　）、努力家でもある。", "choices": ["くせに", "うえに", "あげく", "ものの"], "answer": 2, "explain": "〜うえに = on top of that."}, {"q": "町は大きく変わり（　　）。", "choices": ["つつある", "ようがない", "かねない", "きれない"], "answer": 1, "explain": "V-stem + つつある = is in the process of."}, {"q": "食べ（　　）ほどの料理が出た。", "choices": ["そうだ", "がたい", "きれない", "かねない"], "answer": 3, "explain": "V-stem + きれない = can't finish. 食べきれない = can't eat it all."}, {"q": "彼は休む（　　）、働き続けた。", "choices": ["わけなく", "はずなく", "ものなく", "ことなく"], "answer": 4, "explain": "〜ことなく = without (doing)."}, {"q": "こんな問題は、子ども（　　）解けるほど簡単だ。", "choices": ["だけ", "でも", "ばかり", "しか"], "answer": 2, "explain": "Noun + でも = even (an extreme example)."}]}, {"id": "m8", "section": "lang", "label": "問題8", "name": "Grammar: ordering (★)", "instruction": "次の文の　★　に入る最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼は＿＿＿ ＿＿＿ ★ ＿＿＿、毎日練習している。", "choices": ["ために", "プロの", "なる", "選手に"], "answer": 3, "explain": "Order: 彼は<b>プロの 選手に なる ために<\/b>、毎日練習している。"}, {"q": "＿＿＿ ★ ＿＿＿ ＿＿＿、駅まで走った。", "choices": ["遅れ", "そうだったので", "電車に", "乗り"], "answer": 4, "explain": "Order: <b>電車に 乗り 遅れ そうだったので<\/b>、駅まで走った。 乗り遅れる = to miss (a train)."}, {"q": "＿＿＿ ＿＿＿ ★ ＿＿＿、世の中は甘くない。", "choices": ["いる", "考えて", "ほど", "彼が"], "answer": 1, "explain": "Order: <b>彼が 考えて いる ほど<\/b>、世の中は甘くない。"}, {"q": "私は健康のために＿＿＿ ＿＿＿ ★ ＿＿＿ことにした。", "choices": ["ジムに", "三回", "通う", "週に"], "answer": 1, "explain": "Order: 私は健康のために<b>週に 三回 ジムに 通う<\/b>ことにした。"}, {"q": "彼女は＿＿＿ ＿＿＿ ★ ＿＿＿顔で話し始めた。", "choices": ["不安が", "うその", "さっきまでの", "ような"], "answer": 2, "explain": "Order: 彼女は<b>さっきまでの 不安が うその ような<\/b>顔で話し始めた。"}]}, {"id": "m9", "section": "lang", "label": "問題9", "name": "Grammar: passage", "instruction": "次の文章を読んで、文章全体の内容を考えて、<span class='gap'>48<\/span>から<span class='gap'>52<\/span>の中に入る最もよいものを、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p>日本各地には、さまざまな祭りがある。祭りは、もともと神様に感謝するための行事[[1]]。しかし、現在では、地域の人々が交流する場としての役割も大きくなっている。<\/p><p>[[2]]、都会に住む若者が、地方の祭りに参加するために、わざわざ出かけることもある。祭りを運営する側にとっては、参加者の減少が深刻な問題[[3]]。そのため、観光客が参加できる体験型の祭りを増やす地域も出てきた。<\/p><p>祭りが長く続いていくためには、伝統を守る[[4]]、新しい人々を受け入れる柔軟さも必要だろう。[[5]]、祭りは地域の未来を支える存在になるのではないだろうか。<\/p>", "questions": [{"q": "", "choices": ["かねない", "になる", "ようだ", "だった"], "answer": 4, "explain": "もともと...行事だった = originally was a ritual."}, {"q": "", "choices": ["むしろ", "なぜなら", "たとえば", "ところが"], "answer": 3, "explain": "Gives an example of festivals as places of exchange."}, {"q": "", "choices": ["になっている", "にしている", "にさせている", "にならない"], "answer": 1, "explain": "問題になっている = has become a problem."}, {"q": "", "choices": ["くせに", "あげく", "ばかりに", "だけでなく"], "answer": 4, "explain": "〜だけでなく = not only (preserving) but also (accepting)."}, {"q": "", "choices": ["なぜなら", "そうすれば", "ところが", "しかし"], "answer": 2, "explain": "そうすれば = if so, then. Describes the result of the previous suggestion."}]}]}, {"id": "m10", "section": "read", "label": "問題10", "name": "Short passages", "instruction": "次の(1)から(5)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>(1)<\/b><\/p><p>【移転のお知らせ】<\/p><p>このたび、当店は3月15日に、駅の北口から南口の新しいビルに移転します。電話番号は変わりません。移転のため、3月13日と14日は休業いたします。<\/p>", "questions": [{"q": "この文章の内容と合っているものはどれか。", "choices": ["3月15日は休みになる。", "電話番号が変わる。", "駅の南口から北口に移る。", "3月13日と14日は、店が休みになる。"], "answer": 4, "explain": "The shop closes on the 13th and 14th for the move."}]}, {"passage": "<p><b>(2)<\/b><\/p><p>私は朝食をとらない日が多かった。時間がないし、食欲もなかったからだ。しかし、友人に「朝食をとると午前中に集中できる」と言われ、試しに毎朝バナナを一本食べてみた。すると、本当に午前中の仕事が楽になった。今では朝食は欠かせない。<\/p>", "questions": [{"q": "筆者は今、朝食についてどう考えているか。", "choices": ["朝食をとると、午前中の仕事が楽になると感じている。", "バナナ以外は食べないと決めている。", "食欲がないので、朝食は不要だと思っている。", "友人に朝食を作ってもらっている。"], "answer": 1, "explain": "He found mornings easier with breakfast and now never skips it."}]}, {"passage": "<p><b>(3)<\/b><\/p><p>先日はお忙しい中、工場を見学させていただき、ありがとうございました。おかげさまで、製品がどのように作られているのかがよくわかりました。つきましては、見学の際にいただいた資料の中で、不明な点がございましたので、お電話でお尋ねしてもよろしいでしょうか。<\/p>", "questions": [{"q": "この人が、メールで伝えたいことは何か。", "choices": ["製品の作り方を説明したいということ", "資料を送ってほしいということ", "資料についての質問を、電話でしてもよいかということ", "工場の見学を申し込みたいということ"], "answer": 3, "explain": "「お電話でお尋ねしてもよろしいでしょうか」 is the request."}]}, {"passage": "<p><b>(4)<\/b><\/p><p>「断る力」も、大切な能力の一つだ。人に頼まれると、つい引き受けてしまう人は多い。しかし、無理をして引き受けると、仕事の質が下がり、結局は相手にも迷惑をかけることになる。断るときは、理由を簡潔に伝え、代わりにできることを提案すると、相手も納得しやすい。<\/p>", "questions": [{"q": "筆者の考えに合うものはどれか。", "choices": ["どんな依頼も、まず引き受けるべきだ。", "断るときは、理由を言わないほうがよい。", "無理な依頼は、理由を伝えて断ったほうがよい。", "断ると、必ず相手に迷惑がかかる。"], "answer": 3, "explain": "Taking on too much hurts quality; decline with a brief reason and an alternative."}]}, {"passage": "<p><b>(5)<\/b><\/p><p>【図書館からのお知らせ】<\/p><p>10月1日から、貸出期間を2週間から3週間に延長します。借りられる本の数は、これまでどおり1人5冊までです。延長の手続きは、インターネットでもできます。<\/p>", "questions": [{"q": "10月1日から何が変わるか。", "choices": ["貸出期間が短くなる。", "本を借りられる期間が長くなる。", "手続きは窓口でしかできなくなる。", "借りられる本の数が増える。"], "answer": 2, "explain": "The loan period goes from two weeks to three."}]}]}, {"id": "m11", "section": "read", "label": "問題11", "name": "Mid-length passages", "instruction": "次の(1)から(3)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>(1)<\/b><\/p><p>日本では、コンビニエンスストアの数が、全国で五万店を超えている。商品を買うだけでなく、公共料金の支払いや荷物の受け取り、チケットの購入など、さまざまなサービスが利用できる。二十四時間営業という便利さから、生活に欠かせない存在になっている。<\/p><p>一方で、問題も指摘されている。深夜に働く店員の負担が大きく、人手不足が深刻だ。また、売れ残った食品を大量に捨てることも、環境の面から批判されている。<\/p><p>最近では、一部の店が深夜営業をやめたり、売れ残りそうな商品を値引きして売ったりする取り組みを始めた。便利さを保ちながら、人や環境への負担を減らす工夫が求められている。<\/p>", "questions": [{"q": "コンビニで利用できるサービスとして、文章に挙げられていないものはどれか。", "choices": ["チケットの購入", "荷物の受け取り", "銀行の口座を開くこと", "公共料金の支払い"], "answer": 3, "explain": "Bank accounts aren't mentioned."}, {"q": "問題点として指摘されていることは何か。", "choices": ["商品の値段が高いこと", "深夜に働く店員の負担が大きいこと", "店の数が少ないこと", "荷物の受け取りに時間がかかること"], "answer": 2, "explain": "Paragraph 2: heavy burden on night staff and food waste."}, {"q": "最近の取り組みとして、文章に書かれているものはどれか。", "choices": ["店員を増やすために値上げした。", "売れ残りそうな商品を、値引きして売る。", "食品の販売をやめた。", "すべての店が二十四時間営業をやめた。"], "answer": 2, "explain": "Some stores discount items likely to go unsold."}]}, {"passage": "<p><b>(2)<\/b><\/p><p>先日、小学生の娘に「どうして勉強しなければならないの？」と聞かれ、答えに困った。「将来のため」と答えたが、娘は納得しなかった。<\/p><p>そこで私は、自分の経験を話すことにした。若いころ、外国語を勉強していたおかげで、旅先で出会った人たちと話せて、とても楽しかったこと。勉強は、世界を広げる道具になることを伝えた。すると、娘は少し興味を持ったようで、「じゃあ、英語を勉強してみる」と言った。<\/p><p>子どもに必要なのは、「やりなさい」という命令より、勉強の楽しさが伝わる経験なのかもしれない。<\/p>", "questions": [{"q": "「将来のため」という筆者の答えに、娘はどうしたか。", "choices": ["泣き出した。", "納得しなかった。", "勉強をやめた。", "英語を勉強すると言った。"], "answer": 2, "explain": "She wasn't convinced."}, {"q": "筆者が娘に話したことは何か。", "choices": ["外国語を勉強したおかげで、旅先で人と話せて楽しかったという経験", "将来の仕事の大変さ", "娘の友達の話", "自分が勉強を嫌いだったこと"], "answer": 1, "explain": "He told her about enjoying conversations while traveling thanks to language study."}, {"q": "筆者の考えに合うものはどれか。", "choices": ["子どもには、「やりなさい」と言うべきだ。", "命令より、勉強の楽しさが伝わる経験が必要かもしれない。", "勉強は将来のためだけにするものだ。", "外国語だけが重要だ。"], "answer": 2, "explain": "The last paragraph."}]}, {"passage": "<p><b>(3)<\/b><\/p><p>商品の価格は、需要と供給で決まるといわれる。欲しい人が多ければ価格は上がり、少なければ下がる。たとえば、人気のコンサートのチケットは、すぐに売り切れ、高値で転売されることもある。<\/p><p>この転売行為は、社会問題になっている。本当に行きたい人が定価で買えなくなるからだ。そのため、チケットの転売を禁止する法律ができた。しかし、規制だけで問題が解決するわけではない。購入者が高値でも買う限り、転売をする人はいなくならないからだ。<\/p><p>結局のところ、私たち一人一人が、不正な転売を利用しないという意識を持つことが重要である。<\/p>", "questions": [{"q": "商品の価格について、筆者はどう述べているか。", "choices": ["店が自由に決める。", "法律で決まっている。", "いつも一定である。", "欲しい人が多いと上がり、少ないと下がる。"], "answer": 4, "explain": "Paragraph 1: supply and demand."}, {"q": "転売が問題とされる理由は何か。", "choices": ["法律ができたから", "チケットの値段が下がるから", "本当に行きたい人が、定価で買えなくなるから", "コンサートが中止になるから"], "answer": 3, "explain": "Paragraph 2."}, {"q": "筆者の考えに合うものはどれか。", "choices": ["価格は需要で決めるべきではない。", "一人一人が、不正な転売を利用しない意識を持つことが重要だ。", "法律ができたので、問題は解決した。", "転売は自由にさせるべきだ。"], "answer": 2, "explain": "The conclusion: individual awareness."}]}]}, {"id": "m12", "section": "read", "label": "問題12", "name": "Integrated comprehension", "instruction": "次のAとBの文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>A<\/b><\/p><p>私は、地方で暮らすほうがよいと思う。自然が豊かで空気もきれいなうえ、家賃も安く、広い家に住める。人間関係も温かく、子育てにも向いている。<\/p><p><b>B<\/b><\/p><p>私は、都会で暮らす利点は大きいと思う。仕事の選択肢が多く、交通も便利で、病院や店も近くにある。刺激も多く、さまざまな人と出会える。ただし、家賃が高く、騒がしいのは欠点である。<\/p>", "questions": [{"q": "家賃について、AとBはどのように述べているか。", "choices": ["AもBも、家賃には触れていない。", "Aは都会は安いと述べ、Bは地方は高いと述べている。", "Aは地方は安いと述べ、Bは都会は高いと述べている。", "AもBも、都会は安いと述べている。"], "answer": 3, "explain": "A: rent is cheap in rural areas. B: rent is high in cities."}, {"q": "AとBは、何を重視して暮らす場所を考えているか。", "choices": ["Aは自然や子育てのしやすさを、Bは仕事や交通の便利さを重視している。", "Aは仕事の多さを、Bは自然の豊かさを重視している。", "AもBも、家賃の安さだけを重視している。", "AもBも、人間関係の温かさだけを重視している。"], "answer": 1, "explain": "A: nature, childcare. B: jobs, transport, facilities."}]}]}, {"id": "m13", "section": "read", "label": "問題13", "name": "Long passage (argument)", "instruction": "次の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p>「本を読む時間がない」という声をよく聞く。しかし、実際には、スマートフォンを見る時間は一日に何時間もあるのではないか。問題は時間ではなく、優先順位だと私は思う。<\/p><p>読書の利点は、知識が増えることだけではない。本を読むと、他人の気持ちや考え方を想像する力が育つ。小説なら、登場人物の立場になって、物語の世界を体験できる。この経験が、現実の人間関係でも、相手を理解する助けになる。<\/p><p>また、本は自分のペースで読める点もいい。動画のように、一方的に情報が流れてくるのではなく、わからないところは戻って読み直し、立ち止まって考えることができる。<\/p><p>もちろん、無理に本を読む必要はない。ただ、一日十分でも本に触れる習慣を持つことは、心を豊かにする小さな投資になるのではないだろうか。<\/p>", "questions": [{"q": "「本を読む時間がない」という意見について、筆者はどう考えているか。", "choices": ["時間ではなく、優先順位の問題だと考えている。", "本当に時間がなく、仕方がないと考えている。", "忙しい人は読書をしなくてよいと考えている。", "スマートフォンを見る時間を増やすべきだと考えている。"], "answer": 1, "explain": "Paragraph 1: it's a matter of priorities, not time."}, {"q": "小説を読む利点として、筆者が述べているものはどれか。", "choices": ["現実の人間関係を避けられること", "動画より早く情報が得られること", "登場人物の立場になって、他人の気持ちを想像する力が育つこと", "知識だけが増えること"], "answer": 3, "explain": "Paragraph 2."}, {"q": "この文章で、筆者が最も言いたいことは何か。", "choices": ["一日十分でも読書の習慣を持つことは、心を豊かにする。", "本は動画より優れている。", "すべての人が、毎日長時間本を読むべきだ。", "読書は知識を増やすためだけにある。"], "answer": 1, "explain": "The final paragraph."}]}]}, {"id": "m14", "section": "read", "label": "問題14", "name": "Information retrieval", "instruction": "下のページは、ある区民センターの講座の案内である。これを読んで、下の質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>スマートフォン　料金プラン<\/b><\/p><table class='info'><thead><tr><th>プラン<\/th><th>月額<\/th><th>データ量<\/th><th>通話<\/th><\/tr><\/thead><tbody><tr><td>A　ライト<\/td><td>1,500円<\/td><td>3GB<\/td><td>30秒ごとに22円<\/td><\/tr><tr><td>B　スタンダード<\/td><td>3,000円<\/td><td>20GB<\/td><td>5分以内の通話は無料<\/td><\/tr><tr><td>C　たっぷり<\/td><td>4,500円<\/td><td>無制限<\/td><td>かけ放題<\/td><\/tr><tr><td>D　シンプル<\/td><td>800円<\/td><td>1GB<\/td><td>30秒ごとに22円<\/td><\/tr><\/tbody><\/table><p>・家族で2人以上が同じプランに申し込むと、1人につき月額から500円引きになります。<\/p>", "questions": [{"q": "鈴木さんは、月に10GBほどデータを使い、電話はほとんどしない。いちばん安く利用できるプランはどれか。", "choices": ["シンプル", "たっぷり", "ライト", "スタンダード"], "answer": 4, "explain": "Only B (20GB) and C have enough data, and B is cheaper."}, {"q": "田中さん夫婦が、二人ともスタンダードに申し込む。二人の月額の合計はいくらか。", "choices": ["4,000円", "5,500円", "6,000円", "5,000円"], "answer": 4, "explain": "(3,000 − 500) × 2 = 5,000 yen."}]}]}]}, {"id": "n2-week-05", "title": "N2 Mock Test", "subtitle": "Week 5", "minutes": 105, "parts": [{"id": "m1", "section": "lang", "label": "問題1", "name": "Kanji reading", "instruction": "<u>　　　<\/u>の言葉の読み方として最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "落ち込んでいる友人を<u>慰めた<\/u>。", "choices": ["なぐさめた", "なやめた", "いたわった", "なだめた"], "answer": 1, "explain": "慰める (なぐさめる) = to comfort."}, {"q": "彼は<u>勇敢<\/u>に立ち向かった。", "choices": ["ゆかん", "ゆうがん", "ようかん", "ゆうかん"], "answer": 4, "explain": "勇敢 (ゆうかん) = brave."}, {"q": "秋は<u>収穫<\/u>の季節だ。", "choices": ["しゅがく", "しゅかく", "しゅうかく", "しゅうがく"], "answer": 3, "explain": "収穫 (しゅうかく) = harvest."}, {"q": "荷物の<u>重量<\/u>を量る。", "choices": ["じゅうりょく", "じゅりょう", "じゅうりょ", "じゅうりょう"], "answer": 4, "explain": "重量 (じゅうりょう) = weight. 重力 (じゅうりょく) is gravity."}, {"q": "彼は決して夢を<u>諦めない<\/u>。", "choices": ["あきらめない", "あきれない", "ためらわない", "あきたない"], "answer": 1, "explain": "諦める (あきらめる) = to give up."}]}, {"id": "m2", "section": "lang", "label": "問題2", "name": "Kanji writing", "instruction": "<u>　　　<\/u>の言葉を漢字で書くとき、最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "日本の<u>ぶんか<\/u>を学んでいる。", "choices": ["文科", "文化", "分化", "聞化"], "answer": 2, "explain": "文化 = culture."}, {"q": "自分の<u>けってん<\/u>を直したい。", "choices": ["欠点", "欠店", "決点", "決店"], "answer": 1, "explain": "欠点 = flaw, shortcoming."}, {"q": "商品の<u>はいたつ<\/u>を頼んだ。", "choices": ["配連", "排達", "配達", "排連"], "answer": 3, "explain": "配達 = delivery."}, {"q": "仕事に<u>つかれて<\/u>、早く寝た。", "choices": ["疲れて", "被れて", "彼れて", "披れて"], "answer": 1, "explain": "疲れる = to get tired. Watch the look-alike 披・被・彼."}, {"q": "みんなの意見を<u>あつめる<\/u>。", "choices": ["集める", "衆める", "雑める", "隹める"], "answer": 1, "explain": "集める = to collect."}]}, {"id": "m3", "section": "lang", "label": "問題3", "name": "Word formation", "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "この製品は、（　　）完全なまま発売された。", "choices": ["不", "未", "非", "無"], "answer": 1, "explain": "不完全 = incomplete, imperfect."}, {"q": "日本企業の国際（　　）が進んでいる。", "choices": ["式", "性", "的", "化"], "answer": 4, "explain": "国際化 = internationalization."}, {"q": "会議（　　）に、電話が鳴った。", "choices": ["最", "内", "中", "間"], "answer": 3, "explain": "会議中 = during the meeting."}]}, {"id": "m4", "section": "lang", "label": "問題4", "name": "Contextual vocabulary", "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼は約束の時間に（　　）して、友人を待たせた。", "choices": ["遅速", "遅延", "遅配", "遅刻"], "answer": 4, "explain": "遅刻 = being late (for a person)."}, {"q": "新商品が（　　）を呼んで、売り上げが伸びた。", "choices": ["批判", "判決", "判断", "評判"], "answer": 4, "explain": "評判を呼ぶ = to become the talk of the town."}, {"q": "風邪をひいたので、今日は（　　）寝ることにした。", "choices": ["はっきり", "うっかり", "ゆっくり", "ざっと"], "answer": 3, "explain": "ゆっくり = slowly, at leisure."}, {"q": "彼はいつも（　　）な服を着ている。", "choices": ["地盤", "地味", "地元", "地道"], "answer": 2, "explain": "地味 = plain, subdued."}, {"q": "資料を（　　）して、全員に配った。", "choices": ["目印", "印鑑", "印刷", "印象"], "answer": 3, "explain": "印刷 = printing."}, {"q": "彼女は人前で話すのが（　　）で、緊張してしまう。", "choices": ["苦手", "派手", "乱暴", "勝手"], "answer": 1, "explain": "苦手 = not good at, uneasy with."}, {"q": "雨が降りそうだったので、洗濯物を（　　）取り込んだ。", "choices": ["あわてて", "あきらめて", "あやまって", "あらためて"], "answer": 1, "explain": "あわてて = in a hurry, flustered."}]}, {"id": "m5", "section": "lang", "label": "問題5", "name": "Synonyms", "instruction": "<u>　　　<\/u>の言葉に意味が最も近いものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼女は<u>ついに<\/u>夢をかなえた。", "choices": ["最初から", "たまたま", "少しずつ", "とうとう"], "answer": 4, "explain": "ついに = finally, at last."}, {"q": "部屋が<u>散らかって<\/u>いる。", "choices": ["物がきちんと片づいていない", "狭い", "とても暗い", "物が少ない"], "answer": 1, "explain": "散らかる = to be messy, scattered about."}, {"q": "彼は<u>気まずい<\/u>顔をした。", "choices": ["怒った", "うれしそうな", "雰囲気が悪くて居心地が悪そうな", "疲れた"], "answer": 3, "explain": "気まずい = awkward, uncomfortable."}, {"q": "この商品は<u>割安<\/u>だ。", "choices": ["品質のわりに値段が安い", "とても高い", "すぐ壊れる", "人気がない"], "answer": 1, "explain": "割安 = a good deal for the quality."}, {"q": "約束の日を<u>ずらす<\/u>。", "choices": ["忘れる", "取り消す", "別の日に変える", "早めに決める"], "answer": 3, "explain": "ずらす = to shift, move to a different time."}]}, {"id": "m6", "section": "lang", "label": "問題6", "name": "Usage", "instruction": "次の言葉の使い方として最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "<b>ふと<\/b>", "choices": ["ふと計画を立てて旅行した。", "ふと勉強したので合格した。", "ふと空を見上げると、きれいな虹が出ていた。", "毎日ふと運動を続けている。"], "answer": 3, "explain": "ふと = suddenly, by chance (without intention)."}, {"q": "<b>ともかく<\/b>", "choices": ["家族とともかく旅行した。", "ともかく昨日の夜は雨だった。", "ともかくの本を借りた。", "理由はともかく、まず謝るべきだ。"], "answer": 4, "explain": "〜はともかく = setting X aside."}, {"q": "<b>慌ただしい<\/b>", "choices": ["年末は仕事が多くて、慌ただしい毎日だ。", "慌ただしい水を飲んだ。", "慌ただしい海を眺めた。", "慌ただしい音楽を聞いて眠った。"], "answer": 1, "explain": "慌ただしい = hectic, rushed."}, {"q": "<b>備える<\/b>", "choices": ["試験に備えて、友達と遊びに行った。", "駅に備えて電車に乗った。", "地震に備えて、水と食料を用意した。", "風邪を備えて薬を飲んだ。"], "answer": 3, "explain": "〜に備える = to prepare for."}, {"q": "<b>引き止める<\/b>", "choices": ["ボタンを引き止めて、音を出した。", "本を引き止めて、棚に戻した。", "帰ろうとする友人を引き止めて、もう一杯お茶を飲んだ。", "犬を引き止めて、散歩に行った。"], "answer": 3, "explain": "引き止める = to hold someone back, stop someone leaving."}]}, {"id": "m7", "section": "lang", "label": "問題7", "name": "Grammar: sentence", "instruction": "次の文の（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "彼は教師（　　）、生徒の気持ちがわからない。", "choices": ["をはじめ", "のくせに", "だけあって", "につき"], "answer": 2, "explain": "〜のくせに = even though (criticism)."}, {"q": "現金（　　）、カードでもお支払いいただけます。", "choices": ["くせに", "せいで", "ばかりに", "はもちろん"], "answer": 4, "explain": "〜はもちろん = of course, not to mention."}, {"q": "昨日は寒かった（　　）、今日は暖かい。", "choices": ["のに対して", "のにあたって", "のを問わず", "のをきっかけに"], "answer": 1, "explain": "〜のに対して = in contrast to."}, {"q": "読み（　　）の本が、机の上に置いてある。", "choices": ["がち", "ぶり", "かけ", "ぎみ"], "answer": 3, "explain": "V-stem + かけの = half-done."}, {"q": "彼が犯人な（　　）。", "choices": ["ところだ", "わけがない", "わけにはいかない", "ことはない"], "answer": 2, "explain": "〜わけがない = there's no way that."}, {"q": "彼女は自分の失敗を認め（　　）、言い訳ばかりしている。", "choices": ["ようともせず", "がたく", "ざるを得ず", "かねず"], "answer": 1, "explain": "V-volitional + ともせず = not even trying to."}, {"q": "この薬は苦くて飲み（　　）。", "choices": ["にくい", "やすい", "だし", "すぎ"], "answer": 1, "explain": "V-stem + にくい = hard to."}, {"q": "買い物に行く（　　）、郵便局に寄ってきた。", "choices": ["あげく", "くせに", "せいで", "ついでに"], "answer": 4, "explain": "〜ついでに = while at it."}, {"q": "たとえ失敗した（　　）、挑戦する価値はある。", "choices": ["からには", "としても", "とすれば", "ばかりに"], "answer": 2, "explain": "たとえ〜としても = even if."}, {"q": "傘を持っていない日（　　）、雨が降る。", "choices": ["をめぐって", "に限って", "に応じて", "にとって"], "answer": 2, "explain": "〜に限って = of all days, just when."}, {"q": "プレゼントをもらって、うれしくて（　　）。", "choices": ["わけにはいかない", "ようがない", "かねない", "たまらない"], "answer": 4, "explain": "〜てたまらない = can't help feeling, extremely."}, {"q": "もう少しで電車に乗り遅れる（　　）。", "choices": ["ものだった", "わけだった", "ところだった", "はずだった"], "answer": 3, "explain": "〜ところだった = almost happened."}]}, {"id": "m8", "section": "lang", "label": "問題8", "name": "Grammar: ordering (★)", "instruction": "次の文の　★　に入る最もよいものを、1・2・3・4から一つ選びなさい。", "questions": [{"q": "この店は＿＿＿ ＿＿＿ ★ ＿＿＿ので、とても静かだ。", "choices": ["ところにある", "入った", "大通りから", "一本"], "answer": 2, "explain": "Order: この店は<b>大通りから 一本 入った ところにある<\/b>ので、とても静かだ。"}, {"q": "先生に＿＿＿ ★ ＿＿＿ ＿＿＿うれしかった。", "choices": ["ほめて", "いただいた", "何より", "ことが"], "answer": 2, "explain": "Order: 先生に<b>ほめて いただいた ことが 何より<\/b>うれしかった。"}, {"q": "彼は＿＿＿ ＿＿＿ ★ ＿＿＿働いている。", "choices": ["一生懸命", "ほど", "壊す", "体を"], "answer": 2, "explain": "Order: 彼は<b>体を 壊す ほど 一生懸命<\/b>働いている。"}, {"q": "定年を＿＿＿ ＿＿＿ ★ ＿＿＿、仕事を続けるつもりだ。", "choices": ["限り", "迎えて", "元気な", "からも"], "answer": 3, "explain": "Order: 定年を<b>迎えて からも 元気な 限り<\/b>、仕事を続けるつもりだ。"}, {"q": "彼女は＿＿＿ ＿＿＿ ★ ＿＿＿話しかけてきた。", "choices": ["よく", "知っている", "私を", "かのように"], "answer": 2, "explain": "Order: 彼女は<b>私を よく 知っている かのように<\/b>話しかけてきた。"}]}, {"id": "m9", "section": "lang", "label": "問題9", "name": "Grammar: passage", "instruction": "次の文章を読んで、文章全体の内容を考えて、<span class='gap'>48<\/span>から<span class='gap'>52<\/span>の中に入る最もよいものを、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p>最近は、スマートフォンの翻訳アプリを使えば、外国語が話せなくても、旅行先で簡単に会話ができる[[1]]。精度も年々上がっており、日常会話ならほとんど問題がない。<\/p><p>[[2]]、ビジネスや法律の文書など、正確さが重要な場面では、人間の翻訳者が必要とされている。機械は言葉の意味を訳すことはできる[[3]]、その場の雰囲気や相手の気持ちまで理解することは難しいからだ。<\/p><p>[[4]]、翻訳アプリが普及しても、外国語を学ぶ意味がなくなる[[5]]。言葉を学ぶことは、その国の文化や考え方を知ることでもあるからだ。<\/p>", "questions": [{"q": "", "choices": ["ようになった", "ことはない", "ばかりだ", "ことにした"], "answer": 1, "explain": "会話ができるようになった = has become able to converse."}, {"q": "", "choices": ["たとえば", "そのうえ", "したがって", "しかし"], "answer": 4, "explain": "Casual conversation is fine; but accuracy matters elsewhere."}, {"q": "", "choices": ["せいで", "ものの", "ために", "おかげで"], "answer": 2, "explain": "〜ものの = although."}, {"q": "", "choices": ["むしろ", "したがって", "ところが", "なぜなら"], "answer": 2, "explain": "Therefore: machines can't read context, so learning languages still matters."}, {"q": "", "choices": ["はずだった", "わけではない", "ようにしている", "ことにする"], "answer": 2, "explain": "〜わけではない = it doesn't mean that."}]}]}, {"id": "m10", "section": "read", "label": "問題10", "name": "Short passages", "instruction": "次の(1)から(5)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>(1)<\/b><\/p><p>【駅のお知らせ】<\/p><p>ご利用ありがとうございます。この電車は、事故のため、現在運転を見合わせております。運転再開の時間は未定です。お急ぎのお客様は、バスなどをご利用ください。<\/p>", "questions": [{"q": "この放送の内容と合っているものはどれか。", "choices": ["電車は30分後に動き出す。", "電車は混雑している。", "バスは運休している。", "電車がいつ動くかは、まだわからない。"], "answer": 4, "explain": "「運転再開の時間は未定」 = the restart time is undecided."}]}, {"passage": "<p><b>(2)<\/b><\/p><p>私の祖父は、毎朝同じ時間に散歩に出かける。雨の日も雪の日も欠かさない。「何のために歩くの？」と聞くと、「歩くのが目的で、理由はない」と笑って答えた。理由を探さず、ただ続ける。その姿勢が、祖父の元気の秘密なのかもしれない。<\/p>", "questions": [{"q": "筆者は、祖父についてどう思っているか。", "choices": ["健康のためだけに歩いていると思っている。", "散歩の理由を聞かれて怒ったと思っている。", "理由を探さずに続ける姿勢が、元気の秘密かもしれないと思っている。", "雨の日は休むべきだと思っている。"], "answer": 3, "explain": "The last line: continuing without hunting for reasons may be his secret."}]}, {"passage": "<p><b>(3)<\/b><\/p><p>【会議のお知らせ】<\/p><p>会議の資料は、事前にメールでお送りします。当日は、資料を印刷して持ってくる必要はありません。会議室のスクリーンに映しますので、パソコンだけお持ちください。<\/p>", "questions": [{"q": "会議の当日、参加者は何を持っていけばよいか。", "choices": ["印刷した資料", "会議のあとで受け取る資料", "パソコン", "スクリーン"], "answer": 3, "explain": "Only a PC is needed; materials are shown on the screen."}]}, {"passage": "<p><b>(4)<\/b><\/p><p>「早起きは三文の徳」ということわざがあるが、必ずしも誰にとっても朝型が有利とは限らない。人によって、頭が冴える時間帯は異なるからだ。大切なのは、自分に合った生活リズムを知り、その時間に重要な仕事をすることだろう。<\/p>", "questions": [{"q": "筆者の考えに合うものはどれか。", "choices": ["ことわざはまったく間違っている。", "自分に合った生活リズムを知り、それに合わせて活動するのがよい。", "誰でも早起きをすれば得をする。", "夜型の人は生活を変えるべきだ。"], "answer": 2, "explain": "The sharpest time of day differs by person; know your own rhythm."}]}, {"passage": "<p><b>(5)<\/b><\/p><p>【忘れ物について】<\/p><p>忘れ物をされた方は、1階の受付までお問い合わせください。保管期間は1か月です。1か月を過ぎたものは、処分させていただきます。<\/p>", "questions": [{"q": "この文章の内容と合っているものはどれか。", "choices": ["保管期間は3か月である。", "1か月過ぎたら、受付で買い取れる。", "1か月以内に、受付に問い合わせる必要がある。", "忘れ物は、2階に取りに行く。"], "answer": 3, "explain": "Items are kept for one month, then disposed of."}]}]}, {"id": "m11", "section": "read", "label": "問題11", "name": "Mid-length passages", "instruction": "次の(1)から(3)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>(1)<\/b><\/p><p>近年、「サブスクリプション」と呼ばれる定額制のサービスが広がっている。毎月一定の料金を払えば、音楽や動画、本などを好きなだけ利用できる。利用者にとっては、一つ一つ買うよりも安く済み、新しい作品に出会いやすいという利点がある。<\/p><p>しかし、問題もある。利用していないサービスの料金を払い続けてしまう人が少なくないのだ。契約したことを忘れたまま、毎月お金が引かれているケースもある。<\/p><p>サービスを賢く使うためには、定期的に契約内容を見直すことが欠かせない。本当に必要なものだけを残す意識が、無駄な出費を防ぐ。<\/p>", "questions": [{"q": "定額制サービスの利点として、文章に書かれているものはどれか。", "choices": ["作品を自分のものにできる。", "解約が簡単である。", "一つ一つ買うより安く済み、新しい作品に出会いやすい。", "必ず他の方法より安い。"], "answer": 3, "explain": "Paragraph 1."}, {"q": "問題点として、文章に書かれているものはどれか。", "choices": ["料金が毎月変わること", "使っていないサービスの料金を、払い続けてしまうこと", "作品の数が少ないこと", "契約の手続きが難しいこと"], "answer": 2, "explain": "Paragraph 2."}, {"q": "筆者の考えに合うものはどれか。", "choices": ["契約を忘れてしまうのは仕方がない。", "サービスはすべてやめるべきだ。", "安いサービスだけを契約するべきだ。", "定期的に契約を見直し、必要なものだけを残すべきだ。"], "answer": 4, "explain": "Paragraph 3."}]}, {"passage": "<p><b>(2)<\/b><\/p><p>私の職場には、毎朝「今日の一言」を発表するルールがある。最初は、ただの形式だと思っていた。ところが、続けるうちに、同僚の意外な一面を知るようになった。無口な人が趣味の話を楽しそうにしたり、厳しい上司が家族の話をしたりする。<\/p><p>そうしたやり取りがあるおかげで、仕事の相談もしやすくなった。小さな習慣でも、人間関係を変える力があると感じる。<\/p>", "questions": [{"q": "筆者は、このルールを最初はどう思っていたか。", "choices": ["同僚を知るよい機会だと思っていた。", "ただの形式だと思っていた。", "仕事の効率が上がると思っていた。", "上司だけが話すものだと思っていた。"], "answer": 2, "explain": "「最初は、ただの形式だと思っていた」"}, {"q": "続けるうちに、筆者にどんな変化があったか。", "choices": ["発表がうまくなった。", "上司に評価された。", "仕事が減った。", "同僚の意外な一面を知るようになった。"], "answer": 4, "explain": "He learned unexpected sides of his colleagues."}, {"q": "筆者の考えに合うものはどれか。", "choices": ["上司の話がいちばん大切だ。", "小さな習慣でも、人間関係を変える力がある。", "習慣は形式にすぎない。", "発表は趣味の話だけにすべきだ。"], "answer": 2, "explain": "The last sentence."}]}, {"passage": "<p><b>(3)<\/b><\/p><p>日本の夏は、年々暑くなっている。熱中症で救急搬送される人も増えた。そこで注目されているのが、「クールシェア」という考え方だ。これは、各家庭で冷房を使う代わりに、図書館や商業施設など、涼しい場所に人が集まって過ごすことで、電力を節約しようという取り組みである。<\/p><p>家にいても冷房を使わずに我慢すると、かえって熱中症の危険が高まる。クールシェアなら、安全に涼しく過ごせるうえ、電気の使用量も減らせる。さらに、人との交流が生まれるという効果もある。<\/p><p>ただし、外出が難しい高齢者への配慮が必要だ。地域で声をかけ合うなど、誰もが利用できる仕組みを作ることが課題になっている。<\/p>", "questions": [{"q": "「クールシェア」とは、どんな取り組みか。", "choices": ["涼しい場所に集まって過ごし、電力を節約する取り組み", "商業施設が冷房を無料で配る取り組み", "冷房の設定温度を上げる取り組み", "各家庭で冷房を使わずに我慢する取り組み"], "answer": 1, "explain": "Paragraph 1."}, {"q": "クールシェアの効果として、文章に挙げられていないものはどれか。", "choices": ["人との交流が生まれること", "安全に涼しく過ごせること", "電気の使用量が減ること", "暑さに強い体になること"], "answer": 4, "explain": "Not mentioned: building a heat-resistant body."}, {"q": "この取り組みの課題として、文章に書かれているものはどれか。", "choices": ["外出が難しい高齢者への配慮", "施設の数が多すぎること", "熱中症の人が増えること", "電力が足りなくなること"], "answer": 1, "explain": "Paragraph 3."}]}]}, {"id": "m12", "section": "read", "label": "問題12", "name": "Integrated comprehension", "instruction": "次のAとBの文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>A<\/b><\/p><p>キャッシュレス決済は、積極的に広げるべきだと思う。支払いが早く、お釣りの受け渡しも必要ない。店にとっても、現金を数える手間が減る。ポイントがたまる利点もある。<\/p><p><b>B<\/b><\/p><p>私は、現金も使えるようにしておくことが大切だと考える。災害で停電したときや、機械が故障したときには、キャッシュレスは使えない。また、高齢者の中には操作に慣れていない人も多い。<\/p>", "questions": [{"q": "支払い方法について、AとBはどのように述べているか。", "choices": ["AもBも、現金をなくすべきだと述べている。", "Aは便利さを理由に広げるべきだと述べ、Bは現金も残しておくべきだと述べている。", "AもBも、キャッシュレスに反対している。", "Aは現金を残すべきだと述べ、Bはキャッシュレスを広げるべきだと述べている。"], "answer": 2, "explain": "A promotes cashless; B wants cash kept as a backup."}, {"q": "キャッシュレス決済の問題として、Bが挙げているものはどれか。", "choices": ["停電や故障のときに使えないこと", "ポイントがたまらないこと", "店が現金を数える手間が増えること", "支払いに時間がかかること"], "answer": 1, "explain": "B names blackouts and breakdowns, plus unfamiliarity among older people."}]}]}, {"id": "m13", "section": "read", "label": "問題13", "name": "Long passage (argument)", "instruction": "次の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p>町の小さな本屋が次々に姿を消している。インターネットで本が買えるようになったことや、電子書籍の普及が主な原因だ。確かに、家から出ずに注文でき、翌日には届く便利さにはかなわない。<\/p><p>しかし、本屋には、ネット書店にない魅力がある。それは、思いがけない本との出会いである。目当ての本を探しに行って、隣の棚で偶然目に留まった一冊に心を動かされた経験は、多くの人にあるだろう。ネットでは、検索した言葉に関連する本しか表示されにくい。<\/p><p>最近では、店主が選んだ本を並べたり、店内に喫茶スペースを設けたりして、「本のある空間」そのものを売る店も出てきた。そうした店は、地域の人々が集まる場所として、新しい役割を担っている。<\/p><p>本屋が減ることは、単に店が一つなくなることではない。偶然の出会いや、人が集まる場が失われることでもある。私たちは、便利さの陰で何を失っているのかを、時々立ち止まって考えるべきではないだろうか。<\/p>", "questions": [{"q": "町の本屋が減っている主な原因は何か。", "choices": ["本の値段が上がったこと", "若者が本を読まなくなったこと", "店主が高齢になったこと", "インターネットでの購入や、電子書籍の普及"], "answer": 4, "explain": "Paragraph 1."}, {"q": "筆者は、本屋の魅力は何だと述べているか。", "choices": ["本が安く買えること", "検索で関連する本がすぐ見つかること", "注文した本が翌日届くこと", "思いがけない本と出会えること"], "answer": 4, "explain": "Paragraph 2."}, {"q": "この文章で、筆者が最も言いたいことは何か。", "choices": ["ネット書店は使うべきではない。", "電子書籍は紙の本より劣っている。", "本屋がなくなると、偶然の出会いや人が集まる場も失われるので、便利さの陰で失うものを考えるべきだ。", "喫茶スペースがある本屋だけが生き残るだろう。"], "answer": 3, "explain": "The final paragraph."}]}]}, {"id": "m14", "section": "read", "label": "問題14", "name": "Information retrieval", "instruction": "下のページは、ある区民センターの講座の案内である。これを読んで、下の質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。", "sets": [{"passage": "<p><b>市民農園　利用案内<\/b><\/p><table class='info'><thead><tr><th>区画<\/th><th>広さ<\/th><th>年間利用料<\/th><\/tr><\/thead><tbody><tr><td>A　小区画<\/td><td>10㎡<\/td><td>6,000円<\/td><\/tr><tr><td>B　中区画<\/td><td>20㎡<\/td><td>10,000円<\/td><\/tr><tr><td>C　大区画<\/td><td>30㎡<\/td><td>14,000円<\/td><\/tr><tr><td>D　車いす対応区画<\/td><td>5㎡<\/td><td>8,000円<\/td><\/tr><\/tbody><\/table><p>・利用期間は、4月から翌年3月までの1年間です。<\/p><p>・区内に住んでいる人は、利用料が1割引になります。<\/p><p>・年度の途中から利用する場合は、残りの月数に応じて、利用料を月割りで計算します。<\/p>", "questions": [{"q": "区内に住む田中さんが、中区画を4月から1年間利用する。利用料はいくらか。", "choices": ["9,000円", "11,000円", "10,000円", "8,000円"], "answer": 1, "explain": "10,000 yen with 10% off = 9,000 yen."}, {"q": "区外に住む山本さんが、10月から翌年3月までの6か月間、大区画を利用する。利用料はいくらか。", "choices": ["12,600円", "14,000円", "6,300円", "7,000円"], "answer": 4, "explain": "14,000 × 6/12 = 7,000 yen. Non-residents get no discount."}]}]}]}]</script>
+<script>
+(() => {
+'use strict';
+
+/* ================= helpers ================= */
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const app = $('#app');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad = n => String(n).padStart(2, '0');
+const clock = sec => {
+  sec = Math.max(0, Math.round(sec));
+  const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60;
+  return h ? `${h}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+};
+const SECTION = { lang: '言語知識（文字・語彙・文法）', read: '読解' };
+
+/* Storage: uses localStorage when the browser allows it, otherwise keeps
+   everything in memory for the current tab (e.g. inside sandboxed previews). */
+const store = (() => {
+  const mem = new Map(); let ls = null;
+  try { ls = window.localStorage; ls.setItem('__jt', '1'); ls.removeItem('__jt'); } catch (e) { ls = null; }
+  return {
+    persistent: !!ls,
+    get(k, d) { try { const v = ls ? ls.getItem(k) : mem.get(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { const s = JSON.stringify(v); try { if (ls) ls.setItem(k, s); else mem.set(k, s); } catch (e) { mem.set(k, s); } },
+    del(k) { try { if (ls) ls.removeItem(k); } catch (e) {} mem.delete(k); }
+  };
+})();
+const KEY = { custom: 'jlptmock.custom', history: 'jlptmock.history', session: 'jlptmock.session' };
+
+/* ================= tests ================= */
+const builtin = JSON.parse($('#builtin-tests').textContent);
+let custom = store.get(KEY.custom, []);
+const allTests = () => {
+  const m = new Map();
+  [...builtin, ...custom].forEach(t => m.set(t.id, t));
+  return [...m.values()];
+};
+const testLabel = t => `${t.title}${t.subtitle ? ' - ' + t.subtitle : ''}`;
+
+function validateTest(t) {
+  const fail = m => { throw new Error(m); };
+  if (!t || typeof t !== 'object' || Array.isArray(t)) fail('The file must contain one test object.');
+  if (!t.id || !t.title) fail('Missing "id" or "title".');
+  if (!Array.isArray(t.parts) || !t.parts.length) fail('Missing "parts".');
+  t.parts.forEach((p, i) => {
+    const w = `parts[${i}]`;
+    if (!p.label) fail(`${w}: missing "label".`);
+    if (p.section !== 'lang' && p.section !== 'read') fail(`${w}: "section" must be "lang" or "read".`);
+    const sets = p.sets || (p.questions ? [{ questions: p.questions }] : null);
+    if (!sets) fail(`${w}: needs "questions" or "sets".`);
+    sets.forEach((s, j) => {
+      if (!Array.isArray(s.questions) || !s.questions.length) fail(`${w}, set ${j + 1}: no questions.`);
+      s.questions.forEach((q, k) => {
+        const x = `${w}, set ${j + 1}, question ${k + 1}`;
+        if (!Array.isArray(q.choices) || q.choices.length !== 4) fail(`${x}: needs exactly 4 choices.`);
+        if (![1, 2, 3, 4].includes(q.answer)) fail(`${x}: "answer" must be 1, 2, 3 or 4.`);
+      });
+    });
+  });
+  return t;
+}
+
+function build(raw) {
+  let n = 0;
+  const qs = [];
+  const parts = raw.parts.map((p, pi) => {
+    const sets = (p.sets || [{ questions: p.questions }]).map(s => {
+      const set = { passage: s.passage || '', qs: [] };
+      s.questions.forEach(q => {
+        n++;
+        const item = { ...q, n, pi, set };
+        set.qs.push(item); qs.push(item);
+      });
+      return set;
+    });
+    return { ...p, pi, sets, qs: sets.flatMap(s => s.qs) };
+  });
+  return { id: raw.id, title: raw.title, subtitle: raw.subtitle || '', minutes: raw.minutes || 105, parts, qs, total: n };
+}
+
+/* ================= state ================= */
+let T = null;      // built test
+let S = null;      // session
+let tick = null;
+let selectedId = null;
+let timerPref = true;
+
+const persist = () => { if (S && !S.done) store.set(KEY.session, S); };
+
+/* ================= start screen ================= */
+function renderStart(msg) {
+  clearInterval(tick); T = null; S = null;
+  const tests = allTests();
+  if (!tests.find(t => t.id === selectedId)) selectedId = tests[tests.length - 1].id;
+  const cur = build(tests.find(t => t.id === selectedId));
+  const sess = store.get(KEY.session, null);
+  const sessRaw = sess && tests.find(t => t.id === sess.testId);
+  const history = store.get(KEY.history, []);
+
+  let resumeHtml = '';
+  if (sessRaw) {
+    const left = sess.timer ? Math.max(0, (sess.end - Date.now()) / 1000) : null;
+    const done = Object.keys(sess.answers).length;
+    resumeHtml = `
+      <section class="resume">
+        <h2>Unfinished test</h2>
+        <p>${esc(testLabel(sessRaw))}: ${done} answered${left != null ? `, ${clock(left)} left on the clock` : ', untimed'}.</p>
+        <div class="row"><button class="btn" id="resume">Resume</button><button class="btn ghost" id="discard">Discard</button></div>
+      </section>`;
+  }
+
+  const rows = history.slice().reverse().slice(0, 10).map(h => `
+    <tr><td>${new Date(h.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</td>
+    <td>${esc(h.label)}</td><td>${h.lang}</td><td>${h.read}</td><td><strong>${h.est}</strong></td></tr>`).join('');
+
+  app.innerHTML = `
+  <div class="start">
+    <section class="cover stack-pages" aria-labelledby="ct">
+      <div class="cover-level" aria-hidden="true">N2</div>
+      <h1 id="ct">日本語能力試験 模擬テスト</h1>
+      <p class="cover-sub">言語知識（文字・語彙・文法）・読解</p>
+      <dl class="facts">
+        <div><dt>Time</dt><dd>${cur.minutes} min</dd></div>
+        <div><dt>Questions</dt><dd>${cur.total}</dd></div>
+        <div><dt>Parts</dt><dd>${cur.parts.length}</dd></div>
+      </dl>
+      <ol class="notes">
+        <li>The clock starts the moment you open the booklet.</li>
+        <li>Mark answers on the answer sheet. Tapping a choice in the booklet marks the same bubble.</li>
+        <li>You can change answers and move between pages until time is up or you submit.</li>
+        <li>There is no listening section here. Do that separately.</li>
+      </ol>
+      <div class="field"><label for="test-pick">Test</label>
+        <select id="test-pick">${tests.map(t => `<option value="${esc(t.id)}"${t.id === selectedId ? ' selected' : ''}>${esc(testLabel(t))}</option>`).join('')}</select>
+      </div>
+      <label class="check"><input type="checkbox" id="timer-pref"${timerPref ? ' checked' : ''}> Run the ${cur.minutes}-minute timer</label>
+      <button class="btn big" id="start">Open the booklet</button>
+    </section>
+    <div class="side">
+      ${resumeHtml}
+      <section>
+        <h2>Past attempts</h2>
+        ${rows ? `<table class="hist"><thead><tr><th>Date</th><th>Test</th><th>Language /60</th><th>Reading /60</th><th>Total /120</th></tr></thead><tbody>${rows}</tbody></table>`
+               : `<p>Nothing here yet. Your first result will show up after you submit a test.</p>`}
+        ${store.persistent ? '' : `<p class="warnbox">This view can't save to the browser, so history and imported tests last only until you close the tab. Open the file directly in your browser to keep them.</p>`}
+      </section>
+      <section>
+        <h2>Add next week's test</h2>
+        <p>Ask Claude for a new test and save the JSON it gives you. Then import it here and it appears in the Test menu.</p>
+        <p style="margin-top:12px"><label class="btn ghost file-btn">Import test (.json)<input type="file" id="import" accept=".json,application/json" hidden></label></p>
+        ${msg ? `<p class="msg ${msg.ok ? 'ok' : 'err'}" role="status">${esc(msg.text)}</p>` : ''}
+      </section>
+    </div>
+  </div>`;
+
+  $('#test-pick').addEventListener('change', e => { selectedId = e.target.value; renderStart(); });
+  $('#timer-pref').addEventListener('change', e => { timerPref = e.target.checked; });
+  $('#start').addEventListener('click', () => startTest(selectedId, timerPref));
+  $('#resume')?.addEventListener('click', () => resumeTest(sess));
+  $('#discard')?.addEventListener('click', () => { store.del(KEY.session); renderStart(); });
+  $('#import').addEventListener('change', importFile);
+}
+
+function importFile(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const data = JSON.parse(r.result);
+      const list = Array.isArray(data) ? data : [data];
+      list.forEach(validateTest);
+      list.forEach(t => { custom = custom.filter(c => c.id !== t.id); custom.push(t); });
+      store.set(KEY.custom, custom);
+      selectedId = list[list.length - 1].id;
+      renderStart({ ok: true, text: `Imported ${list.length === 1 ? testLabel(list[0]) : list.length + ' tests'}.` });
+    } catch (err) {
+      renderStart({ ok: false, text: `Couldn't import that file. ${err.message}` });
+    }
+  };
+  r.readAsText(f);
+}
+
+/* ================= exam ================= */
+function startTest(id, timer) {
+  T = build(allTests().find(t => t.id === id));
+  const now = Date.now();
+  S = { testId: id, timer, start: now, end: timer ? now + T.minutes * 60000 : null, answers: {}, flags: {}, page: 0 };
+  persist(); renderExam();
+}
+
+function resumeTest(sess) {
+  const raw = allTests().find(t => t.id === sess.testId);
+  if (!raw) return renderStart();
+  T = build(raw); S = sess;
+  renderExam();
+  if (S.timer && Date.now() >= S.end) finish(true);
+}
+
+const fmtStem = s => s.replace(/＿＿＿/g, '<span class="blank">&nbsp;</span>').replace(/★/g, '<span class="blank star">★</span>');
+const passageHtml = set => set.passage.replace(/\[\[(\d+)\]\]/g, (_, k) => `<span class="gap">${set.qs[+k - 1] ? set.qs[+k - 1].n : k}</span>`);
+const isShort = q => q.choices.every(c => c.replace(/<[^>]+>/g, '').length <= 9);
+
+function questionHtml(q) {
+  return `
+  <section class="q" id="q-${q.n}">
+    <div class="q-head">
+      <span class="qno">${q.n}</span>
+      <div class="stem">${q.q ? fmtStem(q.q) : `<span class="gapref">${q.n}</span>`}</div>
+      <button class="flag" data-n="${q.n}" aria-pressed="false">Flag</button>
+    </div>
+    <div class="choices ${isShort(q) ? 'inline' : 'stack'}">
+      ${q.choices.map((c, i) => `<button class="choice" data-n="${q.n}" data-c="${i + 1}" aria-pressed="false"><span class="cno">${i + 1}</span><span class="ctext">${c}</span></button>`).join('')}
+    </div>
+  </section>`;
+}
+
+function sheetHtml() {
+  return T.parts.map(p => `
+    ${p.pi === 0 || T.parts[p.pi - 1].section !== p.section ? `<div class="sheet-sec">${SECTION[p.section]}</div>` : ''}
+    <section class="sheet-part" data-pi="${p.pi}">
+      <h3>${p.label}<span>${p.qs[0].n}-${p.qs[p.qs.length - 1].n}</span></h3>
+      <div class="rows">${p.qs.map(q => `
+        <div class="srow" data-n="${q.n}">
+          <button class="snum" data-n="${q.n}" data-go="${p.pi}" aria-label="Go to question ${q.n}">${q.n}</button>
+          ${[1, 2, 3, 4].map(c => `<button class="bubble" data-n="${q.n}" data-c="${c}" aria-pressed="false" aria-label="Question ${q.n}, answer ${c}">${c}</button>`).join('')}
+        </div>`).join('')}
+      </div>
+    </section>`).join('');
+}
+
+function renderExam() {
+  app.innerHTML = `
+  <header class="bar">
+    <div class="bar-title"><strong>JLPT N2</strong><span>${esc(testLabel(T))}</span></div>
+    <div class="clock" id="clock" role="timer"><span class="clock-label" id="clock-label">Time left</span><span id="clock-time">--:--</span></div>
+    <button class="btn" id="submit-top">Submit</button>
+  </header>
+  <div class="layout">
+    <main><article class="page stack-pages" id="page"></article></main>
+    <aside class="sheet" id="sheet" aria-label="Answer sheet">
+      <div class="sheet-head">
+        <h2>解答用紙</h2><small>Answer sheet</small>
+        <span class="sheet-count"><span id="answered">0</span>/${T.total}</span>
+        <button class="btn ghost sheet-close" id="sheet-close" style="padding:2px 12px">Close</button>
+      </div>
+      <p class="sheet-hint">Tap a number to jump to that question. Tap a filled bubble again to erase it.</p>
+      ${sheetHtml()}
+      <div class="sheet-foot"><button class="btn" id="sheet-submit">Submit</button></div>
+    </aside>
+  </div>
+  <button class="sheet-toggle" id="sheet-toggle">解答用紙</button>
+  <dialog id="dlg"></dialog>`;
+
+  const page = $('#page'), sheet = $('#sheet');
+  page.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.classList.contains('choice')) mark(+b.dataset.n, +b.dataset.c);
+    else if (b.classList.contains('flag')) toggleFlag(+b.dataset.n);
+    else if (b.dataset.nav) goPage(S.page + (+b.dataset.nav));
+    else if (b.dataset.submit) openSubmit();
+  });
+  sheet.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.classList.contains('bubble')) mark(+b.dataset.n, +b.dataset.c);
+    else if (b.classList.contains('snum')) { goPage(+b.dataset.go, +b.dataset.n); sheet.classList.remove('open'); }
+    else if (b.id === 'sheet-submit') openSubmit();
+    else if (b.id === 'sheet-close') sheet.classList.remove('open');
+  });
+  $('#sheet-toggle').addEventListener('click', () => sheet.classList.toggle('open'));
+  $('#submit-top').addEventListener('click', openSubmit);
+
+  T.qs.forEach(q => paint(q.n));
+  goPage(S.page);
+  startClock();
+}
+
+function renderPage(pi) {
+  const p = T.parts[pi];
+  $('#page').innerHTML = `
+    <div class="page-head"><span>${SECTION[p.section]}</span><span>Page ${pi + 1} of ${T.parts.length}</span></div>
+    <div class="mondai"><span class="mondai-tag">${p.label}</span><div class="instr">${p.instruction}</div></div>
+    ${p.sets.map(set => `${set.passage ? `<div class="passage">${passageHtml(set)}</div>` : ''}${set.qs.map(questionHtml).join('')}`).join('')}
+    <div class="page-foot">
+      <button class="btn ghost" data-nav="-1"${pi === 0 ? ' disabled' : ''}>Previous page</button>
+      ${pi === T.parts.length - 1 ? `<button class="btn" data-submit="1">Submit</button>` : `<button class="btn ghost" data-nav="1">Next page</button>`}
+    </div>`;
+  p.qs.forEach(q => paint(q.n));
+}
+
+function goPage(pi, n) {
+  pi = Math.max(0, Math.min(T.parts.length - 1, pi));
+  const changed = pi !== S.page || !$('#page').children.length;
+  S.page = pi;
+  if (changed) renderPage(pi);
+  $$('.sheet-part').forEach(el => el.classList.toggle('current', +el.dataset.pi === pi));
+  persist();
+  if (n) $(`#q-${n}`)?.scrollIntoView({ block: 'center' });
+  else window.scrollTo({ top: 0 });
+}
+
+function paint(n) {
+  const a = S.answers[n], f = !!S.flags[n];
+  $$(`[data-n="${n}"][data-c]`).forEach(b => {
+    const on = +b.dataset.c === a;
+    b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
+  });
+  $$(`.flag[data-n="${n}"]`).forEach(b => {
+    b.classList.toggle('on', f); b.setAttribute('aria-pressed', f); b.textContent = f ? 'Flagged' : 'Flag';
+  });
+  $(`.snum[data-n="${n}"]`)?.classList.toggle('flagged', f);
+  const c = $('#answered'); if (c) c.textContent = Object.keys(S.answers).length;
+}
+
+function mark(n, c) {
+  if (S.answers[n] === c) delete S.answers[n]; else S.answers[n] = c;
+  paint(n); persist();
+}
+function toggleFlag(n) {
+  if (S.flags[n]) delete S.flags[n]; else S.flags[n] = true;
+  paint(n); persist();
+}
+
+function startClock() {
+  clearInterval(tick);
+  const upd = () => {
+    const t = $('#clock-time'); if (!t) return;
+    const box = $('#clock'), label = $('#clock-label'), now = Date.now();
+    if (S.timer) {
+      const left = (S.end - now) / 1000;
+      t.textContent = clock(left); label.textContent = 'Time left';
+      box.classList.toggle('warn', left <= 900 && left > 300);
+      box.classList.toggle('alert', left <= 300);
+      if (left <= 0) finish(true);
+    } else {
+      t.textContent = clock((now - S.start) / 1000); label.textContent = 'Elapsed';
+    }
+  };
+  upd(); tick = setInterval(upd, 500);
+}
+
+function openSubmit() {
+  const dlg = $('#dlg');
+  const answered = Object.keys(S.answers).length, left = T.total - answered, flagged = Object.keys(S.flags).length;
+  dlg.innerHTML = `
+    <form method="dialog">
+      <h2>Submit your answers?</h2>
+      <p>${answered} of ${T.total} answered.${left ? ` ${left} still blank.` : ''}${flagged ? ` ${flagged} flagged for review.` : ''} You can't change answers after submitting.</p>
+      <div class="dlg-actions"><button class="btn ghost" value="cancel">Keep working</button><button class="btn" value="ok">Submit and score</button></div>
+    </form>`;
+  dlg.returnValue = '';
+  dlg.onclose = () => { if (dlg.returnValue === 'ok') finish(false); };
+  dlg.showModal();
+}
+
+/* ================= scoring + results ================= */
+function score(answers, used) {
+  const per = T.parts.map(p => ({
+    pi: p.pi, label: p.label, name: p.name || '', section: p.section,
+    total: p.qs.length, right: p.qs.filter(q => answers[q.n] === q.answer).length
+  }));
+  const sec = k => {
+    const ps = per.filter(p => p.section === k);
+    const total = ps.reduce((a, p) => a + p.total, 0), right = ps.reduce((a, p) => a + p.right, 0);
+    return { right, total, scaled: total ? Math.round(right / total * 60) : 0 };
+  };
+  const lang = sec('lang'), read = sec('read');
+  return { per, lang, read, est: lang.scaled + read.scaled, used };
+}
+
+function finish(auto) {
+  if (!S || S.done) return;
+  S.done = true; clearInterval(tick);
+  const end = S.timer ? Math.min(Date.now(), S.end) : Date.now();
+  const res = score(S.answers, Math.round((end - S.start) / 1000));
+  const hist = store.get(KEY.history, []);
+  hist.push({ id: T.id, label: testLabel(T), date: new Date().toISOString(), lang: res.lang.scaled, read: res.read.scaled, est: res.est, used: res.used, timer: S.timer });
+  store.set(KEY.history, hist);
+  store.del(KEY.session);
+  renderResults(res, auto);
+}
+
+function renderResults(res, auto) {
+  const proj = Math.round(res.est / 120 * 180);
+  const low = [];
+  if (res.lang.scaled < 19) low.push('Language Knowledge');
+  if (res.read.scaled < 19) low.push('Reading');
+  const ok = !low.length && res.est >= 60;
+  const verdict = ok
+    ? `If your listening score matches these, the projected total is ${proj} out of 180. The pass line is 90, with at least 19 in every section, so this attempt is on pace.`
+    : low.length
+      ? `${low.join(' and ')} fell under the 19-point section minimum. A total can't make up for that, so this is the first thing to fix.`
+      : `If your listening score matches these, the projected total is ${proj} out of 180. The pass line is 90, so this attempt is below pace.`;
+  const weakest = [...res.per].sort((a, b) => a.right / a.total - b.right / b.total)[0];
+  const used = clock(res.used);
+
+  const bd = res.per.map(p => `
+    <div class="bd${p === weakest ? ' weak' : ''}">
+      <div class="nm"><b>${p.label}</b><span>${p.name}</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(p.right / p.total * 100)}%"></div></div>
+      <div class="val">${p.right}/${p.total}</div>
+    </div>`).join('');
+
+  const review = T.qs.map(q => {
+    const mine = S.answers[q.n];
+    const st = mine == null ? 'skip' : mine === q.answer ? 'ok' : 'no';
+    const tag = { skip: 'Blank', ok: 'Correct', no: 'Incorrect' }[st];
+    const part = T.parts[q.pi];
+    return `
+    <article class="rv ${st}" data-st="${st}" data-flag="${S.flags[q.n] ? 1 : 0}">
+      <div class="rv-head"><b>${q.n}</b><span>${part.label} ${esc(part.name || '')}</span><span class="tag">${tag}</span>${S.flags[q.n] ? '<span class="rv-flag">Flagged</span>' : ''}</div>
+      <div class="stem">${q.q ? fmtStem(q.q) : `<span class="gapref">${q.n}</span>`}</div>
+      <ol>${q.choices.map((c, i) => `<li class="${i + 1 === q.answer ? 'right' : ''} ${i + 1 === mine ? 'mine' : ''}"><span class="cno">${i + 1}</span><span>${c}</span><em>${i + 1 === q.answer ? 'Correct answer' : ''}${i + 1 === mine && mine !== q.answer ? 'Your answer' : ''}${i + 1 === mine && mine === q.answer ? ' (yours)' : ''}</em></li>`).join('')}</ol>
+      ${q.explain ? `<p class="explain">${q.explain}</p>` : ''}
+      ${q.set.passage ? `<details><summary>Show passage</summary><div class="passage">${passageHtml(q.set)}</div></details>` : ''}
+    </article>`;
+  }).join('');
+
+  app.innerHTML = `
+  <div class="results">
+    <section class="res-top stack-pages">
+      <h1>${esc(testLabel(T))}: result</h1>
+      <p class="sub">${auto ? 'Time ran out, so your answers were submitted automatically. ' : ''}Time used: ${used}${S.timer ? '' : ' (untimed)'}</p>
+      <div class="scores">
+        <div class="score"><small>Language Knowledge</small><b>${res.lang.scaled}<i> / 60</i></b><small>${res.lang.right} of ${res.lang.total} correct</small></div>
+        <div class="score"><small>Reading</small><b>${res.read.scaled}<i> / 60</i></b><small>${res.read.right} of ${res.read.total} correct</small></div>
+        <div class="score"><small>Total without listening</small><b>${res.est}<i> / 120</i></b><small>Projected ${proj} / 180</small></div>
+      </div>
+      <p class="verdict">${verdict}</p>
+      <p class="fine">Section scores are your percentage correct scaled to 60. The real JLPT uses equated scoring, so treat these as a guide rather than a prediction. Weakest part this time: ${weakest.label} ${esc(weakest.name)} (${weakest.right}/${weakest.total}).</p>
+      <div class="breakdown">${bd}</div>
+      <div class="res-actions">
+        <button class="btn" id="retake">Retake this test</button>
+        <button class="btn ghost" id="home">Back to start</button>
+      </div>
+    </section>
+    <section class="review" id="review">
+      <h2>Review</h2>
+      <div class="chips" role="group" aria-label="Filter questions">
+        <button class="chip" data-f="all" aria-pressed="true">All ${T.total}</button>
+        <button class="chip" data-f="no" aria-pressed="false">Incorrect</button>
+        <button class="chip" data-f="skip" aria-pressed="false">Blank</button>
+        <button class="chip" data-f="flag" aria-pressed="false">Flagged</button>
+      </div>
+      <div id="rv-list">${review}</div>
+    </section>
+  </div>`;
+  window.scrollTo({ top: 0 });
+  $('#retake').addEventListener('click', () => startTest(T.id, S.timer));
+  $('#home').addEventListener('click', () => renderStart());
+  $('.chips').addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    $$('.chip').forEach(c => c.setAttribute('aria-pressed', c === b));
+    const f = b.dataset.f;
+    $$('.rv').forEach(r => r.classList.toggle('hide', !(f === 'all' || (f === 'flag' ? r.dataset.flag === '1' : r.dataset.st === f))));
+  });
+}
+
+renderStart();
+})();
+</script>
+</body>
+</html>

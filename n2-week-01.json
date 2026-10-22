@@ -1,0 +1,997 @@
+{
+ "id": "n2-week-01",
+ "title": "N2 Mock Test",
+ "subtitle": "Week 1",
+ "minutes": 105,
+ "parts": [
+  {
+   "id": "m1",
+   "section": "lang",
+   "label": "問題1",
+   "name": "Kanji reading",
+   "instruction": "<u>　　　</u>の言葉の読み方として最もよいものを、1・2・3・4から一つ選びなさい。",
+   "questions": [
+    {
+     "q": "彼の発言が、会議の流れを大きく<u>左右</u>した。",
+     "choices": [
+      "ざう",
+      "さう",
+      "ざゆう",
+      "さゆう"
+     ],
+     "answer": 4,
+     "explain": "左右 is read さゆう. 左右する = to sway or influence."
+    },
+    {
+     "q": "契約書に<u>署名</u>してください。",
+     "choices": [
+      "しゅめい",
+      "しょめい",
+      "しょうめい",
+      "じょめい"
+     ],
+     "answer": 2,
+     "explain": "署 is しょ. しょうめい (証明) is a different word, 'proof'."
+    },
+    {
+     "q": "食生活が<u>偏って</u>いると、体調を崩しやすい。",
+     "choices": [
+      "かたむいて",
+      "たよって",
+      "かたまって",
+      "かたよって"
+     ],
+     "answer": 4,
+     "explain": "偏る (かたよる) = to be lopsided or unbalanced. 傾く is かたむく."
+    },
+    {
+     "q": "彼女は言葉を選びながら、<u>慎重</u>に答えた。",
+     "choices": [
+      "しんちょう",
+      "じんちょう",
+      "しんじょう",
+      "しんじゅう"
+     ],
+     "answer": 1,
+     "explain": "慎重 (しんちょう) = careful, cautious."
+    },
+    {
+     "q": "この町の人口は、最近<u>著しく</u>増加している。",
+     "choices": [
+      "ちょしく",
+      "いちじるしく",
+      "あらわしく",
+      "いちじるく"
+     ],
+     "answer": 2,
+     "explain": "著しい (いちじるしい) = remarkable. The しい is part of the okurigana, so it stays in the adverb form: いちじるしく."
+    }
+   ]
+  },
+  {
+   "id": "m2",
+   "section": "lang",
+   "label": "問題2",
+   "name": "Kanji writing",
+   "instruction": "<u>　　　</u>の言葉を漢字で書くとき、最もよいものを、1・2・3・4から一つ選びなさい。",
+   "questions": [
+    {
+     "q": "計画を<u>へんこう</u>することにした。",
+     "choices": [
+      "変交",
+      "変更",
+      "返更",
+      "返交"
+     ],
+     "answer": 2,
+     "explain": "変更 = change or modification. 更 (コウ) carries the sense of 'renew, change'."
+    },
+    {
+     "q": "地震への<u>たいおう</u>が遅れた。",
+     "choices": [
+      "体広",
+      "対広",
+      "対応",
+      "体応"
+     ],
+     "answer": 3,
+     "explain": "対応 = response, dealing with something. 対 (against, facing) + 応 (respond)."
+    },
+    {
+     "q": "工場の<u>せつび</u>を新しくする。",
+     "choices": [
+      "説備",
+      "設費",
+      "説費",
+      "設備"
+     ],
+     "answer": 4,
+     "explain": "設備 = facilities, equipment. 設 (set up) + 備 (prepare)."
+    },
+    {
+     "q": "大切な荷物を友人に<u>あずけた</u>。",
+     "choices": [
+      "頂けた",
+      "領けた",
+      "預けた",
+      "順けた"
+     ],
+     "answer": 3,
+     "explain": "預ける (あずける) = to leave in someone's care. 頂ける is いただける."
+    },
+    {
+     "q": "失敗の原因を<u>さぐる</u>。",
+     "choices": [
+      "探る",
+      "控る",
+      "捜る",
+      "深る"
+     ],
+     "answer": 1,
+     "explain": "探る = to probe or investigate. 捜す is for hunting down a lost item or a person."
+    }
+   ]
+  },
+  {
+   "id": "m3",
+   "section": "lang",
+   "label": "問題3",
+   "name": "Word formation",
+   "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。",
+   "questions": [
+    {
+     "q": "少し風邪（　　）で、朝から体がだるい。",
+     "choices": [
+      "気分",
+      "気持ち",
+      "気味",
+      "気配"
+     ],
+     "answer": 3,
+     "explain": "〜気味 = 'a touch of'. 風邪気味 = coming down with a cold."
+    },
+    {
+     "q": "会議で、（　　）常識な発言をして注意された。",
+     "choices": [
+      "非",
+      "未",
+      "不",
+      "無"
+     ],
+     "answer": 1,
+     "explain": "非常識 = lacking common sense. 無常識, 不常識 and 未常識 are not words."
+    },
+    {
+     "q": "今年度の合格（　　）は、去年より上がった。",
+     "choices": [
+      "比",
+      "率",
+      "度",
+      "割"
+     ],
+     "answer": 2,
+     "explain": "合格率 = pass rate. 〜率 attaches to nouns to mean 'rate of'."
+    }
+   ]
+  },
+  {
+   "id": "m4",
+   "section": "lang",
+   "label": "問題4",
+   "name": "Contextual vocabulary",
+   "instruction": "（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。",
+   "questions": [
+    {
+     "q": "この料理は、材料を切って炒めるだけで、（　　）に作れる。",
+     "choices": [
+      "手近",
+      "手際",
+      "手短",
+      "手軽"
+     ],
+     "answer": 4,
+     "explain": "手軽に = easily, without much effort. 手短 = briefly, 手近 = close at hand, 手際 = skill in handling a task."
+    },
+    {
+     "q": "長年の努力が（　　）、彼はついに大会で優勝した。",
+     "choices": [
+      "満ち",
+      "育ち",
+      "実り",
+      "咲き"
+     ],
+     "answer": 3,
+     "explain": "努力が実る = effort bears fruit."
+    },
+    {
+     "q": "電車は事故のため、現在（　　）運転を見合わせています。",
+     "choices": [
+      "一時",
+      "一面",
+      "一定",
+      "一律"
+     ],
+     "answer": 1,
+     "explain": "一時 = temporarily. 運転を一時見合わせる = service is suspended for now."
+    },
+    {
+     "q": "試験の結果が気になって、（　　）勉強に集中できない。",
+     "choices": [
+      "ひとまず",
+      "せめて",
+      "ろくに",
+      "いっそ"
+     ],
+     "answer": 3,
+     "explain": "ろくに〜ない = not properly, hardly at all. It always pairs with a negative."
+    },
+    {
+     "q": "大雨で、川の水かさが（　　）増えてきた。",
+     "choices": [
+      "しみじみ",
+      "ぐっすり",
+      "みるみる",
+      "のびのび"
+     ],
+     "answer": 3,
+     "explain": "みるみる = visibly, rapidly. The others mean feeling deeply, sleeping soundly and feeling free."
+    },
+    {
+     "q": "仕事が忙しくて、ゆっくり昼ご飯を食べる（　　）もない。",
+     "choices": [
+      "余計",
+      "余分",
+      "余地",
+      "余裕"
+     ],
+     "answer": 4,
+     "explain": "余裕もない = no time or room to spare. 余地 means room for something (as in 疑う余地)."
+    },
+    {
+     "q": "電車の中で（　　）しているうちに、降りる駅を通り過ぎてしまった。",
+     "choices": [
+      "ぺらぺら",
+      "ぶらぶら",
+      "いらいら",
+      "うとうと"
+     ],
+     "answer": 4,
+     "explain": "うとうと = dozing off."
+    }
+   ]
+  },
+  {
+   "id": "m5",
+   "section": "lang",
+   "label": "問題5",
+   "name": "Synonyms",
+   "instruction": "<u>　　　</u>の言葉に意味が最も近いものを、1・2・3・4から一つ選びなさい。",
+   "questions": [
+    {
+     "q": "山田さんは会議の前に、<u>あらかじめ</u>資料を配っておいた。",
+     "choices": [
+      "こっそりと",
+      "前もって",
+      "念のため",
+      "急いで"
+     ],
+     "answer": 2,
+     "explain": "あらかじめ = in advance = 前もって."
+    },
+    {
+     "q": "新しいシステムに慣れず、作業に<u>手間取って</u>いる。",
+     "choices": [
+      "時間がかかって",
+      "迷惑をかけて",
+      "失敗して",
+      "疲れて"
+     ],
+     "answer": 1,
+     "explain": "手間取る = to take more time than expected."
+    },
+    {
+     "q": "彼女は<u>ひたむきに</u>練習を続けている。",
+     "choices": [
+      "のんびりと",
+      "いやいやながら",
+      "一つのことに熱心に",
+      "周りに合わせて"
+     ],
+     "answer": 3,
+     "explain": "ひたむき = single-mindedly devoted to one thing."
+    },
+    {
+     "q": "突然の知らせに、彼は<u>動揺</u>した。",
+     "choices": [
+      "気持ちが落ち着かなくなった",
+      "とても悲しんだ",
+      "がっかりした",
+      "驚いて怒った"
+     ],
+     "answer": 1,
+     "explain": "動揺する = to be shaken, to lose one's composure."
+    },
+    {
+     "q": "彼女は書類を<u>てきぱきと</u>整理した。",
+     "choices": [
+      "いやそうに",
+      "ていねいに",
+      "すばやく手際よく",
+      "黙って"
+     ],
+     "answer": 3,
+     "explain": "てきぱき = briskly and efficiently."
+    }
+   ]
+  },
+  {
+   "id": "m6",
+   "section": "lang",
+   "label": "問題6",
+   "name": "Usage",
+   "instruction": "次の言葉の使い方として最もよいものを、1・2・3・4から一つ選びなさい。",
+   "questions": [
+    {
+     "q": "<b>見合わせる</b>",
+     "choices": [
+      "二つの案を見合わせた結果、A案に決まった。",
+      "天候が悪いため、船の運航を見合わせることになった。",
+      "本の内容を見合わせて、友人にすすめた。",
+      "古い写真と新しい写真を見合わせて、違いを探した。"
+     ],
+     "answer": 2,
+     "explain": "見合わせる here means to hold off or suspend. For comparing things, you would say 見比べる or 比較する."
+    },
+    {
+     "q": "<b>根気</b>",
+     "choices": [
+      "彼は根気が強いので、重い荷物も一人で運べる。",
+      "根気に満ちた表情で、彼は発表を始めた。",
+      "この仕事は根気がかかるので、すぐに終わる。",
+      "子どもに根気よく付き合って、宿題を最後まで手伝った。"
+     ],
+     "answer": 4,
+     "explain": "根気 = patience and persistence. 根気よく = patiently, without giving up."
+    },
+    {
+     "q": "<b>たちまち</b>",
+     "choices": [
+      "その歌手の人気は、たちまち全国に広がった。",
+      "彼女は、毎朝たちまちジョギングをしている。",
+      "来月たちまち新しい店がオープンする予定だ。",
+      "たちまち考えてから、返事をします。"
+     ],
+     "answer": 1,
+     "explain": "たちまち = in an instant, almost immediately. It describes a quick change, not habits or plans."
+    },
+    {
+     "q": "<b>ゆとり</b>",
+     "choices": [
+      "試験の前日になって、ゆとりに勉強を始めた。",
+      "彼はゆとりが悪くて、いつも約束を忘れる。",
+      "ゆとりのある日程を組んだので、遅れが出ても慌てずに済んだ。",
+      "この部屋はゆとりが汚れているので、掃除が必要だ。"
+     ],
+     "answer": 3,
+     "explain": "ゆとり = leeway, breathing room (time, money, space)."
+    },
+    {
+     "q": "<b>分担</b>",
+     "choices": [
+      "料理の味を分担するため、少し塩を足した。",
+      "このパンは大きいので、半分ずつ分担して食べよう。",
+      "彼女の意見は、みんなの意見と分担している。",
+      "掃除は、家族みんなで分担して行っている。"
+     ],
+     "answer": 4,
+     "explain": "分担する = to share out tasks or costs. For splitting food, use 分ける."
+    }
+   ]
+  },
+  {
+   "id": "m7",
+   "section": "lang",
+   "label": "問題7",
+   "name": "Grammar: sentence",
+   "instruction": "次の文の（　　）に入れるのに最もよいものを、1・2・3・4から一つ選びなさい。",
+   "questions": [
+    {
+     "q": "彼は忙しい（　　）、毎日ジムに通っている。",
+     "choices": [
+      "ばかりに",
+      "だけあって",
+      "ことから",
+      "にもかかわらず"
+     ],
+     "answer": 4,
+     "explain": "〜にもかかわらず = in spite of. 〜だけあって means 'as you'd expect given', which is a positive reason."
+    },
+    {
+     "q": "この映画は子ども（　　）作られているが、大人が見ても楽しめる。",
+     "choices": [
+      "向けに",
+      "をめぐって",
+      "に対して",
+      "において"
+     ],
+     "answer": 1,
+     "explain": "〜向けに = aimed at, designed for."
+    },
+    {
+     "q": "熱があって苦しかったが、大事な会議だったので、休む（　　）休めなかった。",
+     "choices": [
+      "より",
+      "まで",
+      "から",
+      "に"
+     ],
+     "answer": 4,
+     "explain": "V(dictionary form) + に + V(potential, negative) = 'couldn't V even if I wanted to'. 休むに休めない = couldn't take the day off."
+    },
+    {
+     "q": "先生の話を聞いている（　　）、いつの間にか眠ってしまった。",
+     "choices": [
+      "かわりに",
+      "うちに",
+      "あまり",
+      "くせに"
+     ],
+     "answer": 2,
+     "explain": "〜うちに = while (something is going on). Here: while listening, I dozed off."
+    },
+    {
+     "q": "一度引き受けた（　　）、途中で投げ出すわけにはいかない。",
+     "choices": [
+      "くせに",
+      "うえで",
+      "ものの",
+      "以上は"
+     ],
+     "answer": 4,
+     "explain": "〜以上は = now that, since. ものの means 'although' and needs a contrast."
+    },
+    {
+     "q": "睡眠不足のまま運転すると、事故を起こし（　　）。",
+     "choices": [
+      "かねる",
+      "かけない",
+      "がたい",
+      "かねない"
+     ],
+     "answer": 4,
+     "explain": "V-stem + かねない = could well happen (a bad outcome). かねる means 'unable to'."
+    },
+    {
+     "q": "試験には合格した（　　）、まだ就職先が決まらない。",
+     "choices": [
+      "おかげで",
+      "ものの",
+      "つもりで",
+      "からには"
+     ],
+     "answer": 2,
+     "explain": "〜ものの = although, but. The second half contradicts what you'd expect."
+    },
+    {
+     "q": "この店は値段が安い（　　）、味もサービスもいい。",
+     "choices": [
+      "かわりに",
+      "とたんに",
+      "ばかりに",
+      "わりに"
+     ],
+     "answer": 4,
+     "explain": "〜わりに = considering, for (the result is better or worse than expected)."
+    },
+    {
+     "q": "ドアを開けた（　　）、猫が部屋に飛び込んできた。",
+     "choices": [
+      "最中に",
+      "とたんに",
+      "うちに",
+      "あげく"
+     ],
+     "answer": 2,
+     "explain": "V-ta + とたんに = the moment that. It describes an immediate, unexpected result."
+    },
+    {
+     "q": "この小説は、実際にあった事件（　　）書かれている。",
+     "choices": [
+      "に反して",
+      "に先立って",
+      "に基づいて",
+      "にわたって"
+     ],
+     "answer": 3,
+     "explain": "〜に基づいて = based on."
+    },
+    {
+     "q": "収入（　　）、払う税金の額が決まる。",
+     "choices": [
+      "にかけて",
+      "に応じて",
+      "をこめて",
+      "をはじめ"
+     ],
+     "answer": 2,
+     "explain": "〜に応じて = in accordance with, depending on."
+    },
+    {
+     "q": "お帰りの（　　）は、お忘れ物のないようご注意ください。",
+     "choices": [
+      "際",
+      "末",
+      "最中",
+      "うち"
+     ],
+     "answer": 1,
+     "explain": "〜の際は = when, on the occasion of. A standard polite phrase in announcements."
+    }
+   ]
+  },
+  {
+   "id": "m8",
+   "section": "lang",
+   "label": "問題8",
+   "name": "Grammar: ordering (★)",
+   "instruction": "次の文の　★　に入る最もよいものを、1・2・3・4から一つ選びなさい。",
+   "questions": [
+    {
+     "q": "このマンガは＿＿＿ ＿＿＿ ★ ＿＿＿なる。",
+     "choices": [
+      "読めば",
+      "味わい深く",
+      "ほど",
+      "読む"
+     ],
+     "answer": 3,
+     "explain": "Correct order: このマンガは<b>読めば 読む ほど 味わい深く</b>なる。 The pattern is V-ba V-ru hodo (the more you read, the more...)."
+    },
+    {
+     "q": "新しい＿＿＿ ★ ＿＿＿ ＿＿＿、毎日そわそわしている。",
+     "choices": [
+      "仕事が",
+      "始まる",
+      "待ちきれなくて",
+      "のが"
+     ],
+     "answer": 2,
+     "explain": "Correct order: 新しい<b>仕事が 始まる のが 待ちきれなくて</b>、毎日そわそわしている。"
+    },
+    {
+     "q": "この資料は、会議の＿＿＿ ＿＿＿ ★ ＿＿＿ください。",
+     "choices": [
+      "通して",
+      "目を",
+      "前に",
+      "おいて"
+     ],
+     "answer": 1,
+     "explain": "Correct order: 会議の<b>前に 目を 通して おいて</b>ください。 目を通す = to look over."
+    },
+    {
+     "q": "ストレスがたまると、＿＿＿ ＿＿＿ ★ ＿＿＿病気になることもある。",
+     "choices": [
+      "でなく",
+      "影響が出て",
+      "心だけ",
+      "体にも"
+     ],
+     "answer": 4,
+     "explain": "Correct order: ストレスがたまると、<b>心だけ でなく 体にも 影響が出て</b>病気になることもある。 〜だけでなく〜も = not only... but also."
+    },
+    {
+     "q": "この地域は＿＿＿ ★ ＿＿＿ ＿＿＿、昔から人々は漁業で生活してきた。",
+     "choices": [
+      "面している",
+      "海に",
+      "もあって",
+      "こと"
+     ],
+     "answer": 1,
+     "explain": "Correct order: この地域は<b>海に 面している こと もあって</b>、昔から... 〜こともあって = partly because of the fact that."
+    }
+   ]
+  },
+  {
+   "id": "m9",
+   "section": "lang",
+   "label": "問題9",
+   "name": "Grammar: passage",
+   "instruction": "次の文章を読んで、文章全体の内容を考えて、<span class='gap'>48</span>から<span class='gap'>52</span>の中に入る最もよいものを、1・2・3・4から一つ選びなさい。",
+   "sets": [
+    {
+     "passage": "<p>最近、「タイパ」という言葉をよく耳にする。タイムパフォーマンスの略で、かけた時間に対して、どれだけの成果や満足が得られるかを表す言葉だ。映画を倍速で見たり、本の要約だけを読んだりする人が増えている[[1]]。時間を効率よく使いたいという気持ちは、私にもよくわかる。</p><p>[[2]]、効率ばかりを追い求めていると、大切なものを見落としてしまう[[3]]。たとえば、遠回りして偶然見つけた小さな店や、失敗から学んだ経験は、近道ばかり選んでいては得られない。効率を重視する[[4]]、時間をかけること自体の価値も忘れたくない。</p><p>[[5]]、どちらか一方に偏らず、うまくバランスを取ることが大切なのではないだろうか。</p>",
+     "questions": [
+      {
+       "q": "",
+       "choices": [
+        "というものだ",
+        "に限る",
+        "ようだ",
+        "かねない"
+       ],
+       "answer": 3,
+       "explain": "…増えているようだ = 'it seems that'. The writer is reporting an observed trend. かねない needs a verb stem and a negative outcome."
+      },
+      {
+       "q": "",
+       "choices": [
+        "そのうえ",
+        "なぜなら",
+        "したがって",
+        "しかし"
+       ],
+       "answer": 4,
+       "explain": "The writer first agrees with efficiency, then raises a warning. That turn needs しかし (however)."
+      },
+      {
+       "q": "",
+       "choices": [
+        "ことはない",
+        "べきではない",
+        "に相違ない",
+        "おそれがある"
+       ],
+       "answer": 4,
+       "explain": "…見落としてしまうおそれがある = there is a risk of overlooking things. The tone is cautious, not certain."
+      },
+      {
+       "q": "",
+       "choices": [
+        "くせに",
+        "とたん",
+        "のはもちろんだが",
+        "あげく"
+       ],
+       "answer": 3,
+       "explain": "〜のはもちろんだが = 'X is a given, but also Y'."
+      },
+      {
+       "q": "",
+       "choices": [
+        "それどころか",
+        "要するに",
+        "ところが",
+        "なお"
+       ],
+       "answer": 2,
+       "explain": "要するに = in short. It sums up the points made just before."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m10",
+   "section": "read",
+   "label": "問題10",
+   "name": "Short passages",
+   "instruction": "次の(1)から(5)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。",
+   "sets": [
+    {
+     "passage": "<p><b>(1)</b></p><p>社員各位</p><p>来月から、社内の会議室の予約方法が変わります。これまでは、会議室の入口にある紙の予約表に名前を書いていましたが、4月1日からは、社内ポータルサイトで予約することになります。紙の予約表は3月末で撤去します。</p><p>なお、予約が入っていない時間であれば、当日、予約なしで使うこともできます。ただし、予約をした人が来た場合は、すぐに会議室を空けてください。</p><p style='text-align:right'>総務部</p>",
+     "questions": [
+      {
+       "q": "この文書で、総務部が最も伝えたいことは何か。",
+       "choices": [
+        "急に会議室を使うときは、総務部に連絡しなければならない。",
+        "紙の予約表は、4月以降も使うことができる。",
+        "会議室の予約は、4月から紙ではなくサイトで行う。",
+        "会議室は、予約をしないと使えなくなる。"
+       ],
+       "answer": 3,
+       "explain": "The main change is the booking method: from April 1, bookings move from the paper sheet to the portal site. Walk-in use is still allowed when the room is free."
+      }
+     ]
+    },
+    {
+     "passage": "<p><b>(2)</b></p><p>私は子どものころ、図鑑を読むのが好きだった。写真や絵を見ているだけでも楽しかったが、わからないことがあると、すぐ大人に聞いた。しかし、父はいつも「自分で調べてみなさい」と言って、答えを教えてくれなかった。そのときは意地悪だと思ったが、今では父の気持ちがわかる。自分で探して見つけた答えは、人から教えてもらった答えよりも、はるかに長く記憶に残るからだ。</p>",
+     "questions": [
+      {
+       "q": "筆者は、父が答えを教えてくれなかったことを、今はどう考えているか。",
+       "choices": [
+        "大人に質問する習慣をつけさせたかったのだと考えている。",
+        "自分で調べる力を育てるためだったと理解している。",
+        "図鑑が難しすぎたからだと考えている。",
+        "質問をさせないための意地悪だったと思っている。"
+       ],
+       "answer": 2,
+       "explain": "「今では父の気持ちがわかる」 followed by the reason: answers you find yourself stay in memory longer. So the father wanted him to learn by searching."
+      }
+     ]
+    },
+    {
+     "passage": "<p><b>(3)</b></p><p>件名：打ち合わせ日程の変更について</p><p>田中様</p><p>お世話になっております。来週火曜日にお約束していた打ち合わせの件ですが、当日、別の取引先とのトラブル対応が入ってしまい、お時間を変更していただけないかと思い、ご連絡いたしました。水曜日の午後でしたら、何時でも伺えます。木曜日は終日出張のため、難しい状況です。ご都合をお知らせいただければ幸いです。急なお願いで申し訳ございません。</p><p style='text-align:right'>山本</p>",
+     "questions": [
+      {
+       "q": "山本さんが田中さんに頼んでいることは何か。",
+       "choices": [
+        "取引先のトラブルに対応すること",
+        "火曜日の打ち合わせを中止すること",
+        "水曜日の午後で都合のよい時間を知らせること",
+        "木曜日に出張先へ来ること"
+       ],
+       "answer": 3,
+       "explain": "Yamamoto asks to reschedule and says Wednesday afternoon works any time. 「ご都合をお知らせいただければ」 is the actual request."
+      }
+     ]
+    },
+    {
+     "passage": "<p><b>(4)</b></p><p>「一人で食事をするのは寂しい」と考える人は多いが、最近は「ひとりごはん」を積極的に楽しむ人が増えている。飲食店でも、カウンター席だけの店や、仕切りのある席を用意した店が人気を集めている。ある調査によると、一人で食事をする理由として最も多かったのは「時間を気にせず、自分のペースで食べられるから」だった。人づきあいに疲れたというより、自分の時間を大切にしたい人が増えていることの表れだろう。</p>",
+     "questions": [
+      {
+       "q": "筆者は、「ひとりごはん」が増えている理由をどう考えているか。",
+       "choices": [
+        "自分の時間を大切にしたい人が増えたためだ。",
+        "飲食店が一人客向けの工夫をしたためだ。",
+        "食事の時間を短くしたい人が増えたためだ。",
+        "人づきあいが苦手な人が増えたためだ。"
+       ],
+       "answer": 1,
+       "explain": "The last sentence says it's not about being tired of people (〜というより) but about valuing one's own time."
+      }
+     ]
+    },
+    {
+     "passage": "<p><b>(5)</b></p><p><b>【図書館からのお知らせ】</b></p><p>館内の工事のため、2階の閲覧室は10月5日から10月20日まで利用できません。この期間中、2階の資料を借りたい方は、1階の受付にお申し込みください。職員が資料を取り出します。1階の閲覧席は通常どおり使えますが、席の数が少なくなりますので、ご了承ください。なお、返却は期間中も通常どおり、1階の返却口で受け付けます。</p>",
+     "questions": [
+      {
+       "q": "工事の期間中、2階の資料を借りたい人はどうすればよいか。",
+       "choices": [
+        "1階の受付に申し込む。",
+        "2階の閲覧室に入って、自分で探す。",
+        "工事が終わるまで待つ。",
+        "1階の返却口に申し込む。"
+       ],
+       "answer": 1,
+       "explain": "Staff will fetch the materials for people who apply at the first-floor reception. The return counter is only for returns."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m11",
+   "section": "read",
+   "label": "問題11",
+   "name": "Mid-length passages",
+   "instruction": "次の(1)から(3)の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。",
+   "sets": [
+    {
+     "passage": "<p><b>(1)</b></p><p>パソコンやスマートフォンの普及で、手で文字を書く機会が減った。漢字を忘れてしまったという人も多い。私も仕事のメモはほとんど入力で済ませているため、先日、友人への手紙を書こうとして、簡単な漢字が思い出せず、驚いた。</p><p>しかし、手書きにはそれ自体に価値があると思う。手で書く行為は、頭の中を整理するのに役立つからだ。ある研究では、授業のノートを手で取った学生のほうが、キーボードで入力した学生よりも、内容をよく理解していたという。手書きでは書く速度が遅いため、聞いた内容をそのまま写すことができず、重要な点を自分で選んでまとめる必要がある。この作業が理解を深めるのだろう。</p><p>もちろん、すべてを手書きに戻すべきだと言いたいわけではない。入力のほうが便利な場面も多い。ただ、考えを深めたいときや、大切な人に気持ちを伝えたいときには、あえて手で書くという選択肢を持っておきたいものである。</p>",
+     "questions": [
+      {
+       "q": "筆者が驚いたのは、どんなことか。",
+       "choices": [
+        "簡単な漢字を思い出せなかったこと",
+        "手紙を書く人が減っていること",
+        "友人が手書きの手紙をくれたこと",
+        "自分の入力が速くなっていたこと"
+       ],
+       "answer": 1,
+       "explain": "In paragraph 1: he tried to write a letter and couldn't recall easy kanji."
+      },
+      {
+       "q": "手書きのノートが理解を深める理由について、筆者はどう考えているか。",
+       "choices": [
+        "先生の話を一字一句正確に写すことができるから",
+        "聞いた内容を選んでまとめながら書くことになるから",
+        "手で書くと、きれいな字を書く練習になるから",
+        "時間がかかるので、あとでじっくり復習できるから"
+       ],
+       "answer": 2,
+       "explain": "Writing by hand is slow, so you can't copy everything and must pick and summarize the key points. That process deepens understanding."
+      },
+      {
+       "q": "この文章の内容に合っているのはどれか。",
+       "choices": [
+        "学生は授業でパソコンを使うべきではない。",
+        "入力は便利だが、手書きにも使う価値がある。",
+        "すべての場面で手書きに戻すべきだ。",
+        "手書きは時代遅れなので、やめたほうがよい。"
+       ],
+       "answer": 2,
+       "explain": "The last paragraph rejects 'go back to handwriting for everything' but keeps handwriting as a worthwhile option."
+      }
+     ]
+    },
+    {
+     "passage": "<p><b>(2)</b></p><p>新入社員の山田さんは、入社して三か月、毎日のように「報告・連絡・相談」を意識して仕事をしてきた。ところが、先日、上司から「報告が多すぎて、かえって大事なことがわかりにくい」と言われてしまった。山田さんは驚いた。上司に言われたとおり、小さなことでもこまめに報告してきたからだ。</p><p>上司の話では、報告で大切なのは、量よりも「何を、どの順番で伝えるか」だという。まず結論を言い、次に理由や経過を簡潔に説明する。そうすれば、相手は短い時間で状況をつかむことができる。山田さんの報告は、経過の説明から始まることが多く、結論は最後まで聞かないとわからなかった。</p><p>それ以来、山田さんは報告の前に、一分だけ時間をとって伝える内容を整理するようにした。すると、報告にかかる時間が短くなっただけでなく、自分でも何が問題なのかがはっきりしてきたという。</p>",
+     "questions": [
+      {
+       "q": "上司が山田さんに言いたかったことは何か。",
+       "choices": [
+        "相談は上司ではなく同僚にするべきだ。",
+        "報告では、量よりも伝え方が大切だ。",
+        "小さなことは報告しなくてよい。",
+        "報告の回数をもっと増やすべきだ。"
+       ],
+       "answer": 2,
+       "explain": "The boss says what matters is 'what to say and in what order' rather than the amount."
+      },
+      {
+       "q": "山田さんの報告の問題点は何だったか。",
+       "choices": [
+        "報告の回数が少なかったこと",
+        "内容に間違いが多かったこと",
+        "結論が最初に述べられていなかったこと",
+        "声が小さくて聞き取りにくかったこと"
+       ],
+       "answer": 3,
+       "explain": "His reports began with the background and the conclusion only became clear at the end."
+      },
+      {
+       "q": "報告の前に時間をとるようになって、山田さんはどうなったか。",
+       "choices": [
+        "報告が短くなり、自分の考えも整理できた。",
+        "経過を詳しく説明できるようになった。",
+        "上司に相談する必要がなくなった。",
+        "報告の回数が減り、叱られなくなった。"
+       ],
+       "answer": 1,
+       "explain": "Final paragraph: reports got shorter, and he also understood the problem more clearly himself."
+      }
+     ]
+    },
+    {
+     "passage": "<p><b>(3)</b></p><p>全国の商店街で、シャッターを下ろしたままの店が増えている。大型ショッピングセンターやインターネット通販に客を奪われたこと、店主の高齢化で後継者がいないことなどが主な理由だ。</p><p>そうした中で、ある商店街は、空き店舗を地域の人に安く貸し出す取り組みを始めた。若い人が小さなパン屋や雑貨店を開くようになり、週末には県外からも客が訪れるようになった。注目すべきは、店を出した人たちが自分の店だけでなく、商店街全体のイベントも一緒に企画していることだ。「通りがにぎわえば、どの店にも客が来る」という考えからだという。</p><p>もちろん、すべての商店街がこのやり方で成功するとは限らない。しかし、大型店と同じ土俵で競うのではなく、小さな店だからこそできる魅力を作ることが、生き残りのヒントになるのではないか。</p>",
+     "questions": [
+      {
+       "q": "商店街の店が減っている理由として、文章に挙げられていないものはどれか。",
+       "choices": [
+        "大型ショッピングセンターに客が流れたこと",
+        "後継者がいない店が多いこと",
+        "家賃が高くなりすぎたこと",
+        "インターネットでの買い物が増えたこと"
+       ],
+       "answer": 3,
+       "explain": "Paragraph 1 lists shopping centers, online shopping and lack of successors. Rent is never mentioned."
+      },
+      {
+       "q": "ある商店街の取り組みについて、文章の内容と合っているのはどれか。",
+       "choices": [
+        "空き店舗を安く貸して、新しい店を呼び込んだ。",
+        "県外の店に商店街への出店を頼んだ。",
+        "大型ショッピングセンターと協力して客を集めた。",
+        "イベントを開くために、店主から会費を集めた。"
+       ],
+       "answer": 1,
+       "explain": "The street rented empty shops cheaply to local people, who opened new small businesses."
+      },
+      {
+       "q": "筆者は、商店街が生き残るために何が必要だと考えているか。",
+       "choices": [
+        "小さな店ならではの魅力を作ること",
+        "インターネット通販を始めること",
+        "大型店と同じ規模の店を作ること",
+        "すべての商店街が同じ方法を取ること"
+       ],
+       "answer": 1,
+       "explain": "The conclusion: don't compete on the big stores' terms; build the appeal only small shops can offer."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m12",
+   "section": "read",
+   "label": "問題12",
+   "name": "Integrated comprehension",
+   "instruction": "次のAとBの文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。",
+   "sets": [
+    {
+     "passage": "<p><b>A</b></p><p>在宅勤務には大きな利点がある。通勤時間がなくなり、その分を家族との時間や睡眠に使える。集中して作業したい仕事では、オフィスよりも家のほうが効率が上がるという人も多い。また、育児や介護と仕事を両立しやすくなる点も見逃せない。会社にとっても、優秀な人材が働き続けてくれるというメリットがある。今後はもっと多くの会社が在宅勤務を取り入れるべきだ。</p><p><b>B</b></p><p>在宅勤務は便利だが、問題もある。新しい社員は、周りの先輩の仕事ぶりを見て学ぶ機会が少なくなる。また、同僚との雑談が減ると、仕事の悩みを気軽に相談しにくくなり、一人で抱え込んでしまう人も出てくる。そのため、私は、週に数日は出社して顔を合わせる日を作るのがよいと考える。在宅と出社を組み合わせることで、両方の良さを生かせるはずだ。</p>",
+     "questions": [
+      {
+       "q": "在宅勤務について、AとBに共通している考えはどれか。",
+       "choices": [
+        "すべての社員が出社するべきだ。",
+        "新入社員には向いていない。",
+        "育児や介護をしている人には向いている。",
+        "便利な点がある。"
+       ],
+       "answer": 4,
+       "explain": "A lists many advantages; B opens with 「便利だが」. Only B mentions new employees, and only A mentions childcare and caregiving."
+      },
+      {
+       "q": "今後の在宅勤務の取り入れ方について、AとBはどのように述べているか。",
+       "choices": [
+        "Aは在宅勤務をもっと広げるべきだと述べ、Bは出社する日も設けるべきだと述べている。",
+        "AもBも、在宅勤務は週に数日だけにするべきだと述べている。",
+        "Aは出社日を設けるべきだと述べ、Bは在宅勤務をやめるべきだと述べている。",
+        "AもBも、会社は在宅勤務を取り入れる必要はないと述べている。"
+       ],
+       "answer": 1,
+       "explain": "A: more companies should adopt it. B: combine it with some office days."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m13",
+   "section": "read",
+   "label": "問題13",
+   "name": "Long passage (argument)",
+   "instruction": "次の文章を読んで、質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。",
+   "sets": [
+    {
+     "passage": "<p>インターネットで検索すれば、たいていの疑問には数秒で答えが見つかる。便利な時代になったと思う反面、この便利さが人間の思考力を弱めているのではないかと、私は感じている。</p><p>先日、大学生の甥と話していて、そのことを強く意識した。ある歴史上の出来事について私が尋ねると、甥はすぐにスマートフォンを取り出し、検索結果を読み上げた。答えは正しかった。だが、私が「それはなぜ起きたと思う？」と聞き直すと、彼は黙ってしまった。調べた「答え」は知っていても、自分で「考える」ことには慣れていなかったのである。</p><p>昔は、疑問を持つと、本を何冊も探したり、詳しい人に尋ねたりしなければならなかった。それは確かに面倒で、時間もかかった。しかし、その過程で人は、いくつもの情報を比べ、自分なりの理由を考える。遠回りの中に、思考を鍛える機会があったのだ。</p><p>もちろん、昔に戻るべきだと言うつもりはない。大切なのは、検索で得た答えを、そこで終わりにしないことだ。「本当にそうか」「なぜそうなるのか」と一歩踏み込んで考える習慣さえあれば、インターネットは、思考力を弱める道具ではなく、深める道具になり得る。要は、道具そのものよりも、それをどう使うかなのである。</p>",
+     "questions": [
+      {
+       "q": "筆者が甥との会話で気づいたことは何か。",
+       "choices": [
+        "甥は検索に時間がかかり、答えられなかったこと",
+        "甥は歴史に興味がなく、答えを間違えたこと",
+        "甥は答えを知っていても、理由を考えることには慣れていなかったこと",
+        "甥は筆者の質問の意味を理解できなかったこと"
+       ],
+       "answer": 3,
+       "explain": "The answer he read out was correct, but he went silent when asked 'why'. He knew the answer without being used to thinking."
+      },
+      {
+       "q": "昔の調べ方について、筆者はどう考えているか。",
+       "choices": [
+        "面倒なので、今の方法のほうがはるかによい。",
+        "不正確な情報が多く、役に立たなかった。",
+        "詳しい人に尋ねることが最も大切だった。",
+        "時間がかかるが、考える力を育てる機会になっていた。"
+       ],
+       "answer": 4,
+       "explain": "Paragraph 3: it was a hassle, but comparing sources and forming reasons trained thinking (遠回りの中に、思考を鍛える機会があった)."
+      },
+      {
+       "q": "この文章で、筆者が最も言いたいことは何か。",
+       "choices": [
+        "インターネットの情報は、正しくないことが多い。",
+        "インターネットが役に立つかどうかは、使い方で決まる。",
+        "インターネットは、できるだけ使わないほうがよい。",
+        "昔のやり方に戻るべきだ。"
+       ],
+       "answer": 2,
+       "explain": "The closing line: what matters is not the tool but how you use it."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m14",
+   "section": "read",
+   "label": "問題14",
+   "name": "Information retrieval",
+   "instruction": "下のページは、ある区民センターの講座の案内である。これを読んで、下の質問に答えなさい。答えは、1・2・3・4から一つ選びなさい。",
+   "sets": [
+    {
+     "passage": "<p><b>区民センター　秋の講座　受講者募集</b></p><table class='info'><thead><tr><th>講座</th><th>曜日・時間</th><th>回数</th><th>受講料</th><th>教材費など</th><th>定員</th></tr></thead><tbody><tr><td>A　初めての書道</td><td>毎週火曜<br>10:00〜11:30</td><td>全8回</td><td>6,400円</td><td>教材費1,500円</td><td>15名</td></tr><tr><td>B　英会話入門</td><td>毎週水曜<br>19:00〜20:30</td><td>全10回</td><td>8,000円</td><td>教材費2,000円</td><td>20名</td></tr><tr><td>C　ヨガで健康づくり</td><td>毎週土曜<br>9:30〜10:30</td><td>全8回</td><td>5,600円</td><td>教材費なし<br>（ヨガマットは各自持参）</td><td>25名</td></tr><tr><td>D　スマホ写真教室</td><td>毎週木曜<br>14:00〜15:30</td><td>全6回</td><td>4,800円</td><td>教材費なし<br>（スマートフォン持参）</td><td>12名</td></tr></tbody></table><p><b>申し込み方法</b>　9月20日までに、受付または電話で申し込んでください。定員を超えた場合は抽選になります。受講料は、初回に現金でお支払いください。</p>",
+     "questions": [
+      {
+       "q": "会社員のリンさんは、平日は夜しか時間がなく、土曜日と日曜日は予定が入っている。リンさんが受講できる講座はどれか。",
+       "choices": [
+        "スマホ写真教室",
+        "英会話入門",
+        "ヨガで健康づくり",
+        "初めての書道"
+       ],
+       "answer": 2,
+       "explain": "Only B (Wednesday 19:00) is on a weekday evening. A and D are daytime, and C is on Saturday."
+      },
+      {
+       "q": "山田さんは、受講料と教材費を合わせて6,000円以内で、全8回の講座に申し込みたい。山田さんが申し込める講座はどれか。",
+       "choices": [
+        "ヨガで健康づくり",
+        "初めての書道",
+        "英会話入門",
+        "スマホ写真教室"
+       ],
+       "answer": 1,
+       "explain": "8-session courses are A and C. A costs 6,400 + 1,500 = 7,900 yen. C costs 5,600 yen with no materials fee. D is cheap but only 6 sessions."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
